@@ -68,6 +68,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\DummyClass.cs" />
+    <Compile Include="Validation\DummyClassValidator.cs" />
+    <Compile Include="Validation\ValidationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\S2p.RestClient.Sdk\S2p.RestClient.Sdk.csproj">
