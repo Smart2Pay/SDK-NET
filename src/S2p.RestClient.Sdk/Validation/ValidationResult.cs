@@ -4,6 +4,6 @@
     {
         public string Message { get; set; }
         public bool IsValid { get; set; }
-        public int NumberOfErrors { get; set; } = 0;
+        public int ErrorsCount { get; set; } = 0;
     }
 }

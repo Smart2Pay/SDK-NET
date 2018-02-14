@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using S2p.RestClient.Sdk.Infrastructure.Extensions;
 
 namespace S2p.RestClient.Sdk.Validation
 {
@@ -31,12 +32,12 @@ namespace S2p.RestClient.Sdk.Validation
 
                     return result;
                 })
-                .Transform(ir => new ValidationResult
+                .Map(ir => new ValidationResult
                 {
                     IsValid = ir.IsValid.Count == 0 ||
                               ir.IsValid.All(isValid => isValid),
                     Message = ir.Message.ToString(),
-                    NumberOfErrors = ir.IsValid.Count(isValid => !isValid)
+                    ErrorsCount = ir.IsValid.Count(isValid => !isValid)
                 });
 
             return validationResult;

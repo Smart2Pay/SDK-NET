@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace S2p.RestClient.Sdk.Validation
+namespace S2p.RestClient.Sdk.Infrastructure.Extensions
 {
     public static class Operator
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using S2p.RestClient.Sdk.Infrastructure.Extensions;
 
 namespace S2p.RestClient.Sdk.Validation
 {

@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace S2p.RestClient.Sdk.Validation
+namespace S2p.RestClient.Sdk.Infrastructure.Extensions
 {
-    public static class Extensions
+    public static class ValidationExtensions
     {
         public static void ThrowIfNull(this object @this, string message)
         {
@@ -31,14 +31,6 @@ namespace S2p.RestClient.Sdk.Validation
             {
                 throw new ArgumentException(exceptionMessage);
             }
-        }
-
-        public static TOut Transform<TIn, TOut>(this TIn @this, Func<TIn, TOut> transform)
-        {
-            @this.ThrowIfNull("Cannot project null values");
-            transform.ThrowIfNull("Transform function must be specified");
-
-            return transform(@this);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
         private static DummyClass dummyClass;
         private static ValidationResult validationResult;
 
+        [Subject("Validation")]
         public class When_id_is_null
         {
             private Establish context = () => { dummyClass = new DummyClass {Id = null, Quantity = null}; };
@@ -17,7 +18,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
 
             private It should_fail_validation = () => { validationResult.IsValid.ShouldBeFalse(); };
 
-            private It should_have_one_error = () => { validationResult.NumberOfErrors.ShouldEqual(1); };
+            private It should_have_one_error = () => { validationResult.ErrorsCount.ShouldEqual(1); };
 
             private It should_have_the_correct_error_message = () =>
             {
@@ -26,6 +27,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
             };
         }
 
+        [Subject("Validation")]
         public class When_id_is_null_and_quantity_is_negative
         {
             private Establish context = () => { dummyClass = new DummyClass { Id = null, Quantity = -1 }; };
@@ -34,7 +36,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
 
             private It should_fail_validation = () => { validationResult.IsValid.ShouldBeFalse(); };
 
-            private It should_have_two_errors = () => { validationResult.NumberOfErrors.ShouldEqual(2); };
+            private It should_have_two_errors = () => { validationResult.ErrorsCount.ShouldEqual(2); };
 
             private It should_have_the_correct_error_message = () =>
             {
@@ -43,6 +45,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
             };
         }
 
+        [Subject("Validation")]
         public class When_id_is_positive_and_quantity_is_positive
         {
             private Establish context = () => { dummyClass = new DummyClass { Id = 1, Quantity = 1 }; };
@@ -51,7 +54,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
 
             private It should_pass_validation = () => { validationResult.IsValid.ShouldBeTrue(); };
 
-            private It should_have_zero_errors = () => { validationResult.NumberOfErrors.ShouldEqual(0); };
+            private It should_have_zero_errors = () => { validationResult.ErrorsCount.ShouldEqual(0); };
 
             private It should_have_the_empty_error_message = () =>
             {
