@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Polly;
 using S2p.RestClient.Sdk.Infrastructure.Extensions;
+using S2p.RestClient.Sdk.Infrastructure.Logging;
 
 namespace S2p.RestClient.Sdk.Infrastructure.Resilience
 {
     public class ResilienceHandler : DelegatingHandler
     {
+        private static ILoggerAdapter Logger => LoggingDefault.AdapterFactory.Get(typeof(ResilienceHandler).FullName);
+
         private object _configuration = ResilienceDefault.Configuration;
         private Func<HttpRequestMessage, object, IAsyncPolicy<HttpResponseMessage>> _asyncPolicyGenerator = ResilienceDefault.PolicyProvider.GetAsyncPolicy;
 
@@ -27,7 +31,12 @@ namespace S2p.RestClient.Sdk.Infrastructure.Resilience
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var policy = _asyncPolicyGenerator(request, _configuration);
-            return policy.ExecuteAsync(ct => base.SendAsync(request, ct), cancellationToken);
+            var contextData = new ConcurrentDictionary<string, object>();
+            contextData.GetOrAdd("request", request);
+
+            Logger.LogInfo(string.Format("[{0}];ready to send request to uri {1};", request.Headers.GetIdempotencyToken(), request.RequestUri));
+
+            return policy.ExecuteAsync((context, cancel) => base.SendAsync(request, cancel), contextData, cancellationToken);
         }
     }
 }

@@ -87,6 +87,7 @@
     <Compile Include="Infrastructure\CustomHttpClientBuilderTests.cs" />
     <Compile Include="Infrastructure\Extensions.cs" />
     <Compile Include="Infrastructure\DefaultHttpClientBuilderTests.cs" />
+    <Compile Include="Infrastructure\LoggingTests.cs" />
     <Compile Include="Infrastructure\MockableMessageHandler.cs" />
     <Compile Include="Infrastructure\MockableDelegatingHandler.cs" />
     <Compile Include="Infrastructure\RetryTests.cs" />
