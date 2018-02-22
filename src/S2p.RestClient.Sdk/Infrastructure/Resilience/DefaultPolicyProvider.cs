@@ -40,7 +40,7 @@ namespace S2p.RestClient.Sdk.Infrastructure.Resilience
                     onRetryAsync: (result, timeSpan, retryCount, context) => 
                     {
                         var stringBuilder = new StringBuilder();
-                        var request = context["request"] as HttpRequestMessage;
+                        var request = context[Constants.RequestContextKey] as HttpRequestMessage;
                         var message = stringBuilder
                             .MapIf(
                                 sb => sb.Append(string.Concat("[", request.Headers.GetIdempotencyToken(), "];"))

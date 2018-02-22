@@ -27,7 +27,7 @@ namespace S2p.RestClient.Sdk.Validation
                     result.IsValid.Add(ruleResult);
                     if (!ruleResult)
                     {
-                        result.Message.Append(string.Format("{0}:{1};", rule.PropertyName, rule.ErrorMessage));
+                        result.Message.Append($"{rule.PropertyName}:{rule.ErrorMessage};");
                     }
 
                     return result;

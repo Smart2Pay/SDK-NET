@@ -85,16 +85,18 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
             private It should_call_log_warn_for_first_retry = () =>
             {
                 ResiliencePolicyLogger.Verify(logger => logger.LogWarn(Moq.It.Is<object>(message =>
-                        message.ToString() ==
-                        "[6da98b57-f7e2-480d-9e73-ba346deaf863];request to uri https://www.smart2pay.com/ failed;exception of type 'system.net.http.httprequestexception' was thrown.;retry 1;")),
+                        string.Compare(message.ToString(),
+                            "[6da98b57-f7e2-480d-9e73-ba346deaf863];request to uri https://www.smart2pay.com/ failed;exception of type 'system.net.http.httprequestexception' was thrown.;retry 1;",
+                            StringComparison.InvariantCulture) == 0)),
                     Moq.Times.Exactly(1));
             };
 
             private It should_call_log_warn_for_second_retry = () =>
             {
                 ResiliencePolicyLogger.Verify(logger => logger.LogWarn(Moq.It.Is<object>(message =>
-                        message.ToString() ==
-                        "[6da98b57-f7e2-480d-9e73-ba346deaf863];request to uri https://www.smart2pay.com/ failed;exception of type 'system.net.http.httprequestexception' was thrown.;retry 2;")),
+                        string.Compare(message.ToString(),
+                            "[6da98b57-f7e2-480d-9e73-ba346deaf863];request to uri https://www.smart2pay.com/ failed;exception of type 'system.net.http.httprequestexception' was thrown.;retry 2;",
+                            StringComparison.InvariantCulture) == 0)),
                     Moq.Times.Exactly(1));
             };
 
@@ -107,8 +109,9 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
             private It should_call_log_info_with_correct_text = () =>
             {
                 ResilienceHandlerLogger.Verify(logger => logger.LogInfo(Moq.It.Is<object>(message =>
-                        message.ToString() ==
-                        "[6da98b57-f7e2-480d-9e73-ba346deaf863];ready to send request to uri https://www.smart2pay.com/;")),
+                        string.Compare(message.ToString(),
+                            "[6da98b57-f7e2-480d-9e73-ba346deaf863];ready to send request to uri https://www.smart2pay.com/;",
+                            StringComparison.InvariantCulture) == 0)),
                     Moq.Times.Exactly(1));
             };
         }

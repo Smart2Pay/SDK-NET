@@ -32,9 +32,10 @@ namespace S2p.RestClient.Sdk.Infrastructure.Resilience
         {
             var policy = _asyncPolicyGenerator(request, _configuration);
             var contextData = new ConcurrentDictionary<string, object>();
-            contextData.GetOrAdd("request", request);
+            contextData.GetOrAdd(Constants.RequestContextKey, request);
 
-            Logger.LogInfo(string.Format("[{0}];ready to send request to uri {1};", request.Headers.GetIdempotencyToken(), request.RequestUri));
+            Logger.LogInfo(
+                $"[{request.Headers.GetIdempotencyToken()}];ready to send request to uri {request.RequestUri};");
 
             return policy.ExecuteAsync((context, cancel) => base.SendAsync(request, cancel), contextData, cancellationToken);
         }

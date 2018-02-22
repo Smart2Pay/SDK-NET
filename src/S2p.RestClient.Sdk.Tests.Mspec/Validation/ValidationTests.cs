@@ -22,8 +22,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
 
             private It should_have_the_correct_error_message = () =>
             {
-                validationResult.Message.ShouldEqual(string.Format("{0}:{1};",
-                    "Id", DummyClassValidator.IdValidationText));
+                validationResult.Message.ShouldEqual($"{nameof(dummyClass.Id)}:{DummyClassValidator.IdValidationText};");
             };
         }
 
@@ -40,8 +39,8 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
 
             private It should_have_the_correct_error_message = () =>
             {
-                validationResult.Message.ShouldEqual(string.Format("{0}:{1};{2}:{3};",
-                    "Id", DummyClassValidator.IdValidationText, "Quantity", DummyClassValidator.QuantityValidationText));
+                validationResult.Message.ShouldEqual(
+                    $"{nameof(dummyClass.Id)}:{DummyClassValidator.IdValidationText};{nameof(dummyClass.Quantity)}:{DummyClassValidator.QuantityValidationText};");
             };
         }
 
