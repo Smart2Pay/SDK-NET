@@ -12,7 +12,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
 
         public MockableMessageHandler(Func<HttpRequestMessage, Task<HttpResponseMessage>> doSendAsync)
         {
-            doSendAsync.ThrowIfNull("Null send async delegate");
+            doSendAsync.ThrowIfNull(nameof(doSendAsync));
             _doSendAsync = doSendAsync;
         }
 

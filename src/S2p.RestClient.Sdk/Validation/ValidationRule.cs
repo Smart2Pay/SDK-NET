@@ -20,7 +20,7 @@ namespace S2p.RestClient.Sdk.Validation
 
         public ValidationRule<T> WithPredicate(Predicate<T> rule)
         {
-            rule.ThrowIfNull("Cannot pass a null predicate to a validation rule");
+            rule.ThrowIfNull(nameof(rule));
 
             Predicate = rule;
             return this;

@@ -12,22 +12,22 @@ namespace S2p.RestClient.Sdk.Infrastructure.Extensions
 
         public static void AddIdempotencyHeader(this HttpRequestHeaders @this, string idempotencyToken)
         {
-            @this.ThrowIfNull("Cannot add idempotency header to null request headers collection.");
-            idempotencyToken.ThrowIfNullOrWhiteSpace("Cannot add null or empty idempotency token");
+            @this.ThrowIfNull(typeof(HttpRequestHeaders).Name.ToLower());
+            idempotencyToken.ThrowIfNullOrWhiteSpace(nameof(idempotencyToken));
 
             @this.Add(IdempotencyHeader, idempotencyToken);
         }
 
         public static bool HasIdempotencyHeader(this HttpRequestHeaders @this)
         {
-            @this.ThrowIfNull("Cannot check idempotency header for null request headers collection.");
+            @this.ThrowIfNull(typeof(HttpRequestHeaders).Name.ToLower());
 
             return @this.Contains(IdempotencyHeader);
         }
 
         public static string GetIdempotencyToken(this HttpRequestHeaders @this)
         {
-            @this.ThrowIfNull("Cannot get idempotency header from null request headers collection.");
+            @this.ThrowIfNull(typeof(HttpRequestHeaders).Name.ToLower());
 
             var result = @this.GetValues(IdempotencyHeader)
                 .FirstOrDefault()
@@ -38,7 +38,7 @@ namespace S2p.RestClient.Sdk.Infrastructure.Extensions
 
         public static bool RemoveIdempotencyHeader(this HttpRequestHeaders @this)
         {
-            @this.ThrowIfNull("Cannot remove idempotency header from a null request headers collection.");
+            @this.ThrowIfNull(typeof(HttpRequestHeaders).Name.ToLower());
 
             return @this.Remove(IdempotencyHeader);
         }
@@ -46,7 +46,7 @@ namespace S2p.RestClient.Sdk.Infrastructure.Extensions
         public static T WithIdempotencyToken<T>(this HttpClient @this, string idempotencyToken,
             Func<HttpClient, T> operation)
         {
-            @this.ThrowIfNull("Cannot add idempotency header to null http client.");
+            @this.ThrowIfNull(typeof(HttpClient).Name.ToLower());
 
             try
             {

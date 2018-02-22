@@ -23,14 +23,14 @@ namespace S2p.RestClient.Sdk.Infrastructure
 
         public HttpClientBuilder(Func<AuthenticationConfiguration> authenticationProvider)
         {
-            authenticationProvider.ThrowIfNull("Cannot build http client without authentication provider");
+            authenticationProvider.ThrowIfNull(nameof(authenticationProvider));
             _authenticationProvider = authenticationProvider;
             IsResilient = true;
         }
 
         public HttpClientBuilder WithAuthenticationProvider(Func<AuthenticationConfiguration> authenticationProvider)
         {
-            authenticationProvider.ThrowIfNull("Cannot build http client without authentication provider");
+            authenticationProvider.ThrowIfNull(nameof(authenticationProvider));
             _authenticationProvider = authenticationProvider;
             return this;
         }

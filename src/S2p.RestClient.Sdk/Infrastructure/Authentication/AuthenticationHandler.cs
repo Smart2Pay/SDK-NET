@@ -15,7 +15,7 @@ namespace S2p.RestClient.Sdk.Infrastructure.Authentication
 
         public AuthenticationHandler(Func<AuthenticationConfiguration> authenticationProvider)
         {
-            authenticationProvider.ThrowIfNull("Cannot use null authentication provider");
+            authenticationProvider.ThrowIfNull(nameof(authenticationProvider));
             _authenticationProvider = authenticationProvider;
         }
 

@@ -13,7 +13,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
         public static Tuple<RetryPolicy<HttpResponseMessage>, CircuitBreakerPolicy<HttpResponseMessage>> GetDefaultPolicies(this IAsyncPolicy<HttpResponseMessage> policy)
         {
             var wrapPolicy = policy as IPolicyWrap;
-            wrapPolicy.ThrowIfNull(String.Empty);
+            wrapPolicy.ThrowIfNull(nameof(wrapPolicy));
 
             var circuitBreakerPolicy =
                 wrapPolicy.Inner as CircuitBreakerPolicy<HttpResponseMessage>;

@@ -12,7 +12,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
 
         public MockableDelegatingHandler(Action<HttpRequestMessage> mockRequestHandler)
         {
-            mockRequestHandler.ThrowIfNull("Null mock request handler");
+            mockRequestHandler.ThrowIfNull(nameof(mockRequestHandler));
             _mockRequestHandler = mockRequestHandler;
         }
 

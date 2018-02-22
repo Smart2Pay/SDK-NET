@@ -9,8 +9,8 @@ namespace S2p.RestClient.Sdk.Infrastructure.Extensions
     {
         public static HttpMessageHandler DecorateWith(this HttpMessageHandler @this, DelegatingHandler decorator)
         {
-            @this.ThrowIfNull("Cannot decorate a null message handler");
-            decorator.ThrowIfNull("Cannot decorate with a null decorator");
+            @this.ThrowIfNull(typeof(HttpMessageHandler).Name.ToLower());
+            decorator.ThrowIfNull(nameof(decorator));
 
             decorator.InnerHandler = @this;
             return decorator;
@@ -19,9 +19,9 @@ namespace S2p.RestClient.Sdk.Infrastructure.Extensions
         public static HttpMessageHandler DecorateIf(this HttpMessageHandler @this, Func<DelegatingHandler> decoratorFactory
             , Func<bool> condition)
         {
-            @this.ThrowIfNull("Cannot decorate a null message handler");
-            decoratorFactory.ThrowIfNull("Cannot decorate with a null decorator");
-            condition.ThrowIfNull("Cannot decorate without a valid condition");
+            @this.ThrowIfNull(typeof(HttpMessageHandler).Name.ToLower());
+            decoratorFactory.ThrowIfNull(nameof(decoratorFactory));
+            condition.ThrowIfNull(nameof(condition));
 
             Func<DelegatingHandler> decorate = () =>
             {
@@ -38,7 +38,7 @@ namespace S2p.RestClient.Sdk.Infrastructure.Extensions
 
         public static HttpMessageHandler DecorateIfNotNull(this HttpMessageHandler @this, DelegatingHandler decorator)
         {
-            @this.ThrowIfNull("Cannot decorate a null message handler");
+            @this.ThrowIfNull(typeof(HttpMessageHandler).Name.ToLower());
 
             Func<DelegatingHandler> decorate = () =>
             {
@@ -54,7 +54,7 @@ namespace S2p.RestClient.Sdk.Infrastructure.Extensions
         public static HttpMessageHandler DecorateIfNotNull(this HttpMessageHandler @this,
             IEnumerable<DelegatingHandler> decoratorCollection)
         {
-            @this.ThrowIfNull("Cannot decorate a null message handler");
+            @this.ThrowIfNull(typeof(HttpMessageHandler).Name.ToLower());
 
             return decoratorCollection != null
                 ? decoratorCollection.Aggregate(@this, (current, delegatingHandler) => current.DecorateIfNotNull(delegatingHandler))
@@ -63,7 +63,7 @@ namespace S2p.RestClient.Sdk.Infrastructure.Extensions
 
         public static HttpClient CreateHttpClient(this HttpMessageHandler @this)
         {
-            @this.ThrowIfNull("Cannot create http client with null handler");
+            @this.ThrowIfNull(typeof(HttpMessageHandler).Name.ToLower());
 
             var httpClient = new HttpClient(@this);
             return httpClient;
