@@ -1,4 +1,4 @@
-﻿namespace S2p.RestClient.Sdk.Infrastructure.ApiResult
+﻿namespace S2p.RestClient.Sdk.Infrastructure
 {
     public class ApiResult<T> : ApiResult
     {

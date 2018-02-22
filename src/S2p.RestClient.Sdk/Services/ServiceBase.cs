@@ -8,7 +8,14 @@ namespace S2p.RestClient.Sdk.Services
     {
         private HttpClient _httpClient;
 
-        protected HttpClient HttpClient => _httpClient;
+        protected HttpClient HttpClient
+        {
+            get
+            {
+                CheckIfDisposed();
+                return _httpClient;
+            }
+        }
 
         public ServiceBase(IHttpClientBuilder httpClientBuilder)
         {

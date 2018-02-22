@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Net;
 using System.Net.Http;
 using S2p.RestClient.Sdk.Infrastructure.Extensions;
 
-namespace S2p.RestClient.Sdk.Infrastructure.ApiResult
+namespace S2p.RestClient.Sdk.Infrastructure
 {
     public class ApiResult
     {

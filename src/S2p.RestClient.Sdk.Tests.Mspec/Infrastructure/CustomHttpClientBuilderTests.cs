@@ -158,18 +158,14 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
         [Subject("Idempotency")]
         public class When_idempotency_header_is_already_present
         {
-            private static HttpRequestMessage Request;
-            private static HttpResponseMessage Response;
+            private static HttpRequestMessage Request = new HttpRequestMessage{ Method = HttpMethod.Get };
+            private static ApiResult ApiResult;
             private static string IdempotencyToken = Guid.NewGuid().ToString();
 
             private Establish context = () =>
             {
                 HttpClientBuilder = new HttpClientBuilder(() => AuthenticationConfiguration)
-                    .WithPrimaryHandler(new MockableMessageHandler(request =>
-                    {
-                        Request = request;
-                        return Task.FromResult(new HttpResponseMessage(HttpStatusCode.Accepted));
-                    }))
+                    .WithPrimaryHandler(new MockableMessageHandler(request => Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK))))
                     .WithBaseAddress(new Uri(Url));
                 HttpClient = HttpClientBuilder.Build();
                 
@@ -177,7 +173,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
 
             private Because of = () =>
             {
-                Response = HttpClient.WithIdempotencyToken(IdempotencyToken, client => client.GetAsync(string.Empty)).GetAwaiter().GetResult();
+                ApiResult = HttpClient.Invoke(IdempotencyToken, Request).GetAwaiter().GetResult();
             };
 
             private Cleanup after = () =>
@@ -186,9 +182,14 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
                 DefaultPolicyProvider.PolicyCollection.Clear();
             };
 
+            private It should_be_success = () =>
+            {
+                ApiResult.IsSuccess.ShouldBeTrue();
+            };
+
             private It should_have_the_correct_http_status = () =>
             {
-                Response.StatusCode.ShouldEqual(HttpStatusCode.Accepted);
+                ApiResult.Response.StatusCode.ShouldEqual(HttpStatusCode.OK);
             };
 
             private It should_have_the_provided_idempotency_token = () =>
