@@ -8,10 +8,12 @@ namespace S2p.RestClient.Sdk.Services
     {
         private HttpClient _httpClient;
 
-        public ServiceBase(IHttpClientBuilder htppClientBuilder)
+        protected HttpClient HttpClient => _httpClient;
+
+        public ServiceBase(IHttpClientBuilder httpClientBuilder)
         {
-            htppClientBuilder.ThrowIfNull(nameof(htppClientBuilder));
-            _httpClient = htppClientBuilder.Build();
+            httpClientBuilder.ThrowIfNull(nameof(httpClientBuilder));
+            _httpClient = httpClientBuilder.Build();
         }
 
         protected override void Dispose(bool disposing)
