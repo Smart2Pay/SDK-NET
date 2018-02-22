@@ -12,9 +12,9 @@ namespace S2p.RestClient.Sdk.Infrastructure.ApiResult
             @this.ThrowIfNull(typeof(HttpResponseMessage).Name.ToLower());
             request.ThrowIfNull(nameof(request));
 
-            if (!@this.IsSuccessStatusCode) return ApiResult.Failure<T>(request, @this.StatusCode);
+            if (!@this.IsSuccessStatusCode) return ApiResult.Failure<T>(request, @this);
             var value = await @this.Content.ReadAsJsonAsync<T>();
-            return ApiResult.Success(request, @this.StatusCode, value);
+            return ApiResult.Success(request, @this, value);
         }
 
         internal static async Task<T> ReadAsJsonAsync<T>(this HttpContent @this)

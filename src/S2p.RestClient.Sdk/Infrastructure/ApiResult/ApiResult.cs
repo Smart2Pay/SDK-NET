@@ -7,49 +7,49 @@ namespace S2p.RestClient.Sdk.Infrastructure.ApiResult
 {
     public class ApiResult
     {
-        public HttpRequestMessage Request { get; protected internal set; }
         public bool IsSuccess { get; protected internal set; }
-        public HttpStatusCode StatusCode { get; protected internal set; }
-        public Exception Error { get; protected internal set; }
+        public HttpRequestMessage Request { get; protected internal set; }
+        public HttpResponseMessage Response { get; protected internal set; }
+        public Exception Exception { get; protected internal set; }
 
-        public static ApiResult Success(HttpRequestMessage request, HttpStatusCode httpStatusCode)
+        public static ApiResult Success(HttpRequestMessage request, HttpResponseMessage response)
         {
             request.ThrowIfNull(nameof(request));
-            httpStatusCode.ThrowIfNull(nameof(httpStatusCode));
+            response.ThrowIfNull(nameof(response));
 
             return new ApiResult
             {
                 IsSuccess = true,
                 Request = request,
-                StatusCode = httpStatusCode
+                Response = response
             };
         }
 
-        public static ApiResult<T> Success<T>(HttpRequestMessage request, HttpStatusCode httpStatusCode, T value)
+        public static ApiResult<T> Success<T>(HttpRequestMessage request, HttpResponseMessage response, T value)
         {
             request.ThrowIfNull(nameof(request));
-            httpStatusCode.ThrowIfNull(nameof(httpStatusCode));
+            response.ThrowIfNull(nameof(response));
             value.ThrowIfNull(nameof(value));
 
             return new ApiResult<T>
             {
                 IsSuccess = true,
                 Request = request,
-                StatusCode = httpStatusCode,
+                Response = response,
                 Value = value
             };
         }
 
-        public static ApiResult Failure(HttpRequestMessage request, HttpStatusCode httpStatusCode)
+        public static ApiResult Failure(HttpRequestMessage request, HttpResponseMessage response)
         {
             request.ThrowIfNull(nameof(request));
-            httpStatusCode.ThrowIfNull(nameof(httpStatusCode));
+            response.ThrowIfNull(nameof(response));
 
             return new ApiResult
             {
                 IsSuccess = false,
                 Request = request,
-                StatusCode = httpStatusCode
+                Response = response
             };
         }
 
@@ -62,20 +62,20 @@ namespace S2p.RestClient.Sdk.Infrastructure.ApiResult
             {
                 IsSuccess = false,
                 Request = request,
-                Error = exception
+                Exception = exception
             };
         }
 
-        public static ApiResult<T> Failure<T>(HttpRequestMessage request, HttpStatusCode httpStatusCode)
+        public static ApiResult<T> Failure<T>(HttpRequestMessage request, HttpResponseMessage response)
         {
             request.ThrowIfNull(nameof(request));
-            httpStatusCode.ThrowIfNull(nameof(httpStatusCode));
+            response.ThrowIfNull(nameof(response));
 
             return new ApiResult<T>
             {
                 IsSuccess = false,
                 Request = request,
-                StatusCode = httpStatusCode,
+                Response = response,
                 Value = default(T)
             };
         }
@@ -89,7 +89,7 @@ namespace S2p.RestClient.Sdk.Infrastructure.ApiResult
             {
                 IsSuccess = false,
                 Request = request,
-                Error = exception,
+                Exception = exception,
                 Value = default(T)
             };
         }
