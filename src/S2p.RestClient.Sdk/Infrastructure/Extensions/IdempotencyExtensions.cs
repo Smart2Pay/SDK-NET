@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Net.Http;
+﻿using System.Linq;
 using System.Net.Http.Headers;
-using System.Text;
 
 namespace S2p.RestClient.Sdk.Infrastructure.Extensions
 {
@@ -41,22 +38,6 @@ namespace S2p.RestClient.Sdk.Infrastructure.Extensions
             @this.ThrowIfNull(typeof(HttpRequestHeaders).Name.ToLower());
 
             return @this.Remove(IdempotencyHeader);
-        }
-
-        public static T WithIdempotencyToken<T>(this HttpClient @this, string idempotencyToken,
-            Func<HttpClient, T> operation)
-        {
-            @this.ThrowIfNull(typeof(HttpClient).Name.ToLower());
-
-            try
-            {
-                @this.DefaultRequestHeaders.AddIdempotencyHeader(idempotencyToken);
-                return operation(@this);
-            }
-            finally
-            {
-                @this.DefaultRequestHeaders.RemoveIdempotencyHeader();
-            }
         }
     }
 }
