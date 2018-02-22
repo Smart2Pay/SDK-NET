@@ -20,11 +20,12 @@ namespace S2p.RestClient.Sdk.Infrastructure.Resilience
         private static readonly HttpStatusCode[] HttpStatusCodesToRetry =
         {
             HttpStatusCode.RequestTimeout, // 408
+            HttpStatusCode.Conflict, //409
+            (HttpStatusCode)429, //TooManyRequests
             HttpStatusCode.InternalServerError, // 500
             HttpStatusCode.BadGateway, // 502
             HttpStatusCode.ServiceUnavailable, // 503
-            HttpStatusCode.GatewayTimeout, // 504
-            (HttpStatusCode)429 //TooManyRequests
+            HttpStatusCode.GatewayTimeout // 504
         };
 
         internal static readonly ConcurrentDictionary<string, IAsyncPolicy<HttpResponseMessage>>
