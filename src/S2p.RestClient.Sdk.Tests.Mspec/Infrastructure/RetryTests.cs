@@ -29,24 +29,18 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
             private static int TryCount = 0;
             private static HttpResponseMessage Response;
 
-            private Establish context = () =>
-            {
+            private Establish context = () => {
                 HttpClientBuilder = new HttpClientBuilder(() => AuthenticationConfiguration)
-                    .WithPrimaryHandler(new MockableMessageHandler(request =>
-                    {
+                    .WithPrimaryHandler(new MockableMessageHandler(request => {
                         TryCount++;
                         return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK));
                     }));
                 HttpClient = HttpClientBuilder.Build();
             };
 
-            private Because of = () =>
-            {
-                Response = HttpClient.GetAsync(new Uri(Url)).GetAwaiter().GetResult();
-            };
+            private Because of = () => { Response = HttpClient.GetAsync(new Uri(Url)).GetAwaiter().GetResult(); };
 
-            private Cleanup after = () =>
-            {
+            private Cleanup after = () => {
                 HttpClient.Dispose();
                 DefaultPolicyProvider.PolicyCollection.Clear();
             };
@@ -63,11 +57,9 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
             private const int MinimumWaitingTimeInSeconds = 6;
             private static int WaitingTimeInSeconds = 0;
 
-            private Establish context = () =>
-            {
+            private Establish context = () => {
                 HttpClientBuilder = new HttpClientBuilder(() => AuthenticationConfiguration)
-                    .WithPrimaryHandler(new MockableMessageHandler(request =>
-                    {
+                    .WithPrimaryHandler(new MockableMessageHandler(request => {
                         TryCount++;
                         if (TryCount < ResilienceDefault.Configuration.Retry.Count)
                         {
@@ -79,8 +71,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
                 HttpClient = HttpClientBuilder.Build();
             };
 
-            private Because of = () =>
-            {
+            private Because of = () => {
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
                 try
@@ -94,8 +85,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
                 }
             };
 
-            private Cleanup after = () =>
-            {
+            private Cleanup after = () => {
                 HttpClient.Dispose();
                 DefaultPolicyProvider.PolicyCollection.Clear();
             };
@@ -103,8 +93,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
             private It should_have_success_response = () => { Response.StatusCode.ShouldEqual(HttpStatusCode.OK); };
             private It should_try_3_times = () => { TryCount.ShouldEqual(3); };
 
-            private It should_take_more_than_minimum_waiting_time = () =>
-            {
+            private It should_take_more_than_minimum_waiting_time = () => {
                 (MinimumWaitingTimeInSeconds <= WaitingTimeInSeconds).ShouldBeTrue();
             };
         }
@@ -118,11 +107,9 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
             private static int WaitingTimeInSeconds = 0;
             private static Exception ResultException;
 
-            private Establish context = () =>
-            {
+            private Establish context = () => {
                 HttpClientBuilder = new HttpClientBuilder(() => AuthenticationConfiguration)
-                    .WithPrimaryHandler(new MockableMessageHandler(request =>
-                    {
+                    .WithPrimaryHandler(new MockableMessageHandler(request => {
                         TryCount++;
                         throw new HttpRequestException();
 
@@ -130,8 +117,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
                 HttpClient = HttpClientBuilder.Build();
             };
 
-            private Because of = () =>
-            {
+            private Because of = () => {
                 var stopwatch = new Stopwatch();
                 stopwatch.Start();
                 try
@@ -149,17 +135,18 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
                 }
             };
 
-            private Cleanup after = () =>
-            {
+            private Cleanup after = () => {
                 HttpClient.Dispose();
                 DefaultPolicyProvider.PolicyCollection.Clear();
             };
 
-            private It should_have_http_exception_response = () => { (ResultException is HttpRequestException).ShouldBeTrue(); };
+            private It should_have_http_exception_response = () => {
+                (ResultException is HttpRequestException).ShouldBeTrue();
+            };
+
             private It should_try_4_times = () => { TryCount.ShouldEqual(4); };
 
-            private It should_take_more_than_minimum_waiting_time = () =>
-            {
+            private It should_take_more_than_minimum_waiting_time = () => {
                 (MinimumWaitingTimeInSeconds <= WaitingTimeInSeconds).ShouldBeTrue();
             };
         }

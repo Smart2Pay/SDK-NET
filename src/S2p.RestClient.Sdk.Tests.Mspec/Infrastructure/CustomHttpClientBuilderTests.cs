@@ -33,8 +33,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
 
             private static HttpResponseMessage Response;
 
-            private Establish context = () =>
-            {
+            private Establish context = () => {
                 AuthenticationProvider = new Moq.Mock<Func<AuthenticationConfiguration>>();
                 AuthenticationProvider.Setup(func => func()).Returns(AuthenticationConfiguration);
 
@@ -55,14 +54,12 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
                 Action<HttpRequestMessage> outerCustomHandler;
                 int CustomDelegatesOrder = 0;
 
-                outerMostCustomHandler = request =>
-                {
+                outerMostCustomHandler = request => {
                     CustomDelegatesOrder++;
                     CustomDelegatesOrderCollection["OuterMostCustomHandler"] = CustomDelegatesOrder;
                 };
 
-                outerCustomHandler = request =>
-                {
+                outerCustomHandler = request => {
                     CustomDelegatesOrder++;
                     CustomDelegatesOrderCollection["OuterCustomHandler"] = CustomDelegatesOrder;
                 };
@@ -73,14 +70,12 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
                     new MockableDelegatingHandler(outerMostCustomHandler)
                 };
 
-                innerCustomHandler = request =>
-                {
+                innerCustomHandler = request => {
                     CustomDelegatesOrder++;
                     CustomDelegatesOrderCollection["InnerCustomHandler"] = CustomDelegatesOrder;
                 };
 
-                innerMostCustomHandler = request =>
-                {
+                innerMostCustomHandler = request => {
                     CustomDelegatesOrder++;
                     CustomDelegatesOrderCollection["InnerMostCustomHandler"] = CustomDelegatesOrder;
                 };
@@ -107,48 +102,40 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
 
             private Because of = () => { Response = HttpClient.GetAsync(string.Empty).GetAwaiter().GetResult(); };
 
-            private Cleanup after = () =>
-            {
+            private Cleanup after = () => {
                 HttpClient.Dispose();
                 DefaultPolicyProvider.PolicyCollection.Clear();
             };
 
             private It should_have_ok_response = () => { Response.StatusCode.ShouldEqual(HttpStatusCode.OK); };
 
-            private It should_use_custom_authentication_provider = () =>
-            {
+            private It should_use_custom_authentication_provider = () => {
                 AuthenticationProvider.Verify(func => func(), Moq.Times.Exactly(1));
             };
 
             private It should_have_correct_base_address = () => { HttpClient.BaseAddress.ToString().ShouldEqual(Url); };
 
-            private It should_use_first_outer_custom_handler = () =>
-            {
+            private It should_use_first_outer_custom_handler = () => {
                 CustomDelegatesOrderCollection["OuterMostCustomHandler"].ShouldEqual(1);
             };
 
-            private It should_use_second_outer_custom_handler = () =>
-            {
+            private It should_use_second_outer_custom_handler = () => {
                 CustomDelegatesOrderCollection["OuterCustomHandler"].ShouldEqual(2);
             };
 
-            private It should_use_first_inner_custom_handler = () =>
-            {
+            private It should_use_first_inner_custom_handler = () => {
                 CustomDelegatesOrderCollection["InnerCustomHandler"].ShouldEqual(3);
             };
 
-            private It should_use_second_inner_custom_handler = () =>
-            {
+            private It should_use_second_inner_custom_handler = () => {
                 CustomDelegatesOrderCollection["InnerMostCustomHandler"].ShouldEqual(4);
             };
 
-            private It should_use_custom_idempotency_key_generator = () =>
-            {
+            private It should_use_custom_idempotency_key_generator = () => {
                 IdempotencyKeyGenerator.Verify(func => func(), Moq.Times.Exactly(1));
             };
 
-            private It should_use_custom_resilience_policy_with_custom_configuration = () =>
-            {
+            private It should_use_custom_resilience_policy_with_custom_configuration = () => {
                 ResilienceAsyncPolicyGenerator.Verify(
                     func => func(Moq.It.IsAny<HttpRequestMessage>(), ResilienceConfiguration)
                     , Moq.Times.Exactly(1));
@@ -158,47 +145,39 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
         [Subject("Idempotency")]
         public class When_idempotency_header_is_already_present
         {
-            private static HttpRequestMessage Request = new HttpRequestMessage{ Method = HttpMethod.Get };
+            private static HttpRequestMessage Request = new HttpRequestMessage {Method = HttpMethod.Get};
             private static ApiResult ApiResult;
             private static string IdempotencyToken = Guid.NewGuid().ToString();
 
-            private Establish context = () =>
-            {
+            private Establish context = () => {
                 HttpClientBuilder = new HttpClientBuilder(() => AuthenticationConfiguration)
-                    .WithPrimaryHandler(new MockableMessageHandler(request => Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK))))
+                    .WithPrimaryHandler(new MockableMessageHandler(request =>
+                        Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK))))
                     .WithBaseAddress(new Uri(Url));
                 HttpClient = HttpClientBuilder.Build();
-                
+
             };
 
-            private Because of = () =>
-            {
+            private Because of = () => {
                 ApiResult = HttpClient.Invoke(IdempotencyToken, Request).GetAwaiter().GetResult();
             };
 
-            private Cleanup after = () =>
-            {
+            private Cleanup after = () => {
                 HttpClient.Dispose();
                 DefaultPolicyProvider.PolicyCollection.Clear();
             };
 
-            private It should_be_success = () =>
-            {
-                ApiResult.IsSuccess.ShouldBeTrue();
-            };
+            private It should_be_success = () => { ApiResult.IsSuccess.ShouldBeTrue(); };
 
-            private It should_have_the_correct_http_status = () =>
-            {
+            private It should_have_the_correct_http_status = () => {
                 ApiResult.Response.StatusCode.ShouldEqual(HttpStatusCode.OK);
             };
 
-            private It should_have_the_provided_idempotency_token = () =>
-            {
+            private It should_have_the_provided_idempotency_token = () => {
                 Request.Headers.GetIdempotencyToken().ShouldEqual(IdempotencyToken);
             };
 
-            private It should_not_pass_idempotency_token_between_oprations = () =>
-            {
+            private It should_not_pass_idempotency_token_between_oprations = () => {
                 HttpClient.DefaultRequestHeaders.HasIdempotencyHeader().ShouldBeFalse();
             };
         }

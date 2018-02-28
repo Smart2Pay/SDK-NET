@@ -33,12 +33,11 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
             private static CircuitState CircuitBreaker1HalfOpenState;
             private static CircuitState CircuitBreaker2ClosedState;
 
-            private Establish context = () =>
-            {
+            private Establish context = () => {
                 HttpClientBuilder = new HttpClientBuilder(() => AuthenticationConfiguration)
-                    .WithPrimaryHandler(new MockableMessageHandler(request =>
-                    {
-                        if (string.Compare(request.RequestUri.GetBaseUri().ToString(), Url1, StringComparison.InvariantCultureIgnoreCase) == 0)
+                    .WithPrimaryHandler(new MockableMessageHandler(request => {
+                        if (string.Compare(request.RequestUri.GetBaseUri().ToString(), Url1,
+                                StringComparison.InvariantCultureIgnoreCase) == 0)
                         {
                             throw new HttpRequestException();
                         }
@@ -48,8 +47,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
                 HttpClient = HttpClientBuilder.Build();
             };
 
-            private Because of = () =>
-            {
+            private Because of = () => {
                 for (var i = 0; i < 6; i++)
                 {
                     try
@@ -57,7 +55,9 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
                         var result2 = HttpClient.GetAsync(new Uri(Url2)).GetAwaiter().GetResult();
                         var result1 = HttpClient.GetAsync(new Uri(Url1)).GetAwaiter().GetResult();
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
 
                 var circuitBreaker1 = DefaultPolicyProvider.PolicyCollection[Url1].GetDefaultPolicies().Item2;
@@ -69,15 +69,22 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
                 CircuitBreaker1HalfOpenState = circuitBreaker1.CircuitState;
             };
 
-            private Cleanup after = () =>
-            {
+            private Cleanup after = () => {
                 HttpClient.Dispose();
                 DefaultPolicyProvider.PolicyCollection.Clear();
             };
 
-            private It failed_circuit_breaker_should_be_open = () => { CircuitBreaker1OpenState.ShouldEqual(CircuitState.Open); };
-            private It failed_circuit_breaker_should_be_half_open_after_some_time = () => { CircuitBreaker1HalfOpenState.ShouldEqual(CircuitState.HalfOpen); };
-            private It success_circuit_breaker_should_be_closed = () => { CircuitBreaker2ClosedState.ShouldEqual(CircuitState.Closed); };
+            private It failed_circuit_breaker_should_be_open = () => {
+                CircuitBreaker1OpenState.ShouldEqual(CircuitState.Open);
+            };
+
+            private It failed_circuit_breaker_should_be_half_open_after_some_time = () => {
+                CircuitBreaker1HalfOpenState.ShouldEqual(CircuitState.HalfOpen);
+            };
+
+            private It success_circuit_breaker_should_be_closed = () => {
+                CircuitBreaker2ClosedState.ShouldEqual(CircuitState.Closed);
+            };
         }
     }
 }

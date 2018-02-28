@@ -10,7 +10,8 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
 {
     public static class Extensions
     {
-        public static Tuple<RetryPolicy<HttpResponseMessage>, CircuitBreakerPolicy<HttpResponseMessage>> GetDefaultPolicies(this IAsyncPolicy<HttpResponseMessage> policy)
+        public static Tuple<RetryPolicy<HttpResponseMessage>, CircuitBreakerPolicy<HttpResponseMessage>>
+            GetDefaultPolicies(this IAsyncPolicy<HttpResponseMessage> policy)
         {
             var wrapPolicy = policy as IPolicyWrap;
             wrapPolicy.ThrowIfNull(nameof(wrapPolicy));

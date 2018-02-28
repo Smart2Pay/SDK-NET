@@ -16,7 +16,8 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
             _mockRequestHandler = mockRequestHandler;
         }
 
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+            CancellationToken cancellationToken)
         {
             _mockRequestHandler(request);
             return base.SendAsync(request, cancellationToken);
