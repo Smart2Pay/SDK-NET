@@ -9,9 +9,10 @@ namespace S2p.RestClient.Sdk.Infrastructure
         public bool IsSuccess { get; protected internal set; }
         public HttpRequestMessage Request { get; protected internal set; }
         public HttpResponseMessage Response { get; protected internal set; }
+        public string Content { get; protected internal set; }
         public Exception Exception { get; protected internal set; }
 
-        public static ApiResult Success(HttpRequestMessage request, HttpResponseMessage response)
+        public static ApiResult Success(HttpRequestMessage request, HttpResponseMessage response, string content)
         {
             request.ThrowIfNull(nameof(request));
             response.ThrowIfNull(nameof(response));
@@ -20,11 +21,12 @@ namespace S2p.RestClient.Sdk.Infrastructure
             {
                 IsSuccess = true,
                 Request = request,
-                Response = response
+                Response = response,
+                Content = content.ValueIfNull(() => string.Empty)
             };
         }
 
-        public static ApiResult<T> Success<T>(HttpRequestMessage request, HttpResponseMessage response, T value)
+        public static ApiResult<T> Success<T>(HttpRequestMessage request, HttpResponseMessage response, string content, T value)
         {
             request.ThrowIfNull(nameof(request));
             response.ThrowIfNull(nameof(response));
@@ -35,11 +37,12 @@ namespace S2p.RestClient.Sdk.Infrastructure
                 IsSuccess = true,
                 Request = request,
                 Response = response,
+                Content = content.ValueIfNull(() => string.Empty),
                 Value = value
             };
         }
 
-        public static ApiResult Failure(HttpRequestMessage request, HttpResponseMessage response)
+        public static ApiResult Failure(HttpRequestMessage request, HttpResponseMessage response, string content)
         {
             request.ThrowIfNull(nameof(request));
             response.ThrowIfNull(nameof(response));
@@ -48,6 +51,7 @@ namespace S2p.RestClient.Sdk.Infrastructure
             {
                 IsSuccess = false,
                 Request = request,
+                Content = content.ValueIfNull(() => string.Empty),
                 Response = response
             };
         }
@@ -61,11 +65,12 @@ namespace S2p.RestClient.Sdk.Infrastructure
             {
                 IsSuccess = false,
                 Request = request,
+                Content = string.Empty,
                 Exception = exception
             };
         }
 
-        public static ApiResult<T> Failure<T>(HttpRequestMessage request, HttpResponseMessage response)
+        public static ApiResult<T> Failure<T>(HttpRequestMessage request, HttpResponseMessage response, string content)
         {
             request.ThrowIfNull(nameof(request));
             response.ThrowIfNull(nameof(response));
@@ -75,7 +80,24 @@ namespace S2p.RestClient.Sdk.Infrastructure
                 IsSuccess = false,
                 Request = request,
                 Response = response,
+                Content = content.ValueIfNull(() => string.Empty),
                 Value = default(T)
+            };
+        }
+
+        public static ApiResult<T> Failure<T>(HttpRequestMessage request, HttpResponseMessage response, string content, T value)
+        {
+            request.ThrowIfNull(nameof(request));
+            response.ThrowIfNull(nameof(response));
+            value.ThrowIfNull(nameof(value));
+
+            return new ApiResult<T>
+            {
+                IsSuccess = false,
+                Request = request,
+                Response = response,
+                Content = content.ValueIfNull(() => string.Empty),
+                Value = value
             };
         }
 
@@ -89,6 +111,7 @@ namespace S2p.RestClient.Sdk.Infrastructure
                 IsSuccess = false,
                 Request = request,
                 Exception = exception,
+                Content = string.Empty,
                 Value = default(T)
             };
         }

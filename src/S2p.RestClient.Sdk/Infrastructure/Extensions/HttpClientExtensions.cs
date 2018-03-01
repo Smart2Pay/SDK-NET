@@ -87,7 +87,7 @@ namespace S2p.RestClient.Sdk.Infrastructure.Extensions
             try
             {
                 var response = await invocation(@this, request, cancellationToken);
-                apiResult = response.ToApiResult(request);
+                apiResult = await response.ToApiResult(request);
             }
             catch (Exception e)
             {
