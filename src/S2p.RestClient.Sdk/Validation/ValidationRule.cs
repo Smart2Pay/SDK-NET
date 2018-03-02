@@ -11,7 +11,7 @@ namespace S2p.RestClient.Sdk.Validation
 
         public ValidationRule(string propertyName)
         {
-            propertyName.ThrowIfNullOrWhiteSpace("Cannot pass a null or empty property name to a validation rule");
+            propertyName.ThrowIfNullOrWhiteSpace(nameof(propertyName));
 
             PropertyName = propertyName;
             Predicate = t => true;
@@ -28,7 +28,7 @@ namespace S2p.RestClient.Sdk.Validation
 
         public ValidationRule<T> WithErrorMessage(string errorMessage)
         {
-            errorMessage.ThrowIfNullOrWhiteSpace("Cannot pass a null or empty error message to a validation rule");
+            errorMessage.ThrowIfNullOrWhiteSpace(nameof(errorMessage));
 
             ErrorMessage = errorMessage;
             return this;

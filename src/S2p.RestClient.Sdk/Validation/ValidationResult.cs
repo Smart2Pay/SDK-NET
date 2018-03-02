@@ -2,8 +2,8 @@
 {
     public class ValidationResult
     {
-        public string Message { get; set; }
-        public bool IsValid { get; set; }
+        public string Message { get; set; } = string.Empty;
+        public bool IsValid { get; set; } = true;
         public int ErrorsCount { get; set; } = 0;
     }
 }

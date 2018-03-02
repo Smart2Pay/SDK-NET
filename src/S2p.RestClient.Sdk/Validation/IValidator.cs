@@ -1,7 +1,7 @@
 ﻿namespace S2p.RestClient.Sdk.Validation
 {
-    public interface IValidator<T>
+    public interface IValidator
     {
-        ValidationResult Validate(T obj);
+        ValidationResult Validate(object objectToValidate);
     }
 }

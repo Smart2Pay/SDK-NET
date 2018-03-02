@@ -99,6 +99,9 @@
     <Compile Include="Services\PaymentService\CreatePaymentTests.cs" />
     <Compile Include="Validation\DummyClass.cs" />
     <Compile Include="Validation\DummyClassValidator.cs" />
+    <Compile Include="Validation\DummyWrapperClass.cs" />
+    <Compile Include="Validation\DummyWrapperClassValidatorAllowNull.cs" />
+    <Compile Include="Validation\DummyWrapperClassValidatorNotNull.cs" />
     <Compile Include="Validation\ValidationTests.cs" />
   </ItemGroup>
   <ItemGroup>
