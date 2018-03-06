@@ -159,7 +159,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
             };
 
             private Because of = () => {
-                ApiResult = HttpClient.Invoke(IdempotencyToken, Request).GetAwaiter().GetResult();
+                ApiResult = HttpClient.InvokeAsync(IdempotencyToken, Request).GetAwaiter().GetResult();
             };
 
             private Cleanup after = () => {

@@ -7,53 +7,53 @@ namespace S2p.RestClient.Sdk.Infrastructure.Extensions
 {
     public static class HttpClientExtensions
     {
-        public static Task<ApiResult> Invoke(this HttpClient @this, HttpRequestMessage request)
+        public static Task<ApiResult> InvokeAsync(this HttpClient @this, HttpRequestMessage request)
         {
-            return @this.Invoke(request, CancellationToken.None);
+            return @this.InvokeAsync(request, CancellationToken.None);
         }
 
-        public static Task<ApiResult> Invoke(this HttpClient @this, HttpRequestMessage request,
+        public static Task<ApiResult> InvokeAsync(this HttpClient @this, HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            return @this.Invoke(request, (c, r, ct) => c.SendAsync(r, ct), cancellationToken);
+            return @this.InvokeAsync(request, (c, r, ct) => c.SendAsync(r, ct), cancellationToken);
         }
 
-        public static Task<ApiResult> Invoke(this HttpClient @this, string idempotencyToken, HttpRequestMessage request)
+        public static Task<ApiResult> InvokeAsync(this HttpClient @this, string idempotencyToken, HttpRequestMessage request)
         {
-            return @this.Invoke(idempotencyToken, request, CancellationToken.None);
+            return @this.InvokeAsync(idempotencyToken, request, CancellationToken.None);
         }
 
-        public static Task<ApiResult> Invoke(this HttpClient @this, string idempotencyToken, HttpRequestMessage request,
-            CancellationToken cancellationToken)
-        {
-            idempotencyToken.ThrowIfNullOrWhiteSpace(nameof(idempotencyToken));
-            return @this.Invoke(request, (c, r, ct) => c.SendWithIdempotencyTokenAsync(idempotencyToken, r, ct), cancellationToken);
-        }
-
-        public static Task<ApiResult<T>> Invoke<T>(this HttpClient @this, HttpRequestMessage request)
-        {
-            return @this.Invoke<T>(request, CancellationToken.None);
-        }
-
-        public static Task<ApiResult<T>> Invoke<T>(this HttpClient @this, HttpRequestMessage request,
-            CancellationToken cancellationToken)
-        {
-            return @this.Invoke<T>(request, (c, r, ct) => c.SendAsync(r, ct), cancellationToken);
-        }
-
-        public static Task<ApiResult<T>> Invoke<T>(this HttpClient @this, string idempotencyToken, HttpRequestMessage request)
-        {
-            return @this.Invoke<T>(idempotencyToken, request, CancellationToken.None);
-        }
-
-        public static Task<ApiResult<T>> Invoke<T>(this HttpClient @this, string idempotencyToken, HttpRequestMessage request,
+        public static Task<ApiResult> InvokeAsync(this HttpClient @this, string idempotencyToken, HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
             idempotencyToken.ThrowIfNullOrWhiteSpace(nameof(idempotencyToken));
-            return @this.Invoke<T>(request, (c, r, ct) => c.SendWithIdempotencyTokenAsync(idempotencyToken, r, ct), cancellationToken);
+            return @this.InvokeAsync(request, (c, r, ct) => c.SendWithIdempotencyTokenAsync(idempotencyToken, r, ct), cancellationToken);
         }
 
-        private static async Task<ApiResult<T>> Invoke<T>(this HttpClient @this, HttpRequestMessage request,
+        public static Task<ApiResult<T>> InvokeAsync<T>(this HttpClient @this, HttpRequestMessage request)
+        {
+            return @this.InvokeAsync<T>(request, CancellationToken.None);
+        }
+
+        public static Task<ApiResult<T>> InvokeAsync<T>(this HttpClient @this, HttpRequestMessage request,
+            CancellationToken cancellationToken)
+        {
+            return @this.InvokeAsync<T>(request, (c, r, ct) => c.SendAsync(r, ct), cancellationToken);
+        }
+
+        public static Task<ApiResult<T>> InvokeAsync<T>(this HttpClient @this, string idempotencyToken, HttpRequestMessage request)
+        {
+            return @this.InvokeAsync<T>(idempotencyToken, request, CancellationToken.None);
+        }
+
+        public static Task<ApiResult<T>> InvokeAsync<T>(this HttpClient @this, string idempotencyToken, HttpRequestMessage request,
+            CancellationToken cancellationToken)
+        {
+            idempotencyToken.ThrowIfNullOrWhiteSpace(nameof(idempotencyToken));
+            return @this.InvokeAsync<T>(request, (c, r, ct) => c.SendWithIdempotencyTokenAsync(idempotencyToken, r, ct), cancellationToken);
+        }
+
+        private static async Task<ApiResult<T>> InvokeAsync<T>(this HttpClient @this, HttpRequestMessage request,
             Func<HttpClient, HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>>invocation, CancellationToken cancellationToken)
         {
             @this.ThrowIfNull(typeof(HttpClient).Name.ToLower());
@@ -75,7 +75,7 @@ namespace S2p.RestClient.Sdk.Infrastructure.Extensions
             return apiResult;
         }
 
-        private static async Task<ApiResult> Invoke(this HttpClient @this, HttpRequestMessage request,
+        private static async Task<ApiResult> InvokeAsync(this HttpClient @this, HttpRequestMessage request,
             Func<HttpClient, HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>> invocation, CancellationToken cancellationToken)
         {
             @this.ThrowIfNull(typeof(HttpClient).Name.ToLower());

@@ -13,7 +13,7 @@ namespace S2p.RestClient.Sdk.Entities
         public decimal VAT { get; set; }
         [JsonConverter(typeof(DecimalFormatConverter))]
         public decimal Discount { get; set; }
-        public string Type { get; set; }
+        public int Type { get; set; }
         [JsonConverter(typeof(DecimalFormatConverter))]
         public decimal DiscountValue { get; set; }
     }
