@@ -19,9 +19,9 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
             ApiKey = "hJ5RobYx9r7FfNwCvHY9LXHqqr+FEzrc7aJvQQk4Gaz1mg7Ryy"
         };
 
-        private static ApiResult<RestPaymentResponse> ApiResult;
+        private static ApiResult<ApiPaymentResponse> ApiResult;
         private static string MerchantTransactionID => Guid.NewGuid().ToString();
-        private static RestPaymentRequest PaymentRequest;
+        private static ApiPaymentRequest PaymentRequest;
 
         [Subject(typeof(PaymentService))]
         public class When_creating_a_payment
@@ -33,7 +33,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
             };
 
             private Because of = () => {
-                PaymentRequest = new RestPaymentRequest
+                PaymentRequest = new ApiPaymentRequest
                 {
                     Payment = new PaymentRequest
                     {

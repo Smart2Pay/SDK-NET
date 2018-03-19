@@ -1,6 +1,6 @@
 ﻿namespace S2p.RestClient.Sdk.Entities
 {
-    public class RestPaymentResponse
+    public class ApiPaymentResponse
     {
         public PaymentResponse Payment { get; set; }
     }

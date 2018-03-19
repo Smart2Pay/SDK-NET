@@ -32,5 +32,17 @@ namespace S2p.RestClient.Sdk.Infrastructure.Extensions
                 throw new ArgumentException(exceptionMessage);
             }
         }
+
+        public static void ThrowIfNotCondition<T>(this T @this, Predicate<T> predicate, string message)
+        {
+            @this.ThrowIfNull(typeof(T).Name.ToLowerInvariant());
+            predicate.ThrowIfNull(nameof(predicate));
+
+            var exceptionMessage = string.IsNullOrWhiteSpace(message)
+                ? string.Empty
+                : message;
+
+            if (!predicate(@this)) { throw new ArgumentException(exceptionMessage); }
+        }
     }
 }

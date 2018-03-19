@@ -1,95 +1,97 @@
-﻿namespace S2p.RestClient.Sdk.Entities
+﻿using System;
+
+namespace S2p.RestClient.Sdk.Entities
 {
-    public class PaymentsFilter : BaseFilter
+    public class PaymentsFilter : FilterBase
     {
-        public string pageIndex
+        public long? pageIndex
         {
-            get => GetOrAddDefault(nameof(pageIndex));
-            set => PropertyDictionary[nameof(pageIndex)] = value;
+            get => GetOrAddDefault<long?>(nameof(pageIndex));
+            set => Set(nameof(pageIndex), value);
         }
 
-        public string pageSize
+        public long? pageSize
         {
-            get => GetOrAddDefault(nameof(pageSize));
-            set => PropertyDictionary[nameof(pageSize)] = value;
+            get => GetOrAddDefault<long?>(nameof(pageSize));
+            set => Set(nameof(pageSize), value);
         }
 
-        public string methodID
+        public long? methodID
         {
-            get => GetOrAddDefault(nameof(methodID));
-            set => PropertyDictionary[nameof(methodID)] = value;
+            get => GetOrAddDefault<long?>(nameof(methodID));
+            set => Set(nameof(methodID), value);
         }
 
-        public string statusID
+        public int? statusID
         {
-            get => GetOrAddDefault(nameof(statusID));
-            set => PropertyDictionary[nameof(statusID)] = value;
+            get => GetOrAddDefault<int?>(nameof(statusID));
+            set => Set(nameof(statusID), value);
         }
 
         public string country
         {
-            get => GetOrAddDefault(nameof(country));
-            set => PropertyDictionary[nameof(country)] = value;
+            get => GetOrAddDefault<string>(nameof(country));
+            set => Set(nameof(country), value);
         }
 
         public string currency
         {
-            get => GetOrAddDefault(nameof(currency));
-            set => PropertyDictionary[nameof(currency)] = value;
+            get => GetOrAddDefault<string>(nameof(currency));
+            set => Set(nameof(currency), value);
         }
 
         public string merchantTransactionID
         {
-            get => GetOrAddDefault(nameof(merchantTransactionID));
-            set => PropertyDictionary[nameof(merchantTransactionID)] = value;
+            get => GetOrAddDefault<string>(nameof(merchantTransactionID));
+            set => Set(nameof(merchantTransactionID), value);
         }
 
-        public string minimumAmount
+        public int? minimumAmount
         {
-            get => GetOrAddDefault(nameof(minimumAmount));
-            set => PropertyDictionary[nameof(minimumAmount)] = value;
+            get => GetOrAddDefault<int?>(nameof(minimumAmount));
+            set => Set(nameof(minimumAmount), value);
         }
 
-        public string maximumAmount
+        public int? maximumAmount
         {
-            get => GetOrAddDefault(nameof(maximumAmount));
-            set => PropertyDictionary[nameof(maximumAmount)] = value;
+            get => GetOrAddDefault<int?>(nameof(maximumAmount));
+            set => Set(nameof(maximumAmount), value);
         }
 
-        public string startDate
+        public DateTime? startDate
         {
-            get => GetOrAddDefault(nameof(startDate));
-            set => PropertyDictionary[nameof(startDate)] = value;
+            get => GetOrAddDefault<DateTime?>(nameof(startDate));
+            set => Set(nameof(startDate), value);
         }
 
-        public string endDate
+        public DateTime? endDate
         {
-            get => GetOrAddDefault(nameof(endDate));
-            set => PropertyDictionary[nameof(endDate)] = value;
+            get => GetOrAddDefault<DateTime?>(nameof(endDate));
+            set => Set(nameof(endDate), value);
         }
 
         public string methodTransactionID
         {
-            get => GetOrAddDefault(nameof(methodTransactionID));
-            set => PropertyDictionary[nameof(methodTransactionID)] = value;
+            get => GetOrAddDefault<string>(nameof(methodTransactionID));
+            set => Set(nameof(methodTransactionID), value);
         }
 
-        public string typeID
+        public int? typeID
         {
-            get => GetOrAddDefault(nameof(typeID));
-            set => PropertyDictionary[nameof(typeID)] = value;
+            get => GetOrAddDefault<int?>(nameof(typeID));
+            set => Set(nameof(typeID), value);
         }
 
-        public string sortBy
+        public long? sortBy
         {
-            get => GetOrAddDefault(nameof(sortBy));
-            set => PropertyDictionary[nameof(sortBy)] = value;
+            get => GetOrAddDefault<long?>(nameof(sortBy));
+            set => Set(nameof(sortBy), value);
         }
 
         public string sortDirection
         {
-            get => GetOrAddDefault(nameof(sortDirection));
-            set => PropertyDictionary[nameof(sortDirection)] = value;
+            get => GetOrAddDefault<string>(nameof(sortDirection));
+            set => Set(nameof(sortDirection), value);
         }
     }
 }

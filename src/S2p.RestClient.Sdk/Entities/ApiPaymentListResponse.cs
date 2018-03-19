@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace S2p.RestClient.Sdk.Entities
 {
-    public class RestPaymentResponseGet
+    public class ApiPaymentListResponse
     {
         public List<PaymentResponse> Payments { get; set; }
 

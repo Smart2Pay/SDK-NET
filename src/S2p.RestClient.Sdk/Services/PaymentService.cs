@@ -8,28 +8,28 @@ using S2p.RestClient.Sdk.Infrastructure.Extensions;
 
 namespace S2p.RestClient.Sdk.Services
 {
-    public class PaymentService : ServiceBase
+    public class PaymentService : ServiceBase, IPaymentService
     {
         private const string PaymentRelativeUrl = "v1/payments";
-        private readonly Uri _paymentUri;
 
-        public PaymentService(IHttpClientBuilder httpClientBuilder) : base(httpClientBuilder)
-        {
-            _paymentUri = new Uri(HttpClient.BaseAddress, PaymentRelativeUrl);
-        }
+        public PaymentService(IHttpClientBuilder httpClientBuilder) : base(httpClientBuilder) { }
 
         #region GetPayment(s)
+
+        private Uri GetPaymentUri()
+        {
+            return new Uri(HttpClient.BaseAddress, PaymentRelativeUrl);
+        }
 
         private Uri GetPaymentUri(string globalPayPaymentId)
         {
             globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
 
-            var encodedPaymentId = System.Net.WebUtility.UrlEncode(globalPayPaymentId);
-            var uri = new Uri(HttpClient.BaseAddress, $"{PaymentRelativeUrl}/{encodedPaymentId}");
+            var uri = new Uri(HttpClient.BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}");
             return uri;
         }
 
-        public Task<ApiResult<RestPaymentResponse>> GetPaymentAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiPaymentResponse>> GetPaymentAsync(string globalPayPaymentId,
             CancellationToken cancellationToken)
         {
             globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
@@ -37,38 +37,40 @@ namespace S2p.RestClient.Sdk.Services
 
             var uri = GetPaymentUri(globalPayPaymentId);
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
-            return HttpClient.InvokeAsync<RestPaymentResponse>(request, cancellationToken);
+            return HttpClient.InvokeAsync<ApiPaymentResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<RestPaymentResponse>> GetPaymentAsync(string globalPayPaymentId)
+        public Task<ApiResult<ApiPaymentResponse>> GetPaymentAsync(string globalPayPaymentId)
         {
             return GetPaymentAsync(globalPayPaymentId, CancellationToken.None);
         }
 
-        public Task<ApiResult<RestPaymentResponseGet>> GetPaymentListAsync(CancellationToken cancellationToken)
+        public Task<ApiResult<ApiPaymentListResponse>> GetPaymentListAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
-            var request = new HttpRequestMessage(HttpMethod.Get, _paymentUri);
-            return HttpClient.InvokeAsync<RestPaymentResponseGet>(request, cancellationToken);
+            var uri = GetPaymentUri();
+            var request = new HttpRequestMessage(HttpMethod.Get, uri);
+            return HttpClient.InvokeAsync<ApiPaymentListResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<RestPaymentResponseGet>> GetPaymentListAsync()
+        public Task<ApiResult<ApiPaymentListResponse>> GetPaymentListAsync()
         {
             return GetPaymentListAsync(CancellationToken.None);
         }
 
-        public Task<ApiResult<RestPaymentResponseGet>> GetPaymentListAsync(PaymentsFilter filter,
+        public Task<ApiResult<ApiPaymentListResponse>> GetPaymentListAsync(PaymentsFilter filter,
             CancellationToken cancellationToken)
         {
             filter.ThrowIfNull(nameof(filter));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var queryStringUri = filter.ToQueryStringUri(_paymentUri);
+            var uri = GetPaymentUri();
+            var queryStringUri = filter.ToQueryStringUri(uri);
             var request = new HttpRequestMessage(HttpMethod.Get, queryStringUri);
-            return HttpClient.InvokeAsync<RestPaymentResponseGet>(request, cancellationToken);
+            return HttpClient.InvokeAsync<ApiPaymentListResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<RestPaymentResponseGet>> GetPaymentListAsync(PaymentsFilter filter)
+        public Task<ApiResult<ApiPaymentListResponse>> GetPaymentListAsync(PaymentsFilter filter)
         {
             return GetPaymentListAsync(filter, CancellationToken.None);
         }
@@ -77,33 +79,35 @@ namespace S2p.RestClient.Sdk.Services
 
         #region CreatePayment
 
-        public Task<ApiResult<RestPaymentResponse>> CreatePaymentAsync(RestPaymentRequest paymentRequest,
+        public Task<ApiResult<ApiPaymentResponse>> CreatePaymentAsync(ApiPaymentRequest paymentRequest,
             CancellationToken cancellationToken)
         {
             paymentRequest.ThrowIfNull(nameof(paymentRequest));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var request = paymentRequest.ToHttpRequest(HttpMethod.Post, _paymentUri);
-            return HttpClient.InvokeAsync<RestPaymentResponse>(request, cancellationToken);
+            var uri = GetPaymentUri();
+            var request = paymentRequest.ToHttpRequest(HttpMethod.Post, uri);
+            return HttpClient.InvokeAsync<ApiPaymentResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<RestPaymentResponse>> CreatePaymentAsync(RestPaymentRequest paymentRequest)
+        public Task<ApiResult<ApiPaymentResponse>> CreatePaymentAsync(ApiPaymentRequest paymentRequest)
         {
             return CreatePaymentAsync(paymentRequest, CancellationToken.None);
         }
 
-        public Task<ApiResult<RestPaymentResponse>> CreatePaymentAsync(RestPaymentRequest paymentRequest,
+        public Task<ApiResult<ApiPaymentResponse>> CreatePaymentAsync(ApiPaymentRequest paymentRequest,
             string idempotencyToken, CancellationToken cancellationToken)
         {
             paymentRequest.ThrowIfNull(nameof(paymentRequest));
             idempotencyToken.ThrowIfNullOrWhiteSpace(nameof(idempotencyToken));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var request = paymentRequest.ToHttpRequest(HttpMethod.Post, _paymentUri);
-            return HttpClient.InvokeAsync<RestPaymentResponse>(idempotencyToken, request, cancellationToken);
+            var uri = GetPaymentUri();
+            var request = paymentRequest.ToHttpRequest(HttpMethod.Post, uri);
+            return HttpClient.InvokeAsync<ApiPaymentResponse>(idempotencyToken, request, cancellationToken);
         }
 
-        public Task<ApiResult<RestPaymentResponse>> CreatePaymentAsync(RestPaymentRequest paymentRequest,
+        public Task<ApiResult<ApiPaymentResponse>> CreatePaymentAsync(ApiPaymentRequest paymentRequest,
             string idempotencyToken)
         {
             return CreatePaymentAsync(paymentRequest, idempotencyToken, CancellationToken.None);
@@ -117,12 +121,11 @@ namespace S2p.RestClient.Sdk.Services
         {
             globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
 
-            var encodedPaymentId = System.Net.WebUtility.UrlEncode(globalPayPaymentId);
-            var uri = new Uri(HttpClient.BaseAddress, $"{PaymentRelativeUrl}/{encodedPaymentId}/capture");
+            var uri = new Uri(HttpClient.BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/capture");
             return uri;
         }
 
-        public Task<ApiResult<RestPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId,
             CancellationToken cancellationToken)
         {
             globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
@@ -130,15 +133,15 @@ namespace S2p.RestClient.Sdk.Services
 
             var uri = GetCapturePaymentUri(globalPayPaymentId);
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
-            return HttpClient.InvokeAsync<RestPaymentResponse>(request, cancellationToken);
+            return HttpClient.InvokeAsync<ApiPaymentResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<RestPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId)
+        public Task<ApiResult<ApiPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId)
         {
             return CapturePaymentAsync(globalPayPaymentId, CancellationToken.None);
         }
 
-        public Task<ApiResult<RestPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId,
             string idempotencyToken,
             CancellationToken cancellationToken)
         {
@@ -147,10 +150,10 @@ namespace S2p.RestClient.Sdk.Services
 
             var uri = GetCapturePaymentUri(globalPayPaymentId);
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
-            return HttpClient.InvokeAsync<RestPaymentResponse>(idempotencyToken, request, cancellationToken);
+            return HttpClient.InvokeAsync<ApiPaymentResponse>(idempotencyToken, request, cancellationToken);
         }
 
-        public Task<ApiResult<RestPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId,
             string idempotencyToken)
         {
             return CapturePaymentAsync(globalPayPaymentId, idempotencyToken, CancellationToken.None);
@@ -164,12 +167,11 @@ namespace S2p.RestClient.Sdk.Services
         {
             globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
 
-            var encodedPaymentId = System.Net.WebUtility.UrlEncode(globalPayPaymentId);
-            var uri = new Uri(HttpClient.BaseAddress, $"{PaymentRelativeUrl}/{encodedPaymentId}/cancel");
+            var uri = new Uri(HttpClient.BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/cancel");
             return uri;
         }
 
-        public Task<ApiResult<RestPaymentResponse>> CancelPaymentAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiPaymentResponse>> CancelPaymentAsync(string globalPayPaymentId,
             CancellationToken cancellationToken)
         {
             globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
@@ -177,15 +179,15 @@ namespace S2p.RestClient.Sdk.Services
 
             var uri = GetCancelPaymentUri(globalPayPaymentId);
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
-            return HttpClient.InvokeAsync<RestPaymentResponse>(request, cancellationToken);
+            return HttpClient.InvokeAsync<ApiPaymentResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<RestPaymentResponse>> CancelPaymentAsync(string globalPayPaymentId)
+        public Task<ApiResult<ApiPaymentResponse>> CancelPaymentAsync(string globalPayPaymentId)
         {
             return CancelPaymentAsync(globalPayPaymentId, CancellationToken.None);
         }
 
-        public Task<ApiResult<RestPaymentResponse>> CancelPaymentAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiPaymentResponse>> CancelPaymentAsync(string globalPayPaymentId,
             string idempotencyToken,
             CancellationToken cancellationToken)
         {
@@ -194,15 +196,59 @@ namespace S2p.RestClient.Sdk.Services
 
             var uri = GetCancelPaymentUri(globalPayPaymentId);
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
-            return HttpClient.InvokeAsync<RestPaymentResponse>(idempotencyToken, request, cancellationToken);
+            return HttpClient.InvokeAsync<ApiPaymentResponse>(idempotencyToken, request, cancellationToken);
         }
 
-        public Task<ApiResult<RestPaymentResponse>> CancelPaymentAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiPaymentResponse>> CancelPaymentAsync(string globalPayPaymentId,
             string idempotencyToken)
         {
             return CancelPaymentAsync(globalPayPaymentId, idempotencyToken, CancellationToken.None);
         }
 
+        #endregion
+
+        #region RecurringPayment
+
+        private Uri GetRecurrentPaymentUri()
+        {
+            return new Uri(HttpClient.BaseAddress, $"{PaymentRelativeUrl}/recurrent");
+        }
+
+        public Task<ApiResult<ApiPaymentResponse>> CreateRecurrentPaymentAsync(ApiPaymentRequest paymentRequest,
+            CancellationToken cancellationToken)
+        {
+            paymentRequest.ThrowIfNull(nameof(paymentRequest));
+            paymentRequest.Payment.PreapprovalID.ThrowIfNull(nameof(paymentRequest.Payment.PreapprovalID));
+            cancellationToken.ThrowIfNull(nameof(cancellationToken));
+
+            var uri = GetRecurrentPaymentUri();
+            var request = paymentRequest.ToHttpRequest(HttpMethod.Post, uri);
+            return HttpClient.InvokeAsync<ApiPaymentResponse>(request, cancellationToken);
+        }
+
+        public Task<ApiResult<ApiPaymentResponse>> CreateRecurrentPaymentAsync(ApiPaymentRequest paymentRequest)
+        {
+            return CreateRecurrentPaymentAsync(paymentRequest, CancellationToken.None);
+        }
+
+        public Task<ApiResult<ApiPaymentResponse>> CreateRecurrentPaymentAsync(ApiPaymentRequest paymentRequest,
+            string idempotencyToken, CancellationToken cancellationToken)
+        {
+            paymentRequest.ThrowIfNull(nameof(paymentRequest));
+            paymentRequest.Payment.PreapprovalID.ThrowIfNull(nameof(paymentRequest.Payment.PreapprovalID));
+            idempotencyToken.ThrowIfNullOrWhiteSpace(nameof(idempotencyToken));
+            cancellationToken.ThrowIfNull(nameof(cancellationToken));
+
+            var uri = GetRecurrentPaymentUri();
+            var request = paymentRequest.ToHttpRequest(HttpMethod.Post, uri);
+            return HttpClient.InvokeAsync<ApiPaymentResponse>(idempotencyToken, request, cancellationToken);
+        }
+
+        public Task<ApiResult<ApiPaymentResponse>> CreateRecurrentPaymentAsync(ApiPaymentRequest paymentRequest,
+            string idempotencyToken)
+        {
+            return CreateRecurrentPaymentAsync(paymentRequest, idempotencyToken, CancellationToken.None);
+        }
         #endregion
     }
 }

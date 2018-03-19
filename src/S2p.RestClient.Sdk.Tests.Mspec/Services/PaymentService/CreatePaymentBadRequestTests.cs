@@ -21,7 +21,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
             };
 
             private Because of = () => {
-                PaymentRequest = new RestPaymentRequest
+                PaymentRequest = new ApiPaymentRequest
                 {
                     Payment = new PaymentRequest
                     {

@@ -12,5 +12,10 @@ namespace S2p.RestClient.Sdk.Infrastructure.Extensions
             var memberExpression = expression as MemberExpression;
             return memberExpression?.Member.Name;
         }
+
+        public static string InvalidPropertyMessage<T>(Expression<Func<T, object>> propertyExpression)
+        {
+            return $"Invalid {Nameof(propertyExpression)}";
+        }
     }
 }
