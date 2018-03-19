@@ -7,20 +7,10 @@ namespace S2p.RestClient.Sdk.Infrastructure.Extensions
 {
     public static class HttpClientExtensions
     {
-        public static Task<ApiResult> InvokeAsync(this HttpClient @this, HttpRequestMessage request)
-        {
-            return @this.InvokeAsync(request, CancellationToken.None);
-        }
-
         public static Task<ApiResult> InvokeAsync(this HttpClient @this, HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
             return @this.InvokeAsync(request, (c, r, ct) => c.SendAsync(r, ct), cancellationToken);
-        }
-
-        public static Task<ApiResult> InvokeAsync(this HttpClient @this, string idempotencyToken, HttpRequestMessage request)
-        {
-            return @this.InvokeAsync(idempotencyToken, request, CancellationToken.None);
         }
 
         public static Task<ApiResult> InvokeAsync(this HttpClient @this, string idempotencyToken, HttpRequestMessage request,
@@ -30,20 +20,10 @@ namespace S2p.RestClient.Sdk.Infrastructure.Extensions
             return @this.InvokeAsync(request, (c, r, ct) => c.SendWithIdempotencyTokenAsync(idempotencyToken, r, ct), cancellationToken);
         }
 
-        public static Task<ApiResult<T>> InvokeAsync<T>(this HttpClient @this, HttpRequestMessage request)
-        {
-            return @this.InvokeAsync<T>(request, CancellationToken.None);
-        }
-
         public static Task<ApiResult<T>> InvokeAsync<T>(this HttpClient @this, HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
             return @this.InvokeAsync<T>(request, (c, r, ct) => c.SendAsync(r, ct), cancellationToken);
-        }
-
-        public static Task<ApiResult<T>> InvokeAsync<T>(this HttpClient @this, string idempotencyToken, HttpRequestMessage request)
-        {
-            return @this.InvokeAsync<T>(idempotencyToken, request, CancellationToken.None);
         }
 
         public static Task<ApiResult<T>> InvokeAsync<T>(this HttpClient @this, string idempotencyToken, HttpRequestMessage request,
@@ -103,15 +83,8 @@ namespace S2p.RestClient.Sdk.Infrastructure.Extensions
             @this.ThrowIfNull(typeof(HttpClient).Name.ToLower());
             idempotencyToken.ThrowIfNullOrWhiteSpace(nameof(idempotencyToken));
 
-            try
-            {
-                @this.DefaultRequestHeaders.AddIdempotencyHeader(idempotencyToken);
-                return @this.SendAsync(request, cancellationToken);
-            }
-            finally
-            {
-                @this.DefaultRequestHeaders.RemoveIdempotencyHeader();
-            }
+            request.Headers.AddIdempotencyHeader(idempotencyToken);
+            return @this.SendAsync(request, cancellationToken);
         }
     }
 }

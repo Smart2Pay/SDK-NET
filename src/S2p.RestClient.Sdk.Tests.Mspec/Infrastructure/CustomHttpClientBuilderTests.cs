@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Machine.Specifications;
 using Polly;
@@ -159,7 +160,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
             };
 
             private Because of = () => {
-                ApiResult = HttpClient.InvokeAsync(IdempotencyToken, Request).GetAwaiter().GetResult();
+                ApiResult = HttpClient.InvokeAsync(IdempotencyToken, Request, CancellationToken.None).GetAwaiter().GetResult();
             };
 
             private Cleanup after = () => {
@@ -170,7 +171,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
             private It should_be_success = () => { ApiResult.IsSuccess.ShouldBeTrue(); };
 
             private It should_have_the_correct_http_status = () => {
-                ApiResult.Response.StatusCode.ShouldEqual(HttpStatusCode.OK);
+                ApiResult.HttpResponse.StatusCode.ShouldEqual(HttpStatusCode.OK);
             };
 
             private It should_have_the_provided_idempotency_token = () => {
