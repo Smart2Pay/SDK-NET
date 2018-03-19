@@ -7,8 +7,8 @@ namespace S2p.RestClient.Sdk.Infrastructure
     public class ApiResult
     {
         public bool IsSuccess { get; protected internal set; }
-        public HttpRequestMessage Request { get; protected internal set; }
-        public HttpResponseMessage Response { get; protected internal set; }
+        public HttpRequestMessage HttpRequest { get; protected internal set; }
+        public HttpResponseMessage HttpResponse { get; protected internal set; }
         public string Content { get; protected internal set; }
         public Exception Exception { get; protected internal set; }
 
@@ -20,8 +20,8 @@ namespace S2p.RestClient.Sdk.Infrastructure
             return new ApiResult
             {
                 IsSuccess = true,
-                Request = request,
-                Response = response,
+                HttpRequest = request,
+                HttpResponse = response,
                 Content = content.ValueIfNull(() => string.Empty)
             };
         }
@@ -35,8 +35,8 @@ namespace S2p.RestClient.Sdk.Infrastructure
             return new ApiResult<T>
             {
                 IsSuccess = true,
-                Request = request,
-                Response = response,
+                HttpRequest = request,
+                HttpResponse = response,
                 Content = content.ValueIfNull(() => string.Empty),
                 Value = value
             };
@@ -50,9 +50,9 @@ namespace S2p.RestClient.Sdk.Infrastructure
             return new ApiResult
             {
                 IsSuccess = false,
-                Request = request,
+                HttpRequest = request,
                 Content = content.ValueIfNull(() => string.Empty),
-                Response = response
+                HttpResponse = response
             };
         }
 
@@ -64,7 +64,7 @@ namespace S2p.RestClient.Sdk.Infrastructure
             return new ApiResult
             {
                 IsSuccess = false,
-                Request = request,
+                HttpRequest = request,
                 Content = string.Empty,
                 Exception = exception
             };
@@ -78,8 +78,8 @@ namespace S2p.RestClient.Sdk.Infrastructure
             return new ApiResult<T>
             {
                 IsSuccess = false,
-                Request = request,
-                Response = response,
+                HttpRequest = request,
+                HttpResponse = response,
                 Content = content.ValueIfNull(() => string.Empty),
                 Value = default(T)
             };
@@ -94,8 +94,8 @@ namespace S2p.RestClient.Sdk.Infrastructure
             return new ApiResult<T>
             {
                 IsSuccess = false,
-                Request = request,
-                Response = response,
+                HttpRequest = request,
+                HttpResponse = response,
                 Content = content.ValueIfNull(() => string.Empty),
                 Value = value
             };
@@ -109,7 +109,7 @@ namespace S2p.RestClient.Sdk.Infrastructure
             return new ApiResult<T>
             {
                 IsSuccess = false,
-                Request = request,
+                HttpRequest = request,
                 Exception = exception,
                 Content = string.Empty,
                 Value = default(T)

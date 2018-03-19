@@ -1,23 +1,20 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Linq;
 using System.Net;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
-using S2p.RestClient.Sdk.Infrastructure;
 using S2p.RestClient.Sdk.Services;
 
 namespace S2p.RestClient.Sdk.Tests.Mspec.Services
-{ 
+{
     partial class PaymentServiceTests
     {
         [Subject(typeof(PaymentService))]
         public class When_creating_a_payment_with_wrong_country
         {
             private Establish context = () => {
-                var httpClientBuilder = new HttpClientBuilder(() => AuthenticationConfiguration)
-                .WithBaseAddress(new Uri("https://paytest.smart2pay.com"));
-                PaymentService = new PaymentService(httpClientBuilder);
+                InitializeHttpBuilder();
+                PaymentService = new PaymentService(HttpClientBuilder);
             };
 
             private Because of = () => {
@@ -45,8 +42,10 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
                 ApiResult = PaymentService.CreatePaymentAsync(PaymentRequest).GetAwaiter().GetResult();
             };
 
+            private Cleanup after = () => { PaymentService.Dispose(); };
+
             private It should_have_created_status_code = () => {
-                ApiResult.Response.StatusCode.ShouldEqual(HttpStatusCode.BadRequest);
+                ApiResult.HttpResponse.StatusCode.ShouldEqual(HttpStatusCode.BadRequest);
             };
 
             private It should_have_the_same_merchant_transaction_id = () => {

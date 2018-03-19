@@ -4,32 +4,32 @@ using System.Net;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
-using S2p.RestClient.Sdk.Infrastructure.Authentication;
 using S2p.RestClient.Sdk.Services;
 
 namespace S2p.RestClient.Sdk.Tests.Mspec.Services
 {
     public partial class PaymentServiceTests
     {
-        private static PaymentService PaymentService;
-
-        private static AuthenticationConfiguration AuthenticationConfiguration = new AuthenticationConfiguration
-        {
-            SiteId = 30201,
-            ApiKey = "hJ5RobYx9r7FfNwCvHY9LXHqqr+FEzrc7aJvQQk4Gaz1mg7Ryy"
-        };
+        private static IPaymentService PaymentService;
 
         private static ApiResult<ApiPaymentResponse> ApiResult;
         private static string MerchantTransactionID => Guid.NewGuid().ToString();
         private static ApiPaymentRequest PaymentRequest;
+        private static IHttpClientBuilder HttpClientBuilder;
+
+        private static void InitializeHttpBuilder()
+        {
+            HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.AuthenticationConfiguration)
+                .WithBaseAddress(new Uri(ServiceTestsConstants.BaseUrl));
+        }
+
 
         [Subject(typeof(PaymentService))]
         public class When_creating_a_payment
         {
             private Establish context = () => {
-                var httpClientBuilder = new HttpClientBuilder(() => AuthenticationConfiguration)
-                .WithBaseAddress(new Uri("https://paytest.smart2pay.com"));
-                PaymentService = new PaymentService(httpClientBuilder);
+                InitializeHttpBuilder();
+                PaymentService = new PaymentService(HttpClientBuilder);
             };
 
             private Because of = () => {
@@ -58,7 +58,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
             };
 
             private It should_have_created_status_code = () => {
-                ApiResult.Response.StatusCode.ShouldEqual(HttpStatusCode.Created);
+                ApiResult.HttpResponse.StatusCode.ShouldEqual(HttpStatusCode.Created);
             };
 
             private It should_have_the_same_merchant_transaction_id = () => {
