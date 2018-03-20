@@ -1,4 +1,5 @@
-﻿using Machine.Specifications;
+﻿using System.Collections.Generic;
+using Machine.Specifications;
 using S2p.RestClient.Sdk.Validation;
 
 namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
@@ -180,6 +181,71 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
                     $"{ValidationConstants.ErrorMessageSeparator}{nameof(dummyClass.Quantity)}{ValidationConstants.PropertyMessageSeparator}" +
                     $"{DummyClassValidator.QuantityValidationText}{ValidationConstants.ErrorMessageSeparator}"
                 );
+            };
+        }
+
+        [Subject("Validation")]
+        public class When_class_has_enumerable_members_with_errors
+        {
+            private static DummyEnumerableClass DummyEnumerable;
+            private static DummyEnumerableClassValidator Validator = new DummyEnumerableClassValidator();
+
+            private Establish context = () => {
+                DummyEnumerable = new DummyEnumerableClass
+                {
+                    DummyClassList = new List<DummyClass>
+                    {
+                        new DummyClass {Id = -1, Quantity = 4},
+                        new DummyClass {Id = 1, Quantity = -2}
+                    }
+                };
+            };
+
+            private Because of = () => { validationResult = Validator.Validate(DummyEnumerable); };
+
+            private It should_fail_validatiob = () => {
+                validationResult.IsValid.ShouldBeFalse();
+            };
+
+            private It should_have_two_errors = () => {
+                validationResult.ErrorsCount.ShouldEqual(2);
+            };
+
+            private It should_have_the_correct_error_message = () => {
+                validationResult.Message.ShouldEqual(
+                    "Item0-DummyClass-Id:Must be positive, non zero, non null;Item1-DummyClass-Quantity:Must be greater or equal to zero or null;");
+            };
+        }
+
+        [Subject("Validation")]
+        public class When_class_has_enumerable_members_without_errors
+        {
+            private static DummyEnumerableClass DummyEnumerable;
+            private static DummyEnumerableClassValidator Validator = new DummyEnumerableClassValidator();
+
+            private Establish context = () => {
+                DummyEnumerable = new DummyEnumerableClass
+                {
+                    DummyClassList = new List<DummyClass>
+                    {
+                        new DummyClass {Id = 1, Quantity = 4},
+                        new DummyClass {Id = 2, Quantity = 2}
+                    }
+                };
+            };
+
+            private Because of = () => { validationResult = Validator.Validate(DummyEnumerable); };
+
+            private It should_pass_validatiob = () => {
+                validationResult.IsValid.ShouldBeTrue();
+            };
+
+            private It should_have_zero_errors = () => {
+                validationResult.ErrorsCount.ShouldEqual(0);
+            };
+
+            private It should_have_empty_error_message = () => {
+                validationResult.Message.ShouldEqual(string.Empty);
             };
         }
     }

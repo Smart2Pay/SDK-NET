@@ -101,6 +101,8 @@
     <Compile Include="Services\ServiceTestsConstants.cs" />
     <Compile Include="Validation\DummyClass.cs" />
     <Compile Include="Validation\DummyClassValidator.cs" />
+    <Compile Include="Validation\DummyEnumerableClass.cs" />
+    <Compile Include="Validation\DummyEnumerableClassValidator.cs" />
     <Compile Include="Validation\DummyWrapperClass.cs" />
     <Compile Include="Validation\DummyWrapperClassValidatorAllowNull.cs" />
     <Compile Include="Validation\DummyWrapperClassValidatorNotNull.cs" />
