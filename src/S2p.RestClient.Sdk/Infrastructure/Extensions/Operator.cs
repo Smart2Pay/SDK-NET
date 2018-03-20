@@ -17,5 +17,10 @@ namespace S2p.RestClient.Sdk.Infrastructure.Extensions
         {
             return $"Invalid {Nameof(propertyExpression)}";
         }
+
+        public static string InvalidPropertyMessage<T>(Expression<Func<T, object>> propertyExpression, string regex)
+        {
+            return $"Invalid {Nameof(propertyExpression)}, Regex: {regex.ValueIfNull(() => string.Empty)}";
+        }
     }
 }
