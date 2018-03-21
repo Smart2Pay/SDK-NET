@@ -14,7 +14,8 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
         {
             private Establish context = () => {
                 InitializeHttpBuilder();
-                PaymentService = new PaymentService(HttpClientBuilder);
+                HttpClient = HttpClientBuilder.Build();
+                PaymentService = new PaymentService(HttpClient, BaseAddress);
             };
 
             private Because of = () => {
@@ -42,7 +43,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
                 ApiResult = PaymentService.CreatePaymentAsync(PaymentRequest).GetAwaiter().GetResult();
             };
 
-            private Cleanup after = () => { PaymentService.Dispose(); };
+            private Cleanup after = () => { HttpClient.Dispose(); };
 
             private It should_have_created_status_code = () => {
                 ApiResult.HttpResponse.StatusCode.ShouldEqual(HttpStatusCode.BadRequest);

@@ -12,13 +12,13 @@ namespace S2p.RestClient.Sdk.Services
     {
         private const string PayoutPartialUrl = "/v1/payouts";
 
-        public PayoutService(IHttpClientBuilder httpClientBuilder) : base(httpClientBuilder) { }
+        public PayoutService(HttpClient httpClient, Uri baseAddress) : base(httpClient, baseAddress) { }
 
         #region GetPayoutList
 
         private Uri GetPayoutUri()
         {
-            return new Uri(HttpClient.BaseAddress, PayoutPartialUrl);
+            return new Uri(BaseAddress, PayoutPartialUrl);
         }
 
         public Task<ApiResult<ApiCardPayoutListResponse>> GetPayoutListAsync(CancellationToken cancellationToken)
@@ -60,7 +60,7 @@ namespace S2p.RestClient.Sdk.Services
         {
             globalPayPayoutId.ThrowIfNullOrWhiteSpace(nameof(globalPayPayoutId));
 
-            return new Uri(HttpClient.BaseAddress, $"{PayoutPartialUrl}/{globalPayPayoutId.UrlEncoded()}/status");
+            return new Uri(BaseAddress, $"{PayoutPartialUrl}/{globalPayPayoutId.UrlEncoded()}/status");
         }
 
         public Task<ApiResult<ApiCardPayoutStatusResponse>> GetPayoutStatusAsync(string globalPayPayoutId,
@@ -87,7 +87,7 @@ namespace S2p.RestClient.Sdk.Services
         {
             globalPayPayoutId.ThrowIfNullOrWhiteSpace(nameof(globalPayPayoutId));
 
-            return new Uri(HttpClient.BaseAddress, $"{PayoutPartialUrl}/{globalPayPayoutId.UrlEncoded()}");
+            return new Uri(BaseAddress, $"{PayoutPartialUrl}/{globalPayPayoutId.UrlEncoded()}");
         }
 
         public Task<ApiResult<ApiCardPayoutResponse>> GetPayoutAsync(string globalPayPayoutId,

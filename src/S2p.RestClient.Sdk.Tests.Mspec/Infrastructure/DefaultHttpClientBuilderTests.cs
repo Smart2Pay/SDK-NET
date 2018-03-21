@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -47,7 +46,9 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
                 DefaultPolicyProvider.PolicyCollection.Clear();
             };
 
-            private It should_not_provide_base_address = () => { HttpClient.BaseAddress.ShouldBeNull(); };
+            private It should_provide_default_timeout = () => {
+                HttpClient.Timeout.ShouldEqual(TimeSpan.FromSeconds(100));
+            };
 
             private It should_have_the_correct_response = () => {
                 Response.StatusCode.ShouldEqual(HttpStatusCode.Accepted);

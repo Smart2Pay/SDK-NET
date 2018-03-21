@@ -12,20 +12,20 @@ namespace S2p.RestClient.Sdk.Services
     {
         private const string PaymentRelativeUrl = "v1/payments";
 
-        public PaymentService(IHttpClientBuilder httpClientBuilder) : base(httpClientBuilder) { }
+        public PaymentService(HttpClient httpClient, Uri baseAddress) : base(httpClient, baseAddress) { }
 
         #region GetPayment(s)
 
         private Uri GetPaymentUri()
         {
-            return new Uri(HttpClient.BaseAddress, PaymentRelativeUrl);
+            return new Uri(BaseAddress, PaymentRelativeUrl);
         }
 
         private Uri GetPaymentUri(string globalPayPaymentId)
         {
             globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
 
-            var uri = new Uri(HttpClient.BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}");
+            var uri = new Uri(BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}");
             return uri;
         }
 
@@ -121,7 +121,7 @@ namespace S2p.RestClient.Sdk.Services
         {
             globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
 
-            var uri = new Uri(HttpClient.BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/capture");
+            var uri = new Uri(BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/capture");
             return uri;
         }
 
@@ -167,7 +167,7 @@ namespace S2p.RestClient.Sdk.Services
         {
             globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
 
-            var uri = new Uri(HttpClient.BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/cancel");
+            var uri = new Uri(BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/cancel");
             return uri;
         }
 
@@ -211,7 +211,7 @@ namespace S2p.RestClient.Sdk.Services
 
         private Uri GetRecurrentPaymentUri()
         {
-            return new Uri(HttpClient.BaseAddress, $"{PaymentRelativeUrl}/recurrent");
+            return new Uri(BaseAddress, $"{PaymentRelativeUrl}/recurrent");
         }
 
         public Task<ApiResult<ApiPaymentResponse>> CreateRecurrentPaymentAsync(ApiPaymentRequest paymentRequest,

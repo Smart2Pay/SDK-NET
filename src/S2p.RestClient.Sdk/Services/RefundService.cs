@@ -13,9 +13,7 @@ namespace S2p.RestClient.Sdk.Services
         private const string RefundUrlFormat = "/v1/payments/{0}/refunds";
         private const string RefundTypesFormat = "/v1/refunds/types/{0}/{1}/{2}";
 
-        public RefundService(IHttpClientBuilder httpClientBuilder) : base(httpClientBuilder)
-        {
-        }
+        public RefundService(HttpClient httpClient, Uri baseAddress) : base(httpClient, baseAddress) { }
 
         #region GetRefund
 
@@ -23,7 +21,7 @@ namespace S2p.RestClient.Sdk.Services
         {
             globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
 
-            var uri = new Uri(HttpClient.BaseAddress, string.Format(RefundUrlFormat, globalPayPaymentId.UrlEncoded()));
+            var uri = new Uri(BaseAddress, string.Format(RefundUrlFormat, globalPayPaymentId.UrlEncoded()));
             return uri;
         }
 
@@ -127,7 +125,7 @@ namespace S2p.RestClient.Sdk.Services
             countryCode.ThrowIfNullOrWhiteSpace(nameof(countryCode));
             currency.ThrowIfNullOrWhiteSpace(nameof(currency));
 
-            return new Uri(HttpClient.BaseAddress,
+            return new Uri(BaseAddress,
                 string.Format(RefundTypesFormat, globalPayPaymentMethodId.UrlEncoded(), countryCode.UrlEncoded()
                     , currency.UrlEncoded()));
         }

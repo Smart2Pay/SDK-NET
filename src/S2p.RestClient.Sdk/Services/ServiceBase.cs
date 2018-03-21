@@ -1,35 +1,21 @@
-﻿using System.Net.Http;
-using S2p.RestClient.Sdk.Infrastructure;
+﻿using System;
+using System.Net.Http;
 using S2p.RestClient.Sdk.Infrastructure.Extensions;
 
 namespace S2p.RestClient.Sdk.Services
 {
-    public class ServiceBase : DisposableBase
+    public class ServiceBase
     {
-        private HttpClient _httpClient;
+        protected HttpClient HttpClient { get; }
+        public Uri BaseAddress { get; }
 
-        protected HttpClient HttpClient
+        public ServiceBase(HttpClient httpClient, Uri baseAddress)
         {
-            get
-            {
-                CheckIfDisposed();
-                return _httpClient;
-            }
-        }
+            httpClient.ThrowIfNull(nameof(httpClient));
+            baseAddress.ThrowIfNull(nameof(baseAddress));
 
-        public ServiceBase(IHttpClientBuilder httpClientBuilder)
-        {
-            httpClientBuilder.ThrowIfNull(nameof(httpClientBuilder));
-            _httpClient = httpClientBuilder.Build();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _httpClient.Dispose();
-                _httpClient = null;
-            }
+            HttpClient = httpClient;
+            BaseAddress = baseAddress;
         }
     }
 }

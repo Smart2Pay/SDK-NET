@@ -12,7 +12,7 @@ namespace S2p.RestClient.Sdk.Services
     {
         public const string PreapprovalUrl = "/v1/preapprovals";
 
-        public PreapprovalService(IHttpClientBuilder httpClientBuilder) : base(httpClientBuilder) { }
+        public PreapprovalService(HttpClient httpClient, Uri baseAddress) : base(httpClient, baseAddress) { }
 
         #region GetPreapproval
 
@@ -20,19 +20,19 @@ namespace S2p.RestClient.Sdk.Services
         {
             globalPayPreapprovalId.ThrowIfNullOrWhiteSpace(nameof(globalPayPreapprovalId));
 
-            return new Uri(HttpClient.BaseAddress, $"{PreapprovalUrl}/{globalPayPreapprovalId.UrlEncoded()}");
+            return new Uri(BaseAddress, $"{PreapprovalUrl}/{globalPayPreapprovalId.UrlEncoded()}");
         }
 
         private Uri GetPreapprovalUri()
         {
-            return new Uri(HttpClient.BaseAddress, PreapprovalUrl);
+            return new Uri(BaseAddress, PreapprovalUrl);
         }
 
         private Uri GetPreapprovalPaymentsUri(string globalPayPreapprovalId)
         {
             globalPayPreapprovalId.ThrowIfNullOrWhiteSpace(nameof(globalPayPreapprovalId));
 
-            return new Uri(HttpClient.BaseAddress, $"{PreapprovalUrl}/{globalPayPreapprovalId.UrlEncoded()}/payments");
+            return new Uri(BaseAddress, $"{PreapprovalUrl}/{globalPayPreapprovalId.UrlEncoded()}/payments");
         }
 
         public Task<ApiResult<ApiPreapprovalResponse>> GetPreapprovalAsync(string globalPayPreapprovalId,
@@ -91,7 +91,7 @@ namespace S2p.RestClient.Sdk.Services
             preapprovalRequest.ThrowIfNull(nameof(preapprovalRequest));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = new Uri(HttpClient.BaseAddress, PreapprovalUrl);
+            var uri = new Uri(BaseAddress, PreapprovalUrl);
             var request = preapprovalRequest.ToHttpRequest(HttpMethod.Post, uri);
             return HttpClient.InvokeAsync<ApiPreapprovalResponse>(request, cancellationToken);
         }
@@ -108,7 +108,7 @@ namespace S2p.RestClient.Sdk.Services
             idempotencyToken.ThrowIfNullOrWhiteSpace(nameof(idempotencyToken));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = new Uri(HttpClient.BaseAddress, PreapprovalUrl);
+            var uri = new Uri(BaseAddress, PreapprovalUrl);
             var request = preapprovalRequest.ToHttpRequest(HttpMethod.Post, uri);
             return HttpClient.InvokeAsync<ApiPreapprovalResponse>(idempotencyToken, request, cancellationToken);
         }

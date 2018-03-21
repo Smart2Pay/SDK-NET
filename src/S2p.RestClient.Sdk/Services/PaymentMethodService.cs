@@ -12,7 +12,7 @@ namespace S2p.RestClient.Sdk.Services
     {
         private const string PaymentMethodRelativeUrl = "/v1/methods";
 
-        public PaymentMethodService(IHttpClientBuilder httpClientBuilder) : base(httpClientBuilder) { }
+        public PaymentMethodService(HttpClient httpClient, Uri baseAddress) : base(httpClient, baseAddress) { }
 
         #region GetPaymentMethod
 
@@ -20,7 +20,7 @@ namespace S2p.RestClient.Sdk.Services
         {
             paymentMethodId.ThrowIfNullOrWhiteSpace(nameof(paymentMethodId));
 
-            return new Uri(HttpClient.BaseAddress, $"{PaymentMethodRelativeUrl}/{paymentMethodId.UrlEncoded()}");
+            return new Uri(BaseAddress, $"{PaymentMethodRelativeUrl}/{paymentMethodId.UrlEncoded()}");
         }
 
         public Task<ApiResult<ApiPaymentMethodResponse>> GetPaymentMethodAsync(string paymentMethodId,
@@ -47,7 +47,7 @@ namespace S2p.RestClient.Sdk.Services
         {
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = new Uri(HttpClient.BaseAddress, PaymentMethodRelativeUrl);
+            var uri = new Uri(BaseAddress, PaymentMethodRelativeUrl);
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
             return HttpClient.InvokeAsync<ApiPaymentMethodListResponse>(request, cancellationToken);
         }
@@ -65,7 +65,7 @@ namespace S2p.RestClient.Sdk.Services
         {
             countryCode.ThrowIfNullOrWhiteSpace(nameof(countryCode));
 
-            return new Uri(HttpClient.BaseAddress, $"{PaymentMethodRelativeUrl}?country={countryCode.UrlEncoded()}");
+            return new Uri(BaseAddress, $"{PaymentMethodRelativeUrl}?country={countryCode.UrlEncoded()}");
         }
 
         public Task<ApiResult<ApiPaymentMethodListResponse>> GetPaymentMethodsListAsync(string countryCode,
@@ -90,7 +90,7 @@ namespace S2p.RestClient.Sdk.Services
 
         private Uri GetAssignedPaymentMethodListUri()
         {
-            return new Uri(HttpClient.BaseAddress, $"{PaymentMethodRelativeUrl}/assigned");
+            return new Uri(BaseAddress, $"{PaymentMethodRelativeUrl}/assigned");
         }
 
         public Task<ApiResult<ApiPaymentMethodListResponse>> GetAssignedPaymentMethodsListAsync(CancellationToken cancellationToken)
@@ -115,7 +115,7 @@ namespace S2p.RestClient.Sdk.Services
         {
             countryCode.ThrowIfNullOrWhiteSpace(nameof(countryCode));
 
-            return new Uri(HttpClient.BaseAddress, $"{PaymentMethodRelativeUrl}/assigned?country={countryCode.UrlEncoded()}");
+            return new Uri(BaseAddress, $"{PaymentMethodRelativeUrl}/assigned?country={countryCode.UrlEncoded()}");
         }
 
         public Task<ApiResult<ApiPaymentMethodListResponse>> GetAssignedPaymentMethodsListAsync(string countryCode,

@@ -11,6 +11,7 @@ using S2p.RestClient.Sdk.Infrastructure;
 using S2p.RestClient.Sdk.Infrastructure.Authentication;
 using S2p.RestClient.Sdk.Infrastructure.Extensions;
 using S2p.RestClient.Sdk.Infrastructure.Resilience;
+using S2p.RestClient.Sdk.Tests.Mspec.Services;
 
 namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
 {
@@ -30,7 +31,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
             private static ConcurrentDictionary<string, int> CustomDelegatesOrderCollection =
                 new ConcurrentDictionary<string, int>();
 
-            private static Uri BaseAddress = new Uri(Url);
+            private static TimeSpan Timeout = TimeSpan.FromSeconds(25);
 
             private static HttpResponseMessage Response;
 
@@ -89,7 +90,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
 
                 HttpClientBuilder = new HttpClientBuilder(() => AuthenticationConfiguration)
                     .WithAuthenticationProvider(AuthenticationProvider.Object)
-                    .WithBaseAddress(BaseAddress)
+                    .WithTimeout(Timeout)
                     .WithInnerCustomHandlers(innerCustomHandlers)
                     .WithOuterCustomHandlers(outerCustomHandlers)
                     .WithIdempotencyKeyGenerator(IdempotencyKeyGenerator.Object)
@@ -101,20 +102,22 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
                 HttpClient = HttpClientBuilder.Build();
             };
 
-            private Because of = () => { Response = HttpClient.GetAsync(string.Empty).GetAwaiter().GetResult(); };
+            private Because of = () => { Response = HttpClient.GetAsync(ServiceTestsConstants.BaseUrl).GetAwaiter().GetResult(); };
 
             private Cleanup after = () => {
                 HttpClient.Dispose();
                 DefaultPolicyProvider.PolicyCollection.Clear();
             };
 
-            private It should_have_ok_response = () => { Response.StatusCode.ShouldEqual(HttpStatusCode.OK); };
+            private It should_have_ok_response = () => {
+                Response.StatusCode.ShouldEqual(HttpStatusCode.OK);
+            };
 
             private It should_use_custom_authentication_provider = () => {
                 AuthenticationProvider.Verify(func => func(), Moq.Times.Exactly(1));
             };
 
-            private It should_have_correct_base_address = () => { HttpClient.BaseAddress.ToString().ShouldEqual(Url); };
+            private It should_have_correct_timeout = () => { HttpClient.Timeout.ShouldEqual(Timeout); };
 
             private It should_use_first_outer_custom_handler = () => {
                 CustomDelegatesOrderCollection["OuterMostCustomHandler"].ShouldEqual(1);
@@ -146,15 +149,15 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
         [Subject("Idempotency")]
         public class When_idempotency_header_is_already_present
         {
-            private static HttpRequestMessage Request = new HttpRequestMessage {Method = HttpMethod.Get};
+            private static Uri BaseAddress = new Uri(Url);
+            private static HttpRequestMessage Request = new HttpRequestMessage {Method = HttpMethod.Get, RequestUri = BaseAddress };
             private static ApiResult ApiResult;
             private static string IdempotencyToken = Guid.NewGuid().ToString();
 
             private Establish context = () => {
                 HttpClientBuilder = new HttpClientBuilder(() => AuthenticationConfiguration)
                     .WithPrimaryHandler(new MockableMessageHandler(request =>
-                        Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK))))
-                    .WithBaseAddress(new Uri(Url));
+                        Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK))));
                 HttpClient = HttpClientBuilder.Build();
 
             };
@@ -175,7 +178,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
             };
 
             private It should_have_the_provided_idempotency_token = () => {
-                Request.Headers.GetIdempotencyToken().ShouldEqual(IdempotencyToken);
+                ApiResult.HttpRequest.Headers.GetIdempotencyToken().ShouldEqual(IdempotencyToken);
             };
 
             private It should_not_pass_idempotency_token_between_oprations = () => {

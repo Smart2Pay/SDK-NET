@@ -12,7 +12,7 @@ namespace S2p.RestClient.Sdk.Services
     {
         private const string PaymentRelativeUrl = "v1/payments";
 
-        public CardPaymentService(IHttpClientBuilder httpClientBuilder) : base(httpClientBuilder) {  }
+        public CardPaymentService(HttpClient httpClient, Uri baseAddress) : base(httpClient, baseAddress) {  }
 
         #region PaymentStatus
 
@@ -20,7 +20,7 @@ namespace S2p.RestClient.Sdk.Services
         {
             globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
 
-            return new Uri(HttpClient.BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId}/status");
+            return new Uri(BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/status");
         }
 
         public Task<ApiResult<ApiCardPaymentStatusResponse>> GetPaymentStatusAsync(string globalPayPaymentId,
@@ -45,7 +45,7 @@ namespace S2p.RestClient.Sdk.Services
 
         private Uri GetPaymentUri()
         {
-            return new Uri(HttpClient.BaseAddress, PaymentRelativeUrl);
+            return new Uri(BaseAddress, PaymentRelativeUrl);
         }
 
         public Task<ApiResult<ApiCardPaymentResponse>> InitiatePaymentAsync(ApiCardPaymentRequest paymentRequest,
@@ -92,7 +92,7 @@ namespace S2p.RestClient.Sdk.Services
         {
             globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
 
-            var uri = new Uri(HttpClient.BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/capture");
+            var uri = new Uri(BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/capture");
             return uri;
         }
 
@@ -139,7 +139,7 @@ namespace S2p.RestClient.Sdk.Services
             globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
             amount.ThrowIfNotCondition(a => a > 0, nameof(amount));
 
-            return new Uri(HttpClient.BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/capture?amount={amount}");
+            return new Uri(BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/capture?amount={amount}");
         }
 
         public Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId, int amount,
@@ -185,7 +185,7 @@ namespace S2p.RestClient.Sdk.Services
         {
             globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
 
-            var uri = new Uri(HttpClient.BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/cancel");
+            var uri = new Uri(BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/cancel");
             return uri;
         }
 
@@ -231,7 +231,7 @@ namespace S2p.RestClient.Sdk.Services
         {
             globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
 
-            var uri = new Uri(HttpClient.BaseAddress,
+            var uri = new Uri(BaseAddress,
                 $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/challenge/accept");
             return uri;
         }
@@ -278,7 +278,7 @@ namespace S2p.RestClient.Sdk.Services
         {
             globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
 
-            var uri = new Uri(HttpClient.BaseAddress,
+            var uri = new Uri(BaseAddress,
                 $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/challenge/reject");
             return uri;
         }

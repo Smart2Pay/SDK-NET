@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Net;
+using System.Net.Http;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
@@ -16,11 +17,12 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
         private static string MerchantTransactionID => Guid.NewGuid().ToString();
         private static ApiPaymentRequest PaymentRequest;
         private static IHttpClientBuilder HttpClientBuilder;
+        private static HttpClient HttpClient;
+        private static Uri BaseAddress = new Uri(ServiceTestsConstants.BaseUrl);
 
         private static void InitializeHttpBuilder()
         {
-            HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.AuthenticationConfiguration)
-                .WithBaseAddress(new Uri(ServiceTestsConstants.BaseUrl));
+            HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.AuthenticationConfiguration);
         }
 
 
@@ -29,7 +31,8 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
         {
             private Establish context = () => {
                 InitializeHttpBuilder();
-                PaymentService = new PaymentService(HttpClientBuilder);
+                HttpClient = HttpClientBuilder.Build();
+                PaymentService = new PaymentService(HttpClient, BaseAddress);
             };
 
             private Because of = () => {
@@ -56,6 +59,8 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
 
                 ApiResult = PaymentService.CreatePaymentAsync(PaymentRequest).GetAwaiter().GetResult();
             };
+
+            private Cleanup after = () => { HttpClient.Dispose(); };
 
             private It should_have_created_status_code = () => {
                 ApiResult.HttpResponse.StatusCode.ShouldEqual(HttpStatusCode.Created);

@@ -18,7 +18,7 @@ namespace S2p.RestClient.Sdk.Infrastructure
         private Func<string> _idempotencyKeyGenerator;
         private IEnumerable<DelegatingHandler> _outerCustomHandlers;
         private IEnumerable<DelegatingHandler> _innerCustomHandlers;
-        private Uri _baseAddress;
+        private TimeSpan? _timeout;
         private HttpMessageHandler _primaryHandler;
 
         public HttpClientBuilder(Func<AuthenticationConfiguration> authenticationProvider)
@@ -65,9 +65,9 @@ namespace S2p.RestClient.Sdk.Infrastructure
             return this;
         }
 
-        public HttpClientBuilder WithBaseAddress(Uri baseAddress)
+        public HttpClientBuilder WithTimeout(TimeSpan? timeout)
         {
-            _baseAddress = baseAddress;
+            _timeout = timeout;
             return this;
         }
 
@@ -90,7 +90,7 @@ namespace S2p.RestClient.Sdk.Infrastructure
                 .DecorateWith(new AuthenticationHandler(_authenticationProvider))
                 .DecorateIfNotNull(_outerCustomHandlers)
                 .CreateHttpClient()
-                .ApplyIf(c => c.BaseAddress = _baseAddress, c => _baseAddress != null);
+                .ApplyIf(c => c.Timeout = _timeout.Value, c => _timeout.HasValue);
 
             return httpClient;
         } 

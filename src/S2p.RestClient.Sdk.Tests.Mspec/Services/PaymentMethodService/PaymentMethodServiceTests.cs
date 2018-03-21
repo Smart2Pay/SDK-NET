@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Net;
+using System.Net.Http;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
@@ -12,12 +13,13 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
     {
         private static IPaymentMethodService PaymentMethodService;
         private static IHttpClientBuilder HttpClientBuilder;
+        private static HttpClient HttpClient;
+        private static Uri BaseAddress = new Uri(ServiceTestsConstants.BaseUrl);
         private const string CountryCode = "DE";
 
         private static void InitializeClientBuilder()
         {
-            HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.AuthenticationConfiguration)
-                .WithBaseAddress(new Uri(ServiceTestsConstants.BaseUrl));
+            HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.AuthenticationConfiguration);
         }
 
         [Subject(typeof(PaymentMethodService))]
@@ -28,7 +30,8 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
 
             private Establish context = () => {
                 InitializeClientBuilder();
-                PaymentMethodService = new PaymentMethodService(HttpClientBuilder);
+                HttpClient = HttpClientBuilder.Build();
+                PaymentMethodService = new PaymentMethodService(HttpClient, BaseAddress);
             };
 
             private Because of = () => {
@@ -36,7 +39,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
             };
 
             private Cleanup after = () => {
-                PaymentMethodService.Dispose();
+                HttpClient.Dispose();
             };
 
             private It should_be_successful = () => {
@@ -59,7 +62,8 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
 
             private Establish context = () => {
                 InitializeClientBuilder();
-                PaymentMethodService = new PaymentMethodService(HttpClientBuilder);
+                HttpClient = HttpClientBuilder.Build();
+                PaymentMethodService = new PaymentMethodService(HttpClient, BaseAddress);
             };
 
             private Because of = () => {
@@ -67,7 +71,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
             };
 
             private Cleanup after = () => {
-                PaymentMethodService.Dispose();
+                HttpClient.Dispose();
             };
 
             private It should_be_successful = () => {
@@ -90,7 +94,8 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
 
             private Establish context = () => {
                 InitializeClientBuilder();
-                PaymentMethodService = new PaymentMethodService(HttpClientBuilder);
+                HttpClient = HttpClientBuilder.Build();
+                PaymentMethodService = new PaymentMethodService(HttpClient, BaseAddress);
             };
 
             private Because of = () => {
@@ -98,7 +103,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
             };
 
             private Cleanup after = () => {
-                PaymentMethodService.Dispose();
+                HttpClient.Dispose();
             };
 
             private It should_be_successful = () => {
@@ -121,7 +126,8 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
 
             private Establish context = () => {
                 InitializeClientBuilder();
-                PaymentMethodService = new PaymentMethodService(HttpClientBuilder);
+                HttpClient = HttpClientBuilder.Build();
+                PaymentMethodService = new PaymentMethodService(HttpClient, BaseAddress);
             };
 
             private Because of = () => {
@@ -129,7 +135,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
             };
 
             private Cleanup after = () => {
-                PaymentMethodService.Dispose();
+                HttpClient.Dispose();
             };
 
             private It should_be_successful = () => {
@@ -152,7 +158,8 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
 
             private Establish context = () => {
                 InitializeClientBuilder();
-                PaymentMethodService = new PaymentMethodService(HttpClientBuilder);
+                HttpClient = HttpClientBuilder.Build();
+                PaymentMethodService = new PaymentMethodService(HttpClient, BaseAddress);
             };
 
             private Because of = () => {
@@ -160,7 +167,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
             };
 
             private Cleanup after = () => {
-                PaymentMethodService.Dispose();
+                HttpClient.Dispose();
             };
 
             private It should_be_successful = () => {

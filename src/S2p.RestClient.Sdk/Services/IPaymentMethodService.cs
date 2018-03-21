@@ -1,12 +1,11 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
 
 namespace S2p.RestClient.Sdk.Services
 {
-    public interface IPaymentMethodService : IDisposable
+    public interface IPaymentMethodService 
     {
         Task<ApiResult<ApiPaymentMethodResponse>> GetPaymentMethodAsync(string paymentMethodId,
             CancellationToken cancellationToken);
