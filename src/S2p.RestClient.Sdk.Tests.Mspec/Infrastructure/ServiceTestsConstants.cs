@@ -1,6 +1,6 @@
 ﻿using S2p.RestClient.Sdk.Infrastructure.Authentication;
 
-namespace S2p.RestClient.Sdk.Tests.Mspec.Services
+namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
 {
     public class ServiceTestsConstants
     {
