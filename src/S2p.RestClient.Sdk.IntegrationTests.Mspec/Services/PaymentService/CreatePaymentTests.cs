@@ -7,7 +7,7 @@ using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
 using S2p.RestClient.Sdk.Services;
 
-namespace S2p.RestClient.Sdk.Tests.Mspec.Services
+namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
 {
     public partial class PaymentServiceTests
     {
@@ -26,13 +26,13 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Services
         }
 
 
-        [Subject(typeof(PaymentService))]
+        [Subject(typeof(Sdk.Services.PaymentService))]
         public class When_creating_a_payment
         {
             private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PaymentService = new PaymentService(HttpClient, BaseAddress);
+                PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
             };
 
             private Because of = () => {

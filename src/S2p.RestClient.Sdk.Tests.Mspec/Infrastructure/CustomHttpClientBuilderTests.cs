@@ -11,7 +11,6 @@ using S2p.RestClient.Sdk.Infrastructure;
 using S2p.RestClient.Sdk.Infrastructure.Authentication;
 using S2p.RestClient.Sdk.Infrastructure.Extensions;
 using S2p.RestClient.Sdk.Infrastructure.Resilience;
-using S2p.RestClient.Sdk.Tests.Mspec.Services;
 
 namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
 {

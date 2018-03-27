@@ -7,7 +7,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{815B6166-0DB9-4B65-B8BB-434D45AED7E8}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <RootNamespace>S2p.RestClient.Sdk.IntegrationTests.Mspec</RootNamespace>
     <AssemblyName>S2p.RestClient.Sdk.IntegrationTests.Mspec</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
@@ -34,6 +34,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core, Version=4.0.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
@@ -90,10 +93,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\PaymentMethodService\PaymentMethodServiceTests.cs" />
+    <Compile Include="Services\PaymentService\CreatePaymentBadRequestTests.cs" />
+    <Compile Include="Services\PaymentService\CreatePaymentTests.cs" />
+    <Compile Include="Services\ServiceTestsConstants.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\S2p.RestClient.Sdk\S2p.RestClient.Sdk.csproj">
+      <Project>{16b30134-b1c4-4804-a90c-46312d4d0f3d}</Project>
+      <Name>S2p.RestClient.Sdk</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
