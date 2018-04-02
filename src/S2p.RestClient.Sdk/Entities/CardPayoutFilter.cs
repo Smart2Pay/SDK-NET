@@ -22,6 +22,13 @@ namespace S2p.RestClient.Sdk.Entities
             set => Set(nameof(startDate), value);
         }
 
+        public DateTime? endDate
+        {
+            get => GetOrAddDefault<DateTime?>(nameof(endDate));
+            set => Set(nameof(endDate), value);
+        }
+
+
         public string country
         {
             get => GetOrAddDefault<string>(nameof(country));
