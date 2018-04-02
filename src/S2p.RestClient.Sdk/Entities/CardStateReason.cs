@@ -2,7 +2,7 @@
 {
     public class CardStateReason
     {
-        public string Code { get; set; }
+        public int? Code { get; set; }
         public string Info { get; set; }
     }
 }

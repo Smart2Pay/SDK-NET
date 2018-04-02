@@ -10,7 +10,7 @@ namespace S2p.RestClient.Sdk.Entities
         public int? SiteID { get; set; }
         public string Created { get; set; }
         public string MerchantTransactionID { get; set; }
-        public string Amount { get; set; }
+        public long? Amount { get; set; }
         public string Currency { get; set; }
         public string Description { get; set; }
         public string StatementDescriptor { get; set; }
