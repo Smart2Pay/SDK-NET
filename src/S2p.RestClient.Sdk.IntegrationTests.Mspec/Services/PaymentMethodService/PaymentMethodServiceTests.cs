@@ -277,14 +277,15 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentMethodServic
         [Behaviors]
         public class MethodListBehavior
         {
-            protected static Tuple<ApiResult<ApiPaymentMethodListResponse>, int> TupleResult;
+            protected static ApiResult<ApiPaymentMethodListResponse> ApiResult;
 
-            private It should_have_expected_number_of_methods = () => {
-                TupleResult.Item1.Value.Methods.Count.ShouldEqual(TupleResult.Item2);
+            private It should_have_expected_number_of_methods = () =>
+            {
+                ApiResult.Value.Methods.Count.ShouldBeGreaterThan(0);
             };
 
             private It should_have_distinct_and_positive_method_ids = () => {
-                TupleResult.Item1.Value.Methods.Select(m => m.ID).Where(i => i > 0).Distinct().Count().ShouldEqual(TupleResult.Item2);
+                ApiResult.Value.Methods.Select(m => m.ID).Distinct().Where(i => i == 0 || i <= 0 ).Count().ShouldEqual(0);
             };
         }
     }
