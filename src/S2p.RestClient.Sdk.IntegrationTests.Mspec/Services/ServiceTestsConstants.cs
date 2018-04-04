@@ -8,8 +8,8 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services
         public const string PaymentBaseUrl = "https://paytest.smart2pay.com";
         public static readonly AuthenticationConfiguration PaymentAuthenticationConfiguration = new AuthenticationConfiguration
         {
-            SiteId = 30201,
-            ApiKey = "hJ5RobYx9r7FfNwCvHY9LXHqqr+FEzrc7aJvQQk4Gaz1mg7Ryy"
+            SiteId = 45614,
+            ApiKey = "rAwLLh3rQk3uNTOPHpqydrEOdAGsRzZChCd4uyXsXoGE2tkoYA"
         };
         public const string PayoutBaseUrl = "https://securetest.smart2pay.com";
         public static readonly AuthenticationConfiguration PayoutAuthenticationConfiguration = new AuthenticationConfiguration
