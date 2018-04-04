@@ -211,7 +211,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentMethodServic
         [Subject(typeof(Sdk.Services.PaymentMethodService))]
         public class When_requesting_assigned_payment_methods
         {
-            const int ExpectedMethodNumber = 141;
+            const int ExpectedMethodNumber = 143;
             protected static Tuple<ApiResult<ApiPaymentMethodListResponse>, int> TupleResult;
             protected static ApiResult<ApiPaymentMethodListResponse> ApiResult;
 
@@ -244,7 +244,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentMethodServic
         [Subject(typeof(Sdk.Services.PaymentMethodService))]
         public class When_requesting_assigned_payment_methods_by_country
         {
-            const int ExpectedMethodNumber = 13;
+            const int ExpectedMethodNumber = 15;
             protected static ApiResult<ApiPaymentMethodListResponse> ApiResult;
             protected static Tuple<ApiResult<ApiPaymentMethodListResponse>, int> TupleResult; 
 
