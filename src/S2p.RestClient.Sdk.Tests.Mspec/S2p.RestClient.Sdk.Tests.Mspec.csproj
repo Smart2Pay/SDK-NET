@@ -96,6 +96,7 @@
     <Compile Include="Infrastructure\RetryTests.cs" />
     <Compile Include="Infrastructure\ServiceTestsConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\AddressValidatorTests.cs" />
     <Compile Include="Validation\DummyClass.cs" />
     <Compile Include="Validation\DummyClassValidator.cs" />
     <Compile Include="Validation\DummyEnumerableClass.cs" />

@@ -103,7 +103,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
             private Establish context = () => {
                 dummyWrapperClass = new DummyWrapperClass();
                 dummyWrapperClassValidator = new DummyWrapperClassValidatorNotNull();
-            };
+            }; 
 
             private Because of = () => { validationResult = dummyWrapperClassValidator.Validate(dummyWrapperClass); };
 

@@ -7,6 +7,9 @@ namespace S2p.RestClient.Sdk.Entities
 {
     public class AddressValidator : AbstractValidator<Address>
     {
+        internal static readonly string CityValidationText = Operator.InvalidPropertyMessage<Address>(x => x.City, ValidationRegexConstants.City);
+        internal static readonly string CountryValidationText = Operator.InvalidPropertyMessage<Address>(x => x.Country, ValidationRegexConstants.Country);
+
         public AddressValidator()
         {
             AddRuleFor(x => x.ID)
