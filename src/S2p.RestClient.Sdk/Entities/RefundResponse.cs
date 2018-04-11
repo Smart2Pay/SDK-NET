@@ -10,7 +10,7 @@ namespace S2p.RestClient.Sdk.Entities
         public string MerchantTransactionID { get; set; }
         public string OriginatorTransactionID { get; set; }
         public int InitialPaymentID { get; set; }
-        public string Amount { get; set; }
+        public long? Amount { get; set; }
         public string Currency { get; set; }
         public string Description { get; set; }
         public int TypeID { get; set; }
@@ -20,7 +20,6 @@ namespace S2p.RestClient.Sdk.Entities
         public Address BillingAddress { get; set; }
         public Address BankAddress { get; set; }
         public List<Article> Articles { get; set; }
-        [JsonProperty("Status")]
-        public PaymentStateDetails PaymentStateDetails { get; set; }
+        public PaymentStateDetails Status { get; set; }
     }
 }

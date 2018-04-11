@@ -11,7 +11,7 @@ namespace S2p.RestClient.Sdk.Entities
         public string MerchantTransactionID { get; set; }
         public string OriginatorTransactionID { get; set; }
         [JsonRequired]
-        public string Amount { get; set; }
+        public long Amount { get; set; }
         [JsonRequired]
         public string Currency { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

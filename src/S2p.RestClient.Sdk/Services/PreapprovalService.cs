@@ -65,7 +65,7 @@ namespace S2p.RestClient.Sdk.Services
             return GetPreapprovalListAsync(CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiPaymentListResponse>> GetPreapprovalPaymnetsAsync(string globalPayPreapprovalId,
+        public Task<ApiResult<ApiPaymentListResponse>> GetPreapprovalPaymentsAsync(string globalPayPreapprovalId,
             CancellationToken cancellationToken)
         {
             globalPayPreapprovalId.ThrowIfNullOrWhiteSpace(nameof(globalPayPreapprovalId));
@@ -76,9 +76,9 @@ namespace S2p.RestClient.Sdk.Services
             return HttpClient.InvokeAsync<ApiPaymentListResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiPaymentListResponse>> GetPreapprovalPaymnetsAsync(string globalPayPreapprovalId)
+        public Task<ApiResult<ApiPaymentListResponse>> GetPreapprovalPaymentsAsync(string globalPayPreapprovalId)
         {
-            return GetPreapprovalPaymnetsAsync(globalPayPreapprovalId, CancellationToken.None);
+            return GetPreapprovalPaymentsAsync(globalPayPreapprovalId, CancellationToken.None);
         }
 
         #endregion

@@ -4,11 +4,11 @@ using System.Text;
 
 namespace S2p.RestClient.Sdk.Entities
 {
-    public static class CardPaymentStateDefinition
+    public static class CardPaymentStatusDefinition
     {
         public const byte Open = 1;
         public const byte Success = 2;
-        public const byte Canceled = 3;
+        public const byte Cancelled = 3;
         public const byte Failed = 4;
         public const byte Expired = 5;
         public const byte PendingOnProvider = 7;

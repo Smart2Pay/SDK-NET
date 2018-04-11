@@ -1,6 +1,6 @@
 ﻿namespace S2p.RestClient.Sdk.Entities
 {
-   public static class PaymentStateDefinition
+   public static class PaymentStatusDefinition
     {
         public const byte Open = 1;
         public const byte Success = 2;

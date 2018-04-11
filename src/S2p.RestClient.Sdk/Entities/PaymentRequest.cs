@@ -10,7 +10,7 @@ namespace S2p.RestClient.Sdk.Entities
         public string ClientIP { get; set; }
         public string MerchantTransactionID { get; set; }
         public string OriginatorTransactionID { get; set; }
-        public string Amount { get; set; }
+        public long Amount { get; set; }
         public string Currency { get; set; }
         public string ReturnURL { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

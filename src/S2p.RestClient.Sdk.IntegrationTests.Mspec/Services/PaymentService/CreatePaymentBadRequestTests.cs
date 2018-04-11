@@ -23,7 +23,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
                     Payment = new PaymentRequest
                     {
                         MerchantTransactionID = PaymentServiceTests.MerchantTransactionID,
-                        Amount = 11.ToString(CultureInfo.InvariantCulture),
+                        Amount = 11,
                         Currency = "CNY",
                         MethodID = 1066,
                         ReturnURL = "http://demo.smart2pay.com/redirect.php",
