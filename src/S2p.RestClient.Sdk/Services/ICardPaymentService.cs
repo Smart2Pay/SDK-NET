@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
@@ -11,6 +12,18 @@ namespace S2p.RestClient.Sdk.Services
             CancellationToken cancellationToken);
 
         Task<ApiResult<ApiCardPaymentStatusResponse>> GetPaymentStatusAsync(string globalPayPaymentId);
+
+        Task<ApiResult<ApiCardPaymentResponse>> GetPaymentAsync(string globalPayPaymentId,
+            CancellationToken cancellationToken);
+
+        Task<ApiResult<ApiCardPaymentResponse>> GetPaymentAsync(string globalPayPaymentId);
+        Task<ApiResult<ApiCardPaymentListResponse>> GetPaymentListAsync(CancellationToken cancellationToken);
+        Task<ApiResult<ApiCardPaymentListResponse>> GetPaymentListAsync();
+
+        Task<ApiResult<ApiCardPaymentListResponse>> GetPaymentListAsync(CardPaymentsFilter filter,
+            CancellationToken cancellationToken);
+
+        Task<ApiResult<ApiCardPaymentListResponse>> GetPaymentListAsync(CardPaymentsFilter filter);
 
         Task<ApiResult<ApiCardPaymentResponse>> InitiatePaymentAsync(ApiCardPaymentRequest paymentRequest,
             CancellationToken cancellationToken);
@@ -35,16 +48,16 @@ namespace S2p.RestClient.Sdk.Services
         Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId,
             string idempotencyToken);
 
-        Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId, int amount,
+        Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId, long amount,
             CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId, int amount);
+        Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId, long amount);
 
         Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId,
-            int amount, string idempotencyToken, CancellationToken cancellationToken);
+            long amount, string idempotencyToken, CancellationToken cancellationToken);
 
         Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId,
-            int amount, string idempotencyToken);
+            long amount, string idempotencyToken);
 
         Task<ApiResult<ApiCardPaymentResponse>> CancelPaymentAsync(string globalPayPaymentId,
             CancellationToken cancellationToken);
@@ -79,5 +92,7 @@ namespace S2p.RestClient.Sdk.Services
 
         Task<ApiResult<ApiCardPaymentResponse>> RejectChallengeAsync(string globalPayPaymentId,
             string idempotencyToken);
+
+        Uri BaseAddress { get; }
     }
 }

@@ -14,16 +14,15 @@ namespace S2p.RestClient.Sdk.Entities
         public string Created { get; set; }
         public string MerchantTransactionID { get; set; }
         public string OriginatorTransactionID { get; set; }
-        public string Amount { get; set; }
+        public long? Amount { get; set; }
         public string Currency { get; set; }
-        public string CapturedAmount { get; set; }
+        public long? CapturedAmount { get; set; }
         public string ReturnURL { get; set; }
         public string Description { get; set; }
         public string StatementDescriptor { get; set; }
         public int MethodID => 6; 
         public int? MethodOptionID { get; set; }
-        [JsonProperty("SiteID")]
-        public int? MerchantSiteID { get; set; }
+        public int? SiteID { get; set; }
         public string NotificationDateTime { get; set; }
         public Customer Customer { get; set; }
         public Address BillingAddress { get; set; }

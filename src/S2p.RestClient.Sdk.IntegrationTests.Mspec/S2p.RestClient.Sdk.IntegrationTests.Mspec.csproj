@@ -93,10 +93,51 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CardPaymentService\AcceptChallengeTests.cs" />
+    <Compile Include="Services\CardPaymentService\CancelPaymentTests.cs" />
+    <Compile Include="Services\CardPaymentService\GetCardPaymentDetails.cs" />
+    <Compile Include="Services\CardPaymentService\GetCardPaymentListFilteredByCountry.cs" />
+    <Compile Include="Services\CardPaymentService\GetCardPaymentListFilteredByCurrency.cs" />
+    <Compile Include="Services\CardPaymentService\GetCardPaymentListFilteredByDate.cs" />
+    <Compile Include="Services\CardPaymentService\GetCardPaymentListFilteredByMerchantTransactionId.cs" />
+    <Compile Include="Services\CardPaymentService\GetCardPaymentListFilteredByLimitAndOffset .cs" />
+    <Compile Include="Services\CardPaymentService\GetCardPaymentListFilteredByStatus.cs" />
+    <Compile Include="Services\CardPaymentService\GetCardPaymentListTests.cs" />
+    <Compile Include="Services\CardPaymentService\GetCardPaymentStatus.cs" />
+    <Compile Include="Services\CardPaymentService\PartialCaptureAndRefundTests.cs" />
+    <Compile Include="Services\CardPaymentService\CaptureAndRefundTests.cs" />
+    <Compile Include="Services\CardPaymentService\CreatePaymentWith3DSecureTests.cs" />
+    <Compile Include="Services\CardPaymentService\CreatePaymentWithCardDetailsTests.cs" />
+    <Compile Include="Services\CardPaymentService\CreatePaymentWithoutCardDetails.cs" />
+    <Compile Include="Services\CardPaymentService\CreatePaymentWithoutCVVTests.cs" />
+    <Compile Include="Services\CardPaymentService\CreatePaymentWithTokenTests.cs" />
+    <Compile Include="Services\CardPaymentService\RecurringCardPayments.cs" />
+    <Compile Include="Services\CardPaymentService\RejectChallengeTests.cs" />
     <Compile Include="Services\PaymentMethodService\PaymentMethodServiceTests.cs" />
+    <Compile Include="Services\PaymentService\CancelPaymentTests.cs" />
+    <Compile Include="Services\PaymentService\CapturePaymentTests.cs" />
     <Compile Include="Services\PaymentService\CreatePaymentBadRequestTests.cs" />
-    <Compile Include="Services\PaymentService\CreatePaymentTests.cs" />
+    <Compile Include="Services\PaymentService\CreatePaymentTestsPaysafecard.cs" />
+    <Compile Include="Services\PaymentService\CreatePaymentTestsSkrill1Tap.cs" />
+    <Compile Include="Services\PaymentService\CreatePaymentTestsBankTransfer.cs" />
+    <Compile Include="Services\PaymentService\CreatePaymentTestsWeChat.cs" />
+    <Compile Include="Services\PaymentService\GetPaymentListFilteredByCountry.cs" />
+    <Compile Include="Services\PaymentService\GetPaymentListFilteredByCurrency.cs" />
+    <Compile Include="Services\PaymentService\GetPaymentListFilteredByDate.cs" />
+    <Compile Include="Services\PaymentService\GetPaymentDetails.cs" />
+    <Compile Include="Services\PaymentService\GetPaymentListFilteredByMerchantTransactionId.cs" />
+    <Compile Include="Services\PaymentService\GetPaymentListFilteredByMethodId.cs" />
+    <Compile Include="Services\PaymentService\GetPaymentListFilteredByStatus.cs" />
+    <Compile Include="Services\PaymentService\GetPaymentListTests.cs" />
+    <Compile Include="Services\PaymentService\InvalidRefundTests.cs" />
+    <Compile Include="Services\PaymentService\PartialRefundPaymentTests.cs" />
+    <Compile Include="Services\PaymentService\RefundPaymentTests.cs" />
     <Compile Include="Services\PayoutService\PayoutServiceTests.cs" />
+    <Compile Include="Services\PreapprovalService\GetPreapprovalDetails.cs" />
+    <Compile Include="Services\PreapprovalService\GetPreapprovalListTests.cs" />
+    <Compile Include="Services\PreapprovalService\PreapprovalServiceTests.cs" />
+    <Compile Include="Services\PreapprovalService\RecurringPaymentTests.cs" />
+    <Compile Include="Services\PreapprovalService\UpdatePreapprovalTests.cs" />
     <Compile Include="Services\ServiceTestsConstants.cs" />
   </ItemGroup>
   <ItemGroup>

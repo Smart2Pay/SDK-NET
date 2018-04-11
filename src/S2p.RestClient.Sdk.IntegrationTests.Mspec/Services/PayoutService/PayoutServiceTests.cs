@@ -43,7 +43,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
                     {
                         MerchantTransactionID = Guid.NewGuid().ToString(),
                         Amount = 1000,
-                        Currency = "EUR",
+                        Currency = "USD",
                         Description = "Card SDK Test Payout",
                         BillingAddress = new Address
                         {
@@ -98,11 +98,11 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             };
 
             private It should_have_correct_status_id = () => {
-                ApiResult.Value.Payout.Status.ID.ShouldEqual(CardPaymentStateDefinition.Success);
+                ApiResult.Value.Payout.Status.ID.ShouldEqual(CardPaymentStatusDefinition.Success);
             };
 
             private It should_have_correct_status_info = () => {
-                ApiResult.Value.Payout.Status.Info.ShouldEqual(nameof(CardPaymentStateDefinition.Success));
+                ApiResult.Value.Payout.Status.Info.ShouldEqual(nameof(CardPaymentStatusDefinition.Success));
             };
         }
 
@@ -128,7 +128,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
                         Card = new CardDetailsRequest
                         {
                             HolderName = "John Doe",
-                            Number = "4111111111111111",
+                            Number = "4548812049400004",
                             ExpirationMonth = "02",
                             ExpirationYear = "2020"
                         }
@@ -167,11 +167,11 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             };
 
             private It should_have_correct_status_id = () => {
-                ApiResult.Value.Payout.Status.ID.ShouldEqual(CardPaymentStateDefinition.Success);
+                ApiResult.Value.Payout.Status.ID.ShouldEqual(CardPaymentStatusDefinition.Success);
             };
 
             private It should_have_correct_status_info = () => {
-                ApiResult.Value.Payout.Status.Info.ShouldEqual(nameof(CardPaymentStateDefinition.Success));
+                ApiResult.Value.Payout.Status.Info.ShouldEqual(nameof(CardPaymentStatusDefinition.Success));
             };
         }
 
@@ -203,11 +203,11 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private It should_have_not_null_id = () => { ApiResult.Value.PayoutStatus.ID.ShouldNotBeNull(); };
 
             private It should_have_correct_status_id = () => {
-                ApiResult.Value.PayoutStatus.Status.ID.ShouldEqual(CardPaymentStateDefinition.Success);
+                ApiResult.Value.PayoutStatus.Status.ID.ShouldEqual(CardPaymentStatusDefinition.Success);
             };
 
             private It should_have_correct_status_info = () => {
-                ApiResult.Value.PayoutStatus.Status.Info.ShouldEqual(nameof(CardPaymentStateDefinition.Success));
+                ApiResult.Value.PayoutStatus.Status.Info.ShouldEqual(nameof(CardPaymentStatusDefinition.Success));
             };
 
             private It should_have_empty_reasons = () => {
@@ -244,11 +244,11 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private It should_have_not_null_id = () => { ApiResult.Value.PayoutStatus.ID.ShouldNotBeNull(); };
 
             private It should_have_correct_status_id = () => {
-                ApiResult.Value.PayoutStatus.Status.ID.ShouldEqual(CardPaymentStateDefinition.Failed);
+                ApiResult.Value.PayoutStatus.Status.ID.ShouldEqual(CardPaymentStatusDefinition.Failed);
             };
 
             private It should_have_correct_status_info = () => {
-                ApiResult.Value.PayoutStatus.Status.Info.ShouldEqual(nameof(CardPaymentStateDefinition.Failed));
+                ApiResult.Value.PayoutStatus.Status.Info.ShouldEqual(nameof(CardPaymentStatusDefinition.Failed));
             };
 
             private It should_have_at_least_reasons = () => {
@@ -402,11 +402,11 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             };
 
             private It should_have_correct_status_id = () => {
-                ApiResult.Value.Payout.Status.ID.ShouldEqual(CardPaymentStateDefinition.Failed);
+                ApiResult.Value.Payout.Status.ID.ShouldEqual(CardPaymentStatusDefinition.Failed);
             };
 
             private It should_have_correct_status_info = () => {
-                ApiResult.Value.Payout.Status.Info.ShouldEqual(nameof(CardPaymentStateDefinition.Failed));
+                ApiResult.Value.Payout.Status.Info.ShouldEqual(nameof(CardPaymentStatusDefinition.Failed));
             };
         }
 
@@ -459,11 +459,11 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private It should_have_correct_currency = () => { ApiResult.Value.Payout.Currency.ShouldEqual(currency); };
 
             private It should_have_correct_status_id = () => {
-                ApiResult.Value.Payout.Status.ID.ShouldEqual(CardPaymentStateDefinition.Success);
+                ApiResult.Value.Payout.Status.ID.ShouldEqual(CardPaymentStatusDefinition.Success);
             };
 
             private It should_have_correct_status_info = () => {
-                ApiResult.Value.Payout.Status.Info.ShouldEqual(nameof(CardPaymentStateDefinition.Success));
+                ApiResult.Value.Payout.Status.Info.ShouldEqual(nameof(CardPaymentStatusDefinition.Success));
             };
 
             private It should_have_empty_reasons = () => {
@@ -517,11 +517,11 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private It should_have_correct_currency = () => { ApiResult.Value.Payout.Currency.ShouldEqual(currency); };
 
             private It should_have_correct_status_id = () => {
-                ApiResult.Value.Payout.Status.ID.ShouldEqual(CardPaymentStateDefinition.Failed);
+                ApiResult.Value.Payout.Status.ID.ShouldEqual(CardPaymentStatusDefinition.Failed);
             };
 
             private It should_have_correct_status_info = () => {
-                ApiResult.Value.Payout.Status.Info.ShouldEqual(nameof(CardPaymentStateDefinition.Failed));
+                ApiResult.Value.Payout.Status.Info.ShouldEqual(nameof(CardPaymentStatusDefinition.Failed));
             };
 
             private It should_have_at_least_ones_reasons = () => {
