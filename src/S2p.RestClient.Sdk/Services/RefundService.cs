@@ -10,9 +10,9 @@ namespace S2p.RestClient.Sdk.Services
 {
     public class RefundService : ServiceBase, IRefundService
     {
-        private const string RefundUrlFormat = "/v1/payments/{0}/refunds";
-        private const string RefundTypesFormat = "/v1/refunds/types/{0}/{1}/{2}";
-
+        private const string RefundUrlFormat  = "/v1/payments/{0}/refunds";
+        private const string RefundTypesUrlFormat = "/v1/refunds/types/{0}/{1}/{2}";
+        
         public RefundService(HttpClient httpClient, Uri baseAddress) : base(httpClient, baseAddress) { }
 
         #region GetRefund
@@ -25,12 +25,19 @@ namespace S2p.RestClient.Sdk.Services
             return uri;
         }
 
+        private Uri GetRefundStatusUri(string globalPayPaymentId, string globalPayRefundId)
+        {
+            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            globalPayRefundId.ThrowIfNullOrWhiteSpace(nameof(globalPayRefundId));
+            return new Uri(String.Concat(GetRefundsUri(globalPayPaymentId), "/", globalPayRefundId.UrlEncoded(), "//status"));
+        }
+
         private Uri GetRefundsUri(string globalPayPaymentId, string globalPayRefundId)
         {
             globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
             globalPayRefundId.ThrowIfNullOrWhiteSpace(nameof(globalPayRefundId));
 
-            return new Uri(GetRefundsUri(globalPayPaymentId), globalPayRefundId.UrlEncoded());
+            return new Uri(String.Concat(GetRefundsUri(globalPayPaymentId), "/", globalPayRefundId.UrlEncoded()));
         }
 
         public Task<ApiResult<ApiRefundResponse>> GetRefundAsync(string globalPayPaymentId, string globalPayRefundId,
@@ -50,7 +57,7 @@ namespace S2p.RestClient.Sdk.Services
             return GetRefundAsync(globalPayPaymentId, globalPayRefundId, CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiRefundListResponse>> GetRefundAsync(string globalPayPaymentId, CancellationToken cancellationToken)
+        public Task<ApiResult<ApiRefundListResponse>> GetRefundListAsync(string globalPayPaymentId, CancellationToken cancellationToken)
         {
             globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
@@ -60,9 +67,26 @@ namespace S2p.RestClient.Sdk.Services
             return HttpClient.InvokeAsync<ApiRefundListResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiRefundListResponse>> GetRefundAsync(string globalPayPaymentId)
+        public Task<ApiResult<ApiRefundListResponse>> GetRefundListAsync(string globalPayPaymentId)
         {
-            return GetRefundAsync(globalPayPaymentId, CancellationToken.None);
+            return GetRefundListAsync(globalPayPaymentId, CancellationToken.None);
+        }
+
+        public Task<ApiResult<ApiCardRefundStatusResponse>> GetRefundStatusAsync(string globalPayPaymentId, string globalPayRefundId, 
+            CancellationToken cancellationToken)
+        {
+            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            globalPayRefundId.ThrowIfNullOrWhiteSpace(nameof(globalPayRefundId));
+            cancellationToken.ThrowIfNull(nameof(cancellationToken));
+
+            var uri = GetRefundStatusUri(globalPayPaymentId, globalPayRefundId);
+            var request = new HttpRequestMessage(HttpMethod.Get, uri);
+            return HttpClient.InvokeAsync<ApiCardRefundStatusResponse>(request, cancellationToken);
+        }
+
+        public Task<ApiResult<ApiCardRefundStatusResponse>> GetRefundStatusAsync(string globalPayPaymentId, string globalPayRefundId)
+        {
+            return GetRefundStatusAsync(globalPayPaymentId, globalPayRefundId, CancellationToken.None);
         }
 
         #endregion
@@ -115,7 +139,7 @@ namespace S2p.RestClient.Sdk.Services
 
         private Uri GetRefundTypesUri(string globalPayPaymentId)
         {
-            return new Uri(GetRefundsUri(globalPayPaymentId), "/types");
+            return new Uri(String.Concat(GetRefundsUri(globalPayPaymentId),"/types"));
         }
 
         private Uri GetRefundTypesUri(string globalPayPaymentMethodId, string countryCode,
@@ -126,7 +150,7 @@ namespace S2p.RestClient.Sdk.Services
             currency.ThrowIfNullOrWhiteSpace(nameof(currency));
 
             return new Uri(BaseAddress,
-                string.Format(RefundTypesFormat, globalPayPaymentMethodId.UrlEncoded(), countryCode.UrlEncoded()
+                string.Format(RefundTypesUrlFormat, globalPayPaymentMethodId.UrlEncoded(), countryCode.UrlEncoded()
                     , currency.UrlEncoded()));
         }
 
@@ -165,7 +189,7 @@ namespace S2p.RestClient.Sdk.Services
         {
             return GetRefundTypesAsync(globalPayPaymentMethodId, countryCode, currency, CancellationToken.None);
         }
-
+        
         #endregion
     }
 }

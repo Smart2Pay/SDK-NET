@@ -138,6 +138,13 @@
     <Compile Include="Services\PreapprovalService\PreapprovalServiceTests.cs" />
     <Compile Include="Services\PreapprovalService\RecurringPaymentTests.cs" />
     <Compile Include="Services\PreapprovalService\UpdatePreapprovalTests.cs" />
+    <Compile Include="Services\RefundService\PaymentsGetRefundListForPayment.cs" />
+    <Compile Include="Services\RefundService\CardPaymentsGetRefundListForPayment.cs" />
+    <Compile Include="Services\RefundService\CardPaymentsGetRefundStatus.cs" />
+    <Compile Include="Services\RefundService\CardPaymentsGetRefundDetails.cs" />
+    <Compile Include="Services\RefundService\PaymentsGetRefundDetails.cs" />
+    <Compile Include="Services\RefundService\PaymentsGetRefundTypesFiltered.cs" />
+    <Compile Include="Services\RefundService\PaymentsGetRefundTypes.cs" />
     <Compile Include="Services\ServiceTestsConstants.cs" />
   </ItemGroup>
   <ItemGroup>

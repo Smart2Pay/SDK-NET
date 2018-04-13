@@ -17,7 +17,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
         public class When_a_native_refund_is_performend_for_a_payment
         {
 
-            private static RefundService RefundService { get; set; }
+            private static Sdk.Services.RefundService RefundService { get; set; }
             private static ApiRefundRequest RefundRequest { get; set; }
             private static ApiResult<ApiRefundResponse> RefundApiResult { get; set; }
 
