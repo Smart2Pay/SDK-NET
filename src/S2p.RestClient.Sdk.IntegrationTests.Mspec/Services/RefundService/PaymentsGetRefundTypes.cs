@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
@@ -19,7 +16,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.RefundService
         private static IHttpClientBuilder HttpClientBuilder;
         private static HttpClient HttpClient;
         private static Uri BaseAddress = new Uri(ServiceTestsConstants.PaymentBaseUrl);
-        public const string PaymentId = "3708827";
+        public const long PaymentId = 3708827;
 
         private static void InitializeClientBuilder()
         {

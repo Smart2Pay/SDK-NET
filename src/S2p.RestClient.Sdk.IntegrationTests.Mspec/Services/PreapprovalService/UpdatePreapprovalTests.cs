@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
-using S2p.RestClient.Sdk.Services;
 
 namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services
 {
@@ -22,7 +16,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services
         {
             protected static ApiResult<ApiPreapprovalResponse> ApiResult;
             private static ApiPreapprovalRequest PreapprovalRequest;
-            private static long PreapprovalId = 9311;
+            private static int PreapprovalId = 9311;
             private const string MerchantPreapprovalId = "jmt3593334";
 
             private Establish context = () => {
@@ -50,7 +44,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services
             };
 
             private Because of = () => {
-                ApiResult = PreapprovalService.ChangePreapprovalAsync(PreapprovalId.ToString(),PreapprovalRequest).GetAwaiter().GetResult();
+                ApiResult = PreapprovalService.ChangePreapprovalAsync(PreapprovalId,PreapprovalRequest).GetAwaiter().GetResult();
             };
 
             private Cleanup after = () => { HttpClient.Dispose(); };

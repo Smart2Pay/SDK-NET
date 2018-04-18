@@ -7,10 +7,10 @@ namespace S2p.RestClient.Sdk.Services
 {
     public interface IPaymentMethodService 
     {
-        Task<ApiResult<ApiPaymentMethodResponse>> GetPaymentMethodAsync(string paymentMethodId,
+        Task<ApiResult<ApiPaymentMethodResponse>> GetPaymentMethodAsync(short paymentMethodId,
             CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiPaymentMethodResponse>> GetPaymentMethodAsync(string paymentMethodId);
+        Task<ApiResult<ApiPaymentMethodResponse>> GetPaymentMethodAsync(short paymentMethodId);
         Task<ApiResult<ApiPaymentMethodListResponse>> GetPaymentMethodsListAsync(CancellationToken cancellationToken);
         Task<ApiResult<ApiPaymentMethodListResponse>> GetPaymentMethodsListAsync();
 

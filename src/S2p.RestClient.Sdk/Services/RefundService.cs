@@ -17,177 +17,177 @@ namespace S2p.RestClient.Sdk.Services
 
         #region GetRefund
 
-        private Uri GetRefundsUri(string globalPayPaymentId)
+        private Uri GetRefundsUri(long paymentId)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
 
-            var uri = new Uri(BaseAddress, string.Format(RefundUrlFormat, globalPayPaymentId.UrlEncoded()));
+            var uri = new Uri(BaseAddress, string.Format(RefundUrlFormat, paymentId));
             return uri;
         }
 
-        private Uri GetRefundStatusUri(string globalPayPaymentId, string globalPayRefundId)
+        private Uri GetRefundStatusUri(long paymentId, int refundId)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
-            globalPayRefundId.ThrowIfNullOrWhiteSpace(nameof(globalPayRefundId));
-            return new Uri(String.Concat(GetRefundsUri(globalPayPaymentId), "/", globalPayRefundId.UrlEncoded(), "//status"));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
+            refundId.ThrowIfNotCondition(id => id > 0, nameof(refundId));
+            return new Uri(string.Concat(GetRefundsUri(paymentId), "/", refundId, "//status"));
         }
 
-        private Uri GetRefundsUri(string globalPayPaymentId, string globalPayRefundId)
+        private Uri GetRefundsUri(long paymentId, int refundId)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
-            globalPayRefundId.ThrowIfNullOrWhiteSpace(nameof(globalPayRefundId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
+            refundId.ThrowIfNotCondition(id => id > 0, nameof(refundId));
 
-            return new Uri(String.Concat(GetRefundsUri(globalPayPaymentId), "/", globalPayRefundId.UrlEncoded()));
+            return new Uri(string.Concat(GetRefundsUri(paymentId), "/", refundId));
         }
 
-        public Task<ApiResult<ApiRefundResponse>> GetRefundAsync(string globalPayPaymentId, string globalPayRefundId,
+        public Task<ApiResult<ApiRefundResponse>> GetRefundAsync(long paymentId, int refundId,
             CancellationToken cancellationToken)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
-            globalPayRefundId.ThrowIfNullOrWhiteSpace(nameof(globalPayRefundId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
+            refundId.ThrowIfNotCondition(id => id > 0, nameof(refundId));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetRefundsUri(globalPayPaymentId, globalPayRefundId);
+            var uri = GetRefundsUri(paymentId, refundId);
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
             return HttpClient.InvokeAsync<ApiRefundResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiRefundResponse>> GetRefundAsync(string globalPayPaymentId, string globalPayRefundId)
+        public Task<ApiResult<ApiRefundResponse>> GetRefundAsync(long paymentId, int refundId)
         {
-            return GetRefundAsync(globalPayPaymentId, globalPayRefundId, CancellationToken.None);
+            return GetRefundAsync(paymentId, refundId, CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiRefundListResponse>> GetRefundListAsync(string globalPayPaymentId, CancellationToken cancellationToken)
+        public Task<ApiResult<ApiRefundListResponse>> GetRefundListAsync(long paymentId, CancellationToken cancellationToken)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetRefundsUri(globalPayPaymentId);
+            var uri = GetRefundsUri(paymentId);
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
             return HttpClient.InvokeAsync<ApiRefundListResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiRefundListResponse>> GetRefundListAsync(string globalPayPaymentId)
+        public Task<ApiResult<ApiRefundListResponse>> GetRefundListAsync(long paymentId)
         {
-            return GetRefundListAsync(globalPayPaymentId, CancellationToken.None);
+            return GetRefundListAsync(paymentId, CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiCardRefundStatusResponse>> GetRefundStatusAsync(string globalPayPaymentId, string globalPayRefundId, 
+        public Task<ApiResult<ApiCardRefundStatusResponse>> GetRefundStatusAsync(long paymentId, int refundId, 
             CancellationToken cancellationToken)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
-            globalPayRefundId.ThrowIfNullOrWhiteSpace(nameof(globalPayRefundId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
+            refundId.ThrowIfNotCondition(id => id > 0, nameof(refundId));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetRefundStatusUri(globalPayPaymentId, globalPayRefundId);
+            var uri = GetRefundStatusUri(paymentId, refundId);
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
             return HttpClient.InvokeAsync<ApiCardRefundStatusResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiCardRefundStatusResponse>> GetRefundStatusAsync(string globalPayPaymentId, string globalPayRefundId)
+        public Task<ApiResult<ApiCardRefundStatusResponse>> GetRefundStatusAsync(long paymentId, int refundId)
         {
-            return GetRefundStatusAsync(globalPayPaymentId, globalPayRefundId, CancellationToken.None);
+            return GetRefundStatusAsync(paymentId, refundId, CancellationToken.None);
         }
 
         #endregion
 
         #region CreateRefund
 
-        public Task<ApiResult<ApiRefundResponse>> CreateRefundAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiRefundResponse>> CreateRefundAsync(long paymentId,
             ApiRefundRequest refundRequest,
             CancellationToken cancellationToken)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
             refundRequest.ThrowIfNull(nameof(refundRequest));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetRefundsUri(globalPayPaymentId);
+            var uri = GetRefundsUri(paymentId);
             var request = refundRequest.ToHttpRequest(HttpMethod.Post, uri);
             return HttpClient.InvokeAsync<ApiRefundResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiRefundResponse>> CreateRefundAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiRefundResponse>> CreateRefundAsync(long paymentId,
             ApiRefundRequest refundRequest)
         {
-            return CreateRefundAsync(globalPayPaymentId, refundRequest, CancellationToken.None);
+            return CreateRefundAsync(paymentId, refundRequest, CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiRefundResponse>> CreateRefundAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiRefundResponse>> CreateRefundAsync(long paymentId,
             ApiRefundRequest refundRequest,
             string idempotencyToken, CancellationToken cancellationToken)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
             refundRequest.ThrowIfNull(nameof(refundRequest));
             idempotencyToken.ThrowIfNullOrWhiteSpace(nameof(idempotencyToken));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetRefundsUri(globalPayPaymentId);
+            var uri = GetRefundsUri(paymentId);
             var request = refundRequest.ToHttpRequest(HttpMethod.Post, uri);
             return HttpClient.InvokeAsync<ApiRefundResponse>(idempotencyToken, request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiRefundResponse>> CreateRefundAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiRefundResponse>> CreateRefundAsync(long paymentId,
             ApiRefundRequest refundRequest,
             string idempotencyToken)
         {
-            return CreateRefundAsync(globalPayPaymentId, refundRequest, idempotencyToken, CancellationToken.None);
+            return CreateRefundAsync(paymentId, refundRequest, idempotencyToken, CancellationToken.None);
         }
 
         #endregion
 
         #region RefundTypes
 
-        private Uri GetRefundTypesUri(string globalPayPaymentId)
+        private Uri GetRefundTypesUri(long paymentId)
         {
-            return new Uri(String.Concat(GetRefundsUri(globalPayPaymentId),"/types"));
+            return new Uri(string.Concat(GetRefundsUri(paymentId),"/types"));
         }
 
-        private Uri GetRefundTypesUri(string globalPayPaymentMethodId, string countryCode,
+        private Uri GetRefundTypesUri(short paymentMethodId, string countryCode,
             string currency)
         {
-            globalPayPaymentMethodId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentMethodId));
+            paymentMethodId.ThrowIfNotCondition(id => id > 0, nameof(paymentMethodId));
             countryCode.ThrowIfNullOrWhiteSpace(nameof(countryCode));
             currency.ThrowIfNullOrWhiteSpace(nameof(currency));
 
             return new Uri(BaseAddress,
-                string.Format(RefundTypesUrlFormat, globalPayPaymentMethodId.UrlEncoded(), countryCode.UrlEncoded()
+                string.Format(RefundTypesUrlFormat, paymentMethodId, countryCode.UrlEncoded()
                     , currency.UrlEncoded()));
         }
 
-        public Task<ApiResult<ApiRefundTypeListResponse>> GetRefundTypesAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiRefundTypeListResponse>> GetRefundTypesAsync(long paymentId,
             CancellationToken cancellationToken)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetRefundTypesUri(globalPayPaymentId);
+            var uri = GetRefundTypesUri(paymentId);
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
             return HttpClient.InvokeAsync<ApiRefundTypeListResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiRefundTypeListResponse>> GetRefundTypesAsync(string globalPayPaymentId)
+        public Task<ApiResult<ApiRefundTypeListResponse>> GetRefundTypesAsync(long paymentId)
         {
-            return GetRefundTypesAsync(globalPayPaymentId, CancellationToken.None);
+            return GetRefundTypesAsync(paymentId, CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiRefundTypeListResponse>> GetRefundTypesAsync(string globalPayPaymentMethodId,
+        public Task<ApiResult<ApiRefundTypeListResponse>> GetRefundTypesAsync(short paymentMethodId,
             string countryCode, string currency, CancellationToken cancellationToken)
         {
-            globalPayPaymentMethodId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentMethodId));
+            paymentMethodId.ThrowIfNotCondition(id => id > 0, nameof(paymentMethodId));
             countryCode.ThrowIfNullOrWhiteSpace(nameof(countryCode));
             currency.ThrowIfNullOrWhiteSpace(nameof(currency));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetRefundTypesUri(globalPayPaymentMethodId, countryCode, currency);
+            var uri = GetRefundTypesUri(paymentMethodId, countryCode, currency);
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
             return HttpClient.InvokeAsync<ApiRefundTypeListResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiRefundTypeListResponse>> GetRefundTypesAsync(string globalPayPaymentMethodId,
+        public Task<ApiResult<ApiRefundTypeListResponse>> GetRefundTypesAsync(short paymentMethodId,
             string countryCode,
             string currency)
         {
-            return GetRefundTypesAsync(globalPayPaymentMethodId, countryCode, currency, CancellationToken.None);
+            return GetRefundTypesAsync(paymentMethodId, countryCode, currency, CancellationToken.None);
         }
         
         #endregion

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -27,7 +26,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentMethodServic
         public class When_requesting_payment_method_by_id
         {
             private static ApiResult<ApiPaymentMethodResponse> ApiResult;
-            private const string MethodId   = "46";
+            private const short MethodId   = 46;
             private const string MethodName = "MercadoPago";
 
 
@@ -54,7 +53,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentMethodServic
             };
 
             private It should_have_non_empty_methods_list = () => {
-                ApiResult.Value.Method.ID.ToString(CultureInfo.InvariantCulture).ShouldEqual(MethodId);
+                ApiResult.Value.Method.ID.ShouldEqual(MethodId);
             };
 
             private It should_have_non_empty_currency_list = () => {

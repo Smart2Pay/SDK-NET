@@ -15,15 +15,15 @@ namespace S2p.RestClient.Sdk.Services
 
         Task<ApiResult<ApiCardPayoutListResponse>> GetPayoutListAsync(CardPayoutFilter filter);
 
-        Task<ApiResult<ApiCardPayoutStatusResponse>> GetPayoutStatusAsync(string globalPayPayoutId,
+        Task<ApiResult<ApiCardPayoutStatusResponse>> GetPayoutStatusAsync(long payoutId,
             CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiCardPayoutStatusResponse>> GetPayoutStatusAsync(string globalPayPayoutId);
+        Task<ApiResult<ApiCardPayoutStatusResponse>> GetPayoutStatusAsync(long payoutId);
 
-        Task<ApiResult<ApiCardPayoutResponse>> GetPayoutAsync(string globalPayPayoutId,
+        Task<ApiResult<ApiCardPayoutResponse>> GetPayoutAsync(long payoutId,
             CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiCardPayoutResponse>> GetPayoutAsync(string globalPayPayoutId);
+        Task<ApiResult<ApiCardPayoutResponse>> GetPayoutAsync(long payoutId);
 
         Task<ApiResult<ApiCardPayoutResponse>> InitiatePayoutAsync(ApiCardPayoutRequest payoutRequest,
             CancellationToken cancellationToken);

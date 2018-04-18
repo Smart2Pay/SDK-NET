@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
+﻿using System.Net;
 using System.Threading.Tasks;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
@@ -69,8 +65,8 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
             private static async Task<ApiResult<ApiRefundResponse>> BecauseAsync()
             {
                 ApiResult = await CardPaymentService.InitiatePaymentAsync(CardPaymentRequest);
-                CaptureResult = await CardPaymentService.CapturePaymentAsync(ApiResult.Value.Payment.ID.ToString(), CapturedAmount);
-                return await RefundService.CreateRefundAsync(ApiResult.Value.Payment.ID.ToString(), RefundRequest);
+                CaptureResult = await CardPaymentService.CapturePaymentAsync(ApiResult.Value.Payment.ID.Value, CapturedAmount);
+                return await RefundService.CreateRefundAsync(ApiResult.Value.Payment.ID.Value, RefundRequest);
             }
 
             private Cleanup after = () => { HttpClient.Dispose(); };

@@ -7,17 +7,17 @@ namespace S2p.RestClient.Sdk.Services
 {
     public interface IPreapprovalService
     {
-        Task<ApiResult<ApiPreapprovalResponse>> GetPreapprovalAsync(string globalPayPreapprovalId,
+        Task<ApiResult<ApiPreapprovalResponse>> GetPreapprovalAsync(int preapprovalId,
             CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiPreapprovalResponse>> GetPreapprovalAsync(string globalPayPreapprovalId);
+        Task<ApiResult<ApiPreapprovalResponse>> GetPreapprovalAsync(int preapprovalId);
         Task<ApiResult<ApiPreapprovalListResponse>> GetPreapprovalListAsync(CancellationToken cancellationToken);
         Task<ApiResult<ApiPreapprovalListResponse>> GetPreapprovalListAsync();
 
-        Task<ApiResult<ApiPaymentListResponse>> GetPreapprovalPaymentsAsync(string globalPayPreapprovalId,
+        Task<ApiResult<ApiPaymentListResponse>> GetPreapprovalPaymentsAsync(int preapprovalId,
             CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiPaymentListResponse>> GetPreapprovalPaymentsAsync(string globalPayPreapprovalId);
+        Task<ApiResult<ApiPaymentListResponse>> GetPreapprovalPaymentsAsync(int preapprovalId);
 
         Task<ApiResult<ApiPreapprovalResponse>> CreatePreapprovalAsync(ApiPreapprovalRequest preapprovalRequest,
             CancellationToken cancellationToken);
@@ -30,21 +30,21 @@ namespace S2p.RestClient.Sdk.Services
         Task<ApiResult<ApiPreapprovalResponse>> CreatePreapprovalAsync(ApiPreapprovalRequest preapprovalRequest,
             string idempotencyToken);
 
-        Task<ApiResult<ApiPreapprovalResponse>> ChangePreapprovalAsync(string globalPayPreapprovalId,
+        Task<ApiResult<ApiPreapprovalResponse>> ChangePreapprovalAsync(int preapprovalId,
             ApiPreapprovalRequest preapprovalRequest, CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiPreapprovalResponse>> ChangePreapprovalAsync(string globalPayPreapprovalId,
+        Task<ApiResult<ApiPreapprovalResponse>> ChangePreapprovalAsync(int preapprovalId,
             ApiPreapprovalRequest preapprovalRequest);
 
-        Task<ApiResult<ApiPreapprovalResponse>> ChangePreapprovalAsync(string globalPayPreapprovalId,
+        Task<ApiResult<ApiPreapprovalResponse>> ChangePreapprovalAsync(int preapprovalId,
             ApiPreapprovalRequest preapprovalRequest, string idempotencyToken, CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiPreapprovalResponse>> ChangePreapprovalAsync(string globalPayPreapprovalId,
+        Task<ApiResult<ApiPreapprovalResponse>> ChangePreapprovalAsync(int preapprovalId,
             ApiPreapprovalRequest preapprovalRequest, string idempotencyToken);
 
-        Task<ApiResult<ApiPreapprovalResponse>> ClosePreapprovalAsync(string globalPayPreapprovalId,
+        Task<ApiResult<ApiPreapprovalResponse>> ClosePreapprovalAsync(int preapprovalId,
             CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiPreapprovalResponse>> ClosePreapprovalAsync(string globalPayPreapprovalId);
+        Task<ApiResult<ApiPreapprovalResponse>> ClosePreapprovalAsync(int preapprovalId);
     }
 }

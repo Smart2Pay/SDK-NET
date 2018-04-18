@@ -16,17 +16,17 @@ namespace S2p.RestClient.Sdk.Services
 
         #region GetPaymentMethod
 
-        private Uri GetPaymentMethodUri(string paymentMethodId)
+        private Uri GetPaymentMethodUri(short paymentMethodId)
         {
-            paymentMethodId.ThrowIfNullOrWhiteSpace(nameof(paymentMethodId));
+            paymentMethodId.ThrowIfNotCondition(id => id > 0, nameof(paymentMethodId));
 
-            return new Uri(BaseAddress, $"{PaymentMethodRelativeUrl}/{paymentMethodId.UrlEncoded()}");
+            return new Uri(BaseAddress, $"{PaymentMethodRelativeUrl}/{paymentMethodId}");
         }
 
-        public Task<ApiResult<ApiPaymentMethodResponse>> GetPaymentMethodAsync(string paymentMethodId,
+        public Task<ApiResult<ApiPaymentMethodResponse>> GetPaymentMethodAsync(short paymentMethodId,
             CancellationToken cancellationToken)
         {
-            paymentMethodId.ThrowIfNullOrWhiteSpace(nameof(paymentMethodId));
+            paymentMethodId.ThrowIfNotCondition(id => id > 0, nameof(paymentMethodId));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
             var uri = GetPaymentMethodUri(paymentMethodId);
@@ -34,7 +34,7 @@ namespace S2p.RestClient.Sdk.Services
             return HttpClient.InvokeAsync<ApiPaymentMethodResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiPaymentMethodResponse>> GetPaymentMethodAsync(string paymentMethodId)
+        public Task<ApiResult<ApiPaymentMethodResponse>> GetPaymentMethodAsync(short paymentMethodId)
         {
             return GetPaymentMethodAsync(paymentMethodId, CancellationToken.None);
         }
