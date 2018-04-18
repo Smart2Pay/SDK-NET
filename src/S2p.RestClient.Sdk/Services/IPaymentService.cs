@@ -7,10 +7,10 @@ namespace S2p.RestClient.Sdk.Services
 {
     public interface IPaymentService
     {
-        Task<ApiResult<ApiPaymentResponse>> GetPaymentAsync(string globalPayPaymentId,
+        Task<ApiResult<ApiPaymentResponse>> GetPaymentAsync(long paymentId,
             CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiPaymentResponse>> GetPaymentAsync(string globalPayPaymentId);
+        Task<ApiResult<ApiPaymentResponse>> GetPaymentAsync(long paymentId);
         Task<ApiResult<ApiPaymentListResponse>> GetPaymentListAsync(CancellationToken cancellationToken);
         Task<ApiResult<ApiPaymentListResponse>> GetPaymentListAsync();
 
@@ -30,28 +30,28 @@ namespace S2p.RestClient.Sdk.Services
         Task<ApiResult<ApiPaymentResponse>> CreatePaymentAsync(ApiPaymentRequest paymentRequest,
             string idempotencyToken);
 
-        Task<ApiResult<ApiPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId,
+        Task<ApiResult<ApiPaymentResponse>> CapturePaymentAsync(long paymentId,
             CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId);
+        Task<ApiResult<ApiPaymentResponse>> CapturePaymentAsync(long paymentId);
 
-        Task<ApiResult<ApiPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId,
+        Task<ApiResult<ApiPaymentResponse>> CapturePaymentAsync(long paymentId,
             string idempotencyToken,
             CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId,
+        Task<ApiResult<ApiPaymentResponse>> CapturePaymentAsync(long paymentId,
             string idempotencyToken);
 
-        Task<ApiResult<ApiPaymentResponse>> CancelPaymentAsync(string globalPayPaymentId,
+        Task<ApiResult<ApiPaymentResponse>> CancelPaymentAsync(long paymentId,
             CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiPaymentResponse>> CancelPaymentAsync(string globalPayPaymentId);
+        Task<ApiResult<ApiPaymentResponse>> CancelPaymentAsync(long paymentId);
 
-        Task<ApiResult<ApiPaymentResponse>> CancelPaymentAsync(string globalPayPaymentId,
+        Task<ApiResult<ApiPaymentResponse>> CancelPaymentAsync(long paymentId,
             string idempotencyToken,
             CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiPaymentResponse>> CancelPaymentAsync(string globalPayPaymentId,
+        Task<ApiResult<ApiPaymentResponse>> CancelPaymentAsync(long paymentId,
             string idempotencyToken);
 
         Task<ApiResult<ApiPaymentResponse>> CreateRecurrentPaymentAsync(ApiPaymentRequest paymentRequest,

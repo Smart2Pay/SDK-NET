@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
-using S2p.RestClient.Sdk.Services;
 
 namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services
 {
@@ -54,7 +48,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services
             private static async Task<ApiResult<ApiPreapprovalResponse>> BecauseAsync()
             {
                 CreatePreapprovalResponse = await PreapprovalService.CreatePreapprovalAsync(PreapprovalRequest);
-                return await PreapprovalService.GetPreapprovalAsync(CreatePreapprovalResponse.Value.Preapproval.ID.ToString());
+                return await PreapprovalService.GetPreapprovalAsync(CreatePreapprovalResponse.Value.Preapproval.ID.Value);
             }
 
             private Cleanup after = () => { HttpClient.Dispose(); };

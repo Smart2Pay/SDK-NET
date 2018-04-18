@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
-using S2p.RestClient.Sdk.Services;
 
 namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.RefundService
 {
@@ -31,7 +25,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.RefundService
             };
 
             private Because of = () => {
-                ApiListResult = RefundService.GetRefundListAsync(PaymentId.ToString()).GetAwaiter().GetResult();
+                ApiListResult = RefundService.GetRefundListAsync(PaymentId).GetAwaiter().GetResult();
             };
 
             private Cleanup after = () => {

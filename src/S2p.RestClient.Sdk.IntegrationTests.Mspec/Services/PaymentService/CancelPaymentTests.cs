@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
@@ -77,7 +74,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
             private static async Task<ApiResult<ApiPaymentResponse>> BecauseAsync()
             {
                 var createPaymentResult = await PaymentService.CreatePaymentAsync(PaymentRequest);
-                return await PaymentService.CancelPaymentAsync(createPaymentResult.Value.Payment.ID.ToString());
+                return await PaymentService.CancelPaymentAsync(createPaymentResult.Value.Payment.ID.Value);
             }
 
             private Cleanup after = () => { HttpClient.Dispose(); };

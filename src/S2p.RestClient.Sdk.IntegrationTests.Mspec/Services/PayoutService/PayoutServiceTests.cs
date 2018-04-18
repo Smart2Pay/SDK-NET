@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
-using S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentMethodService;
 using S2p.RestClient.Sdk.Services;
 
 namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
@@ -179,7 +175,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
         public class When_quering_about_success_payout_status
         {
             protected static ApiResult<ApiCardPayoutStatusResponse> ApiResult;
-            private static string payoutId = "1252";
+            private static long payoutId = 1252;
 
             private Establish context = () => {
                 ServiceTestsConstants.EnableTLS12();
@@ -220,7 +216,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
         public class When_quering_about_failed_payout_status
         {
             protected static ApiResult<ApiCardPayoutStatusResponse> ApiResult;
-            private static string payoutId = "1267";
+            private static long payoutId = 1267;
 
             private Establish context = () => {
                 ServiceTestsConstants.EnableTLS12();
@@ -414,7 +410,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
         public class When_quering_about_success_payout_information
         {
             protected static ApiResult<ApiCardPayoutResponse> ApiResult;
-            private static string payoutId = "1247";
+            private static long payoutId = 1247;
             private const string merchantTransactionId = "701428ed-cf24-4c06-8a39-f7c40809e7a4";
             private const long amount = 1000;
             private const string currency = "EUR";
@@ -477,7 +473,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
         public class When_quering_about_failed_payout_information
         {
             protected static ApiResult<ApiCardPayoutResponse> ApiResult;
-            private static string payoutId = "1267";
+            private static long payoutId = 1267;
             private const string merchantTransactionId = "5b493baf-b792-4fd1-9d33-82b685f3e055";
             private const long amount = 1000;
             private const string currency = "EUR";

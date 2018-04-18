@@ -56,54 +56,54 @@ namespace S2p.RestClient.Sdk.Services
 
         #region GetPayoutStatus
 
-        private Uri GetPayoutStatusUri(string globalPayPayoutId)
+        private Uri GetPayoutStatusUri(long payoutId)
         {
-            globalPayPayoutId.ThrowIfNullOrWhiteSpace(nameof(globalPayPayoutId));
+            payoutId.ThrowIfNotCondition(id => id > 0, nameof(payoutId));
 
-            return new Uri(BaseAddress, $"{PayoutPartialUrl}/{globalPayPayoutId.UrlEncoded()}/status");
+            return new Uri(BaseAddress, $"{PayoutPartialUrl}/{payoutId}/status");
         }
 
-        public Task<ApiResult<ApiCardPayoutStatusResponse>> GetPayoutStatusAsync(string globalPayPayoutId,
+        public Task<ApiResult<ApiCardPayoutStatusResponse>> GetPayoutStatusAsync(long payoutId,
             CancellationToken cancellationToken)
         {
-            globalPayPayoutId.ThrowIfNullOrWhiteSpace(nameof(globalPayPayoutId));
+            payoutId.ThrowIfNotCondition(id => id > 0, nameof(payoutId));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetPayoutStatusUri(globalPayPayoutId);
+            var uri = GetPayoutStatusUri(payoutId);
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
             return HttpClient.InvokeAsync<ApiCardPayoutStatusResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiCardPayoutStatusResponse>> GetPayoutStatusAsync(string globalPayPayoutId)
+        public Task<ApiResult<ApiCardPayoutStatusResponse>> GetPayoutStatusAsync(long payoutId)
         {
-            return GetPayoutStatusAsync(globalPayPayoutId, CancellationToken.None);
+            return GetPayoutStatusAsync(payoutId, CancellationToken.None);
         }
 
         #endregion
 
         #region GetPayout
 
-        private Uri GetPayoutInfoUri(string globalPayPayoutId)
+        private Uri GetPayoutInfoUri(long payoutId)
         {
-            globalPayPayoutId.ThrowIfNullOrWhiteSpace(nameof(globalPayPayoutId));
+            payoutId.ThrowIfNotCondition(id => id > 0, nameof(payoutId));
 
-            return new Uri(BaseAddress, $"{PayoutPartialUrl}/{globalPayPayoutId.UrlEncoded()}");
+            return new Uri(BaseAddress, $"{PayoutPartialUrl}/{payoutId}");
         }
 
-        public Task<ApiResult<ApiCardPayoutResponse>> GetPayoutAsync(string globalPayPayoutId,
+        public Task<ApiResult<ApiCardPayoutResponse>> GetPayoutAsync(long payoutId,
             CancellationToken cancellationToken)
         {
-            globalPayPayoutId.ThrowIfNullOrWhiteSpace(nameof(globalPayPayoutId));
+            payoutId.ThrowIfNotCondition(id => id > 0, nameof(payoutId));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetPayoutInfoUri(globalPayPayoutId);
+            var uri = GetPayoutInfoUri(payoutId);
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
             return HttpClient.InvokeAsync<ApiCardPayoutResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiCardPayoutResponse>> GetPayoutAsync(string globalPayPayoutId)
+        public Task<ApiResult<ApiCardPayoutResponse>> GetPayoutAsync(long payoutId)
         {
-            return GetPayoutAsync(globalPayPayoutId, CancellationToken.None);
+            return GetPayoutAsync(payoutId, CancellationToken.None);
         }
 
         #endregion

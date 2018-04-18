@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
-using S2p.RestClient.Sdk.Services;
 
 namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
 {
@@ -79,7 +74,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
             private static async Task<ApiResult<ApiCardPaymentResponse>> BecauseAsync()
             {
                 ApiResult = await CardPaymentService.InitiatePaymentAsync(CardPaymentRequest);
-                return await CardPaymentService.RejectChallengeAsync(ApiResult.Value.Payment.ID.ToString());
+                return await CardPaymentService.RejectChallengeAsync(ApiResult.Value.Payment.ID.Value);
             }
 
             private Cleanup after = () => { HttpClient.Dispose(); };

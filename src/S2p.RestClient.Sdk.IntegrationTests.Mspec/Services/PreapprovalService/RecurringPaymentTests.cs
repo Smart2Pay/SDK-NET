@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
@@ -60,11 +56,11 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services
             private static async Task<RecurringPaymentTestData> BecauseAsync()
             {
                 var recurringPaymentTestData = new RecurringPaymentTestData();
-                recurringPaymentTestData.Before = await PreapprovalService.GetPreapprovalPaymentsAsync(PaymentRequest.Payment.PreapprovalID.ToString());
+                recurringPaymentTestData.Before = await PreapprovalService.GetPreapprovalPaymentsAsync(PaymentRequest.Payment.PreapprovalID.Value);
                 await Task.Delay(2000);
                 recurringPaymentTestData.PaymentResponse = await PaymentService.CreateRecurrentPaymentAsync(PaymentRequest);
                 await Task.Delay(1000);
-                recurringPaymentTestData.After = await PreapprovalService.GetPreapprovalPaymentsAsync(PaymentRequest.Payment.PreapprovalID.ToString());
+                recurringPaymentTestData.After = await PreapprovalService.GetPreapprovalPaymentsAsync(PaymentRequest.Payment.PreapprovalID.Value);
                 return recurringPaymentTestData;
             }
 

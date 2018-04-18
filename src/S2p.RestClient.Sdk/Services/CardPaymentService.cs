@@ -16,43 +16,43 @@ namespace S2p.RestClient.Sdk.Services
 
         #region PaymentStatus
 
-        private Uri GetPaymentStatusUri(string globalPayPaymentId)
+        private Uri GetPaymentStatusUri(long paymentId)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
 
-            return new Uri(BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/status");
+            return new Uri(BaseAddress, $"{PaymentRelativeUrl}/{paymentId}/status");
         }
 
-        public Task<ApiResult<ApiCardPaymentStatusResponse>> GetPaymentStatusAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiCardPaymentStatusResponse>> GetPaymentStatusAsync(long paymentId,
             CancellationToken cancellationToken)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetPaymentStatusUri(globalPayPaymentId);
+            var uri = GetPaymentStatusUri(paymentId);
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
             return HttpClient.InvokeAsync<ApiCardPaymentStatusResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiCardPaymentStatusResponse>> GetPaymentStatusAsync(string globalPayPaymentId)
+        public Task<ApiResult<ApiCardPaymentStatusResponse>> GetPaymentStatusAsync(long paymentId)
         {
-            return GetPaymentStatusAsync(globalPayPaymentId, CancellationToken.None);
+            return GetPaymentStatusAsync(paymentId, CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> GetPaymentAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiCardPaymentResponse>> GetPaymentAsync(long paymentId,
             CancellationToken cancellationToken)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetPaymentUri(globalPayPaymentId);
+            var uri = GetPaymentUri(paymentId);
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
             return HttpClient.InvokeAsync<ApiCardPaymentResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> GetPaymentAsync(string globalPayPaymentId)
+        public Task<ApiResult<ApiCardPaymentResponse>> GetPaymentAsync(long paymentId)
         {
-            return GetPaymentAsync(globalPayPaymentId, CancellationToken.None);
+            return GetPaymentAsync(paymentId, CancellationToken.None);
         }
 
         public Task<ApiResult<ApiCardPaymentListResponse>> GetPaymentListAsync(CancellationToken cancellationToken)
@@ -94,11 +94,11 @@ namespace S2p.RestClient.Sdk.Services
             return new Uri(BaseAddress, PaymentRelativeUrl);
         }
 
-        private Uri GetPaymentUri(string globalPayPaymentId)
+        private Uri GetPaymentUri(long paymentId)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
 
-            var uri = new Uri(BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}");
+            var uri = new Uri(BaseAddress, $"{PaymentRelativeUrl}/{paymentId}");
             return uri;
         }
 
@@ -140,233 +140,233 @@ namespace S2p.RestClient.Sdk.Services
 
         #region CapturePayment
 
-        private Uri GetCapturePaymentUri(string globalPayPaymentId)
+        private Uri GetCapturePaymentUri(long paymentId)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
 
-            var uri = new Uri(BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/capture");
+            var uri = new Uri(BaseAddress, $"{PaymentRelativeUrl}/{paymentId}/capture");
             return uri;
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(long paymentId,
             CancellationToken cancellationToken)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetCapturePaymentUri(globalPayPaymentId);
+            var uri = GetCapturePaymentUri(paymentId);
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
             return HttpClient.InvokeAsync<ApiCardPaymentResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId)
+        public Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(long paymentId)
         {
-            return CapturePaymentAsync(globalPayPaymentId, CancellationToken.None);
+            return CapturePaymentAsync(paymentId, CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(long paymentId,
             string idempotencyToken,
             CancellationToken cancellationToken)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetCapturePaymentUri(globalPayPaymentId);
+            var uri = GetCapturePaymentUri(paymentId);
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
             return HttpClient.InvokeAsync<ApiCardPaymentResponse>(idempotencyToken, request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(long paymentId,
             string idempotencyToken)
         {
-            return CapturePaymentAsync(globalPayPaymentId, idempotencyToken, CancellationToken.None);
+            return CapturePaymentAsync(paymentId, idempotencyToken, CancellationToken.None);
         }
 
         #endregion
 
         #region CapturePaymentPartial
 
-        private Uri GetCapturePaymentPartialUri(string globalPayPaymentId, long amount)
+        private Uri GetCapturePaymentPartialUri(long paymentId, long amount)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
             amount.ThrowIfNotCondition(a => a > 0, nameof(amount));
 
-            return new Uri(BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/capture?amount={amount}");
+            return new Uri(BaseAddress, $"{PaymentRelativeUrl}/{paymentId}/capture?amount={amount}");
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId, long amount,
+        public Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(long paymentId, long amount,
             CancellationToken cancellationToken)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
             amount.ThrowIfNotCondition(a => a > 0, nameof(amount));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetCapturePaymentPartialUri(globalPayPaymentId, amount);
+            var uri = GetCapturePaymentPartialUri(paymentId, amount);
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
             return HttpClient.InvokeAsync<ApiCardPaymentResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId, long amount)
+        public Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(long paymentId, long amount)
         {
-            return CapturePaymentAsync(globalPayPaymentId, amount, CancellationToken.None);
+            return CapturePaymentAsync(paymentId, amount, CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(long paymentId,
             long amount, string idempotencyToken, CancellationToken cancellationToken)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
             amount.ThrowIfNotCondition(a => a > 0, nameof(amount));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetCapturePaymentPartialUri(globalPayPaymentId, amount);
+            var uri = GetCapturePaymentPartialUri(paymentId, amount);
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
             return HttpClient.InvokeAsync<ApiCardPaymentResponse>(idempotencyToken, request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(long paymentId,
             long amount, string idempotencyToken)
         {
-            return CapturePaymentAsync(globalPayPaymentId, amount, idempotencyToken, CancellationToken.None);
+            return CapturePaymentAsync(paymentId, amount, idempotencyToken, CancellationToken.None);
         }
 
         #endregion
 
         #region CancelPayment
 
-        private Uri GetCancelPaymentUri(string globalPayPaymentId)
+        private Uri GetCancelPaymentUri(long paymentId)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
 
-            var uri = new Uri(BaseAddress, $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/cancel");
+            var uri = new Uri(BaseAddress, $"{PaymentRelativeUrl}/{paymentId}/cancel");
             return uri;
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> CancelPaymentAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiCardPaymentResponse>> CancelPaymentAsync(long paymentId,
             CancellationToken cancellationToken)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetCancelPaymentUri(globalPayPaymentId);
+            var uri = GetCancelPaymentUri(paymentId);
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
             return HttpClient.InvokeAsync<ApiCardPaymentResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> CancelPaymentAsync(string globalPayPaymentId)
+        public Task<ApiResult<ApiCardPaymentResponse>> CancelPaymentAsync(long paymentId)
         {
-            return CancelPaymentAsync(globalPayPaymentId, CancellationToken.None);
+            return CancelPaymentAsync(paymentId, CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> CancelPaymentAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiCardPaymentResponse>> CancelPaymentAsync(long paymentId,
             string idempotencyToken,
             CancellationToken cancellationToken)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetCancelPaymentUri(globalPayPaymentId);
+            var uri = GetCancelPaymentUri(paymentId);
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
             return HttpClient.InvokeAsync<ApiCardPaymentResponse>(idempotencyToken, request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> CancelPaymentAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiCardPaymentResponse>> CancelPaymentAsync(long paymentId,
             string idempotencyToken)
         {
-            return CancelPaymentAsync(globalPayPaymentId, idempotencyToken, CancellationToken.None);
+            return CancelPaymentAsync(paymentId, idempotencyToken, CancellationToken.None);
         }
 
         #endregion
 
         #region AcceptChallenge
 
-        private Uri GetAcceptChallengeUri(string globalPayPaymentId)
+        private Uri GetAcceptChallengeUri(long paymentId)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
 
             var uri = new Uri(BaseAddress,
-                $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/challenge/accept");
+                $"{PaymentRelativeUrl}/{paymentId}/challenge/accept");
             return uri;
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> AcceptChallengeAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiCardPaymentResponse>> AcceptChallengeAsync(long paymentId,
             CancellationToken cancellationToken)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetAcceptChallengeUri(globalPayPaymentId);
+            var uri = GetAcceptChallengeUri(paymentId);
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
             return HttpClient.InvokeAsync<ApiCardPaymentResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> AcceptChallengeAsync(string globalPayPaymentId)
+        public Task<ApiResult<ApiCardPaymentResponse>> AcceptChallengeAsync(long paymentId)
         {
-            return AcceptChallengeAsync(globalPayPaymentId, CancellationToken.None);
+            return AcceptChallengeAsync(paymentId, CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> AcceptChallengeAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiCardPaymentResponse>> AcceptChallengeAsync(long paymentId,
             string idempotencyToken, CancellationToken cancellationToken)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
             idempotencyToken.ThrowIfNullOrWhiteSpace(nameof(idempotencyToken));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetAcceptChallengeUri(globalPayPaymentId);
+            var uri = GetAcceptChallengeUri(paymentId);
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
             return HttpClient.InvokeAsync<ApiCardPaymentResponse>(idempotencyToken, request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> AcceptChallengeAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiCardPaymentResponse>> AcceptChallengeAsync(long paymentId,
             string idempotencyToken)
         {
-            return AcceptChallengeAsync(globalPayPaymentId, idempotencyToken, CancellationToken.None);
+            return AcceptChallengeAsync(paymentId, idempotencyToken, CancellationToken.None);
         }
 
         #endregion
 
         #region RejectChallenge
 
-        private Uri GetRejectChallengeUri(string globalPayPaymentId)
+        private Uri GetRejectChallengeUri(long paymentId)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
 
             var uri = new Uri(BaseAddress,
-                $"{PaymentRelativeUrl}/{globalPayPaymentId.UrlEncoded()}/challenge/reject");
+                $"{PaymentRelativeUrl}/{paymentId}/challenge/reject");
             return uri;
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> RejectChallengeAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiCardPaymentResponse>> RejectChallengeAsync(long paymentId,
             CancellationToken cancellationToken)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetRejectChallengeUri(globalPayPaymentId);
+            var uri = GetRejectChallengeUri(paymentId);
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
             return HttpClient.InvokeAsync<ApiCardPaymentResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> RejectChallengeAsync(string globalPayPaymentId)
+        public Task<ApiResult<ApiCardPaymentResponse>> RejectChallengeAsync(long paymentId)
         {
-            return RejectChallengeAsync(globalPayPaymentId, CancellationToken.None);
+            return RejectChallengeAsync(paymentId, CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> RejectChallengeAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiCardPaymentResponse>> RejectChallengeAsync(long paymentId,
             string idempotencyToken, CancellationToken cancellationToken)
         {
-            globalPayPaymentId.ThrowIfNullOrWhiteSpace(nameof(globalPayPaymentId));
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
             idempotencyToken.ThrowIfNullOrWhiteSpace(nameof(idempotencyToken));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetRejectChallengeUri(globalPayPaymentId);
+            var uri = GetRejectChallengeUri(paymentId);
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
             return HttpClient.InvokeAsync<ApiCardPaymentResponse>(idempotencyToken, request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> RejectChallengeAsync(string globalPayPaymentId,
+        public Task<ApiResult<ApiCardPaymentResponse>> RejectChallengeAsync(long paymentId,
             string idempotencyToken)
         {
-            return RejectChallengeAsync(globalPayPaymentId, idempotencyToken, CancellationToken.None);
+            return RejectChallengeAsync(paymentId, idempotencyToken, CancellationToken.None);
         }
 
         #endregion

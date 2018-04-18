@@ -16,11 +16,11 @@ namespace S2p.RestClient.Sdk.Services
 
         #region GetPreapproval
 
-        private Uri GetPreapprovalUri(string globalPayPreapprovalId)
+        private Uri GetPreapprovalUri(int preapprovalId)
         {
-            globalPayPreapprovalId.ThrowIfNullOrWhiteSpace(nameof(globalPayPreapprovalId));
+            preapprovalId.ThrowIfNotCondition(id => id > 0, nameof(preapprovalId));
 
-            return new Uri(BaseAddress, $"{PreapprovalUrl}/{globalPayPreapprovalId.UrlEncoded()}");
+            return new Uri(BaseAddress, $"{PreapprovalUrl}/{preapprovalId}");
         }
 
         private Uri GetPreapprovalUri()
@@ -28,27 +28,27 @@ namespace S2p.RestClient.Sdk.Services
             return new Uri(BaseAddress, PreapprovalUrl);
         }
 
-        private Uri GetPreapprovalPaymentsUri(string globalPayPreapprovalId)
+        private Uri GetPreapprovalPaymentsUri(int preapprovalId)
         {
-            globalPayPreapprovalId.ThrowIfNullOrWhiteSpace(nameof(globalPayPreapprovalId));
+            preapprovalId.ThrowIfNotCondition(id => id > 0, nameof(preapprovalId));
 
-            return new Uri(BaseAddress, $"{PreapprovalUrl}/{globalPayPreapprovalId.UrlEncoded()}/payments");
+            return new Uri(BaseAddress, $"{PreapprovalUrl}/{preapprovalId}/payments");
         }
 
-        public Task<ApiResult<ApiPreapprovalResponse>> GetPreapprovalAsync(string globalPayPreapprovalId,
+        public Task<ApiResult<ApiPreapprovalResponse>> GetPreapprovalAsync(int preapprovalId,
             CancellationToken cancellationToken)
         {
-            globalPayPreapprovalId.ThrowIfNullOrWhiteSpace(nameof(globalPayPreapprovalId));
+            preapprovalId.ThrowIfNotCondition(id => id > 0, nameof(preapprovalId));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetPreapprovalUri(globalPayPreapprovalId);
+            var uri = GetPreapprovalUri(preapprovalId);
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
             return HttpClient.InvokeAsync<ApiPreapprovalResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiPreapprovalResponse>> GetPreapprovalAsync(string globalPayPreapprovalId)
+        public Task<ApiResult<ApiPreapprovalResponse>> GetPreapprovalAsync(int preapprovalId)
         {
-            return GetPreapprovalAsync(globalPayPreapprovalId, CancellationToken.None);
+            return GetPreapprovalAsync(preapprovalId, CancellationToken.None);
         }
 
         public Task<ApiResult<ApiPreapprovalListResponse>> GetPreapprovalListAsync(CancellationToken cancellationToken)
@@ -65,20 +65,20 @@ namespace S2p.RestClient.Sdk.Services
             return GetPreapprovalListAsync(CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiPaymentListResponse>> GetPreapprovalPaymentsAsync(string globalPayPreapprovalId,
+        public Task<ApiResult<ApiPaymentListResponse>> GetPreapprovalPaymentsAsync(int preapprovalId,
             CancellationToken cancellationToken)
         {
-            globalPayPreapprovalId.ThrowIfNullOrWhiteSpace(nameof(globalPayPreapprovalId));
+            preapprovalId.ThrowIfNotCondition(id => id > 0, nameof(preapprovalId));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetPreapprovalPaymentsUri(globalPayPreapprovalId);
+            var uri = GetPreapprovalPaymentsUri(preapprovalId);
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
             return HttpClient.InvokeAsync<ApiPaymentListResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiPaymentListResponse>> GetPreapprovalPaymentsAsync(string globalPayPreapprovalId)
+        public Task<ApiResult<ApiPaymentListResponse>> GetPreapprovalPaymentsAsync(int preapprovalId)
         {
-            return GetPreapprovalPaymentsAsync(globalPayPreapprovalId, CancellationToken.None);
+            return GetPreapprovalPaymentsAsync(preapprovalId, CancellationToken.None);
         }
 
         #endregion
@@ -123,43 +123,43 @@ namespace S2p.RestClient.Sdk.Services
 
         #region ChangePreapproval
 
-        public Task<ApiResult<ApiPreapprovalResponse>> ChangePreapprovalAsync(string globalPayPreapprovalId,
+        public Task<ApiResult<ApiPreapprovalResponse>> ChangePreapprovalAsync(int preapprovalId,
             ApiPreapprovalRequest preapprovalRequest, CancellationToken cancellationToken)
         {
-            globalPayPreapprovalId.ThrowIfNullOrWhiteSpace(nameof(globalPayPreapprovalId));
+            preapprovalId.ThrowIfNotCondition(id => id > 0, nameof(preapprovalId));
             preapprovalRequest.ThrowIfNull(nameof(preapprovalRequest));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetPreapprovalUri(globalPayPreapprovalId);
+            var uri = GetPreapprovalUri(preapprovalId);
             var request = preapprovalRequest.ToHttpRequest(Constants.HttpMethodPatch, uri);
 
             return HttpClient.InvokeAsync<ApiPreapprovalResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiPreapprovalResponse>> ChangePreapprovalAsync(string globalPayPreapprovalId,
+        public Task<ApiResult<ApiPreapprovalResponse>> ChangePreapprovalAsync(int preapprovalId,
             ApiPreapprovalRequest preapprovalRequest)
         {
-            return ChangePreapprovalAsync(globalPayPreapprovalId, preapprovalRequest, CancellationToken.None);
+            return ChangePreapprovalAsync(preapprovalId, preapprovalRequest, CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiPreapprovalResponse>> ChangePreapprovalAsync(string globalPayPreapprovalId,
+        public Task<ApiResult<ApiPreapprovalResponse>> ChangePreapprovalAsync(int preapprovalId,
             ApiPreapprovalRequest preapprovalRequest, string idempotencyToken, CancellationToken cancellationToken)
         {
-            globalPayPreapprovalId.ThrowIfNullOrWhiteSpace(nameof(globalPayPreapprovalId));
+            preapprovalId.ThrowIfNotCondition(id => id > 0, nameof(preapprovalId));
             preapprovalRequest.ThrowIfNull(nameof(preapprovalRequest));
             idempotencyToken.ThrowIfNullOrWhiteSpace(nameof(idempotencyToken));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetPreapprovalUri(globalPayPreapprovalId);
+            var uri = GetPreapprovalUri(preapprovalId);
             var request = preapprovalRequest.ToHttpRequest(Constants.HttpMethodPatch, uri);
 
             return HttpClient.InvokeAsync<ApiPreapprovalResponse>(idempotencyToken, request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiPreapprovalResponse>> ChangePreapprovalAsync(string globalPayPreapprovalId,
+        public Task<ApiResult<ApiPreapprovalResponse>> ChangePreapprovalAsync(int preapprovalId,
             ApiPreapprovalRequest preapprovalRequest, string idempotencyToken)
         {
-            return ChangePreapprovalAsync(globalPayPreapprovalId, preapprovalRequest, idempotencyToken,
+            return ChangePreapprovalAsync(preapprovalId, preapprovalRequest, idempotencyToken,
                 CancellationToken.None);
         }
 
@@ -167,20 +167,20 @@ namespace S2p.RestClient.Sdk.Services
 
         #region ClosePreaproval
 
-        public Task<ApiResult<ApiPreapprovalResponse>> ClosePreapprovalAsync(string globalPayPreapprovalId,
+        public Task<ApiResult<ApiPreapprovalResponse>> ClosePreapprovalAsync(int preapprovalId,
             CancellationToken cancellationToken)
         {
-            globalPayPreapprovalId.ThrowIfNullOrWhiteSpace(nameof(globalPayPreapprovalId));
+            preapprovalId.ThrowIfNotCondition(id => id > 0, nameof(preapprovalId));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
-            var uri = GetPreapprovalUri(globalPayPreapprovalId);
+            var uri = GetPreapprovalUri(preapprovalId);
             var request = new HttpRequestMessage(HttpMethod.Delete, uri);
             return HttpClient.InvokeAsync<ApiPreapprovalResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiPreapprovalResponse>> ClosePreapprovalAsync(string globalPayPreapprovalId)
+        public Task<ApiResult<ApiPreapprovalResponse>> ClosePreapprovalAsync(int preapprovalId)
         {
-            return ClosePreapprovalAsync(globalPayPreapprovalId, CancellationToken.None);
+            return ClosePreapprovalAsync(preapprovalId, CancellationToken.None);
         }
 
         #endregion

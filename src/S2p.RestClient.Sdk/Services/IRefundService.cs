@@ -8,43 +8,41 @@ namespace S2p.RestClient.Sdk.Services
 {
     public interface IRefundService
     {
-        Task<ApiResult<ApiRefundResponse>> GetRefundAsync(string globalPayPaymentId, string globalPayRefundId,
+        Task<ApiResult<ApiRefundResponse>> GetRefundAsync(long paymentId, int refundId,
             CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiRefundResponse>> GetRefundAsync(string globalPayPaymentId, string globalPayRefundId);
-        Task<ApiResult<ApiRefundListResponse>> GetRefundListAsync(string globalPayPaymentId, CancellationToken cancellationToken);
-        Task<ApiResult<ApiRefundListResponse>> GetRefundListAsync(string globalPayPaymentId);
+        Task<ApiResult<ApiRefundResponse>> GetRefundAsync(long paymentId, int refundId);
+        Task<ApiResult<ApiRefundListResponse>> GetRefundListAsync(long paymentId, CancellationToken cancellationToken);
+        Task<ApiResult<ApiRefundListResponse>> GetRefundListAsync(long paymentId);
 
-        Task<ApiResult<ApiCardRefundStatusResponse>> GetRefundStatusAsync(string globalPayPaymentId, string globalPayRefundId, 
+        Task<ApiResult<ApiCardRefundStatusResponse>> GetRefundStatusAsync(long paymentId, int refundId, 
             CancellationToken cancellationToken);
-        Task<ApiResult<ApiCardRefundStatusResponse>> GetRefundStatusAsync(string globalPayPaymentId, string globalPayRefundId);
-        Task<ApiResult<ApiRefundResponse>> CreateRefundAsync(string globalPayPaymentId,
+        Task<ApiResult<ApiCardRefundStatusResponse>> GetRefundStatusAsync(long paymentId, int refundId);
+        Task<ApiResult<ApiRefundResponse>> CreateRefundAsync(long paymentId,
             ApiRefundRequest refundRequest,
             CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiRefundResponse>> CreateRefundAsync(string globalPayPaymentId,
+        Task<ApiResult<ApiRefundResponse>> CreateRefundAsync(long paymentId,
             ApiRefundRequest refundRequest);
 
-        Task<ApiResult<ApiRefundResponse>> CreateRefundAsync(string globalPayPaymentId,
+        Task<ApiResult<ApiRefundResponse>> CreateRefundAsync(long paymentId,
             ApiRefundRequest refundRequest,
             string idempotencyToken, CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiRefundResponse>> CreateRefundAsync(string globalPayPaymentId,
+        Task<ApiResult<ApiRefundResponse>> CreateRefundAsync(long paymentId,
             ApiRefundRequest refundRequest,
             string idempotencyToken);
 
-        Task<ApiResult<ApiRefundTypeListResponse>> GetRefundTypesAsync(string globalPayPaymentId,
+        Task<ApiResult<ApiRefundTypeListResponse>> GetRefundTypesAsync(long paymentId,
             CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiRefundTypeListResponse>> GetRefundTypesAsync(string globalPayPaymentId);
+        Task<ApiResult<ApiRefundTypeListResponse>> GetRefundTypesAsync(long paymentId);
 
-        Task<ApiResult<ApiRefundTypeListResponse>> GetRefundTypesAsync(string globalPayPaymentMethodId,
+        Task<ApiResult<ApiRefundTypeListResponse>> GetRefundTypesAsync(short paymentMethodId,
             string countryCode, string currency, CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiRefundTypeListResponse>> GetRefundTypesAsync(string globalPayPaymentMethodId,
+        Task<ApiResult<ApiRefundTypeListResponse>> GetRefundTypesAsync(short paymentMethodId,
             string countryCode,
             string currency);
-
-        Uri BaseAddress { get; }
     }
 }

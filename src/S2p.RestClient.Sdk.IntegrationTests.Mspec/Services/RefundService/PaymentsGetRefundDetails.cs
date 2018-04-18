@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
-using S2p.RestClient.Sdk.Services;
 
 namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.RefundService
 {
@@ -19,8 +12,8 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.RefundService
         public class When_requesting_refund_details_for_payments_api
         {
             protected static ApiResult<ApiRefundResponse> ApiResult;
-            public const string PaymentId = "3708827";
-            public const string RefundId = "23293";
+            public const long PaymentId = 3708827;
+            public const int RefundId = 23293;
 
 
             private Establish context = () => {
