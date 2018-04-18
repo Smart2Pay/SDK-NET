@@ -16,7 +16,7 @@ namespace S2p.RestClient.Sdk.Entities
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Description { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string PreapprovedMaximumAmount { get; set; }
+        public long? PreapprovedMaximumAmount { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Currency { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

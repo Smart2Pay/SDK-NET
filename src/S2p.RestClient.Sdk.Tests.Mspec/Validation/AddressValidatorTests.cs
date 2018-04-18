@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Machine.Specifications;
+﻿using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
-using S2p.RestClient.Sdk.Infrastructure.Extensions;
 using S2p.RestClient.Sdk.Validation;
+using System;
+using S2p.RestClient.Sdk.Entities.Validators;
 
 namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
 {

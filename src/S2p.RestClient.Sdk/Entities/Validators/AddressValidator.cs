@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 using S2p.RestClient.Sdk.Infrastructure.Extensions;
 using S2p.RestClient.Sdk.Validation;
 
-namespace S2p.RestClient.Sdk.Entities
+namespace S2p.RestClient.Sdk.Entities.Validators
 {
     public class AddressValidator : AbstractValidator<Address>
     {
