@@ -23,31 +23,28 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 CardPaymentService = new Sdk.Services.CardPaymentService(HttpClient, BaseAddress);
-                CardPaymentRequest = new ApiCardPaymentRequest
+                CardPaymentRequest = new CardPaymentRequest
                 {
-                    Payment = new CardPaymentRequest
+                    MerchantTransactionID = MerchantTransactionID,
+                    Amount = 10002,
+                    Currency = "EUR",
+                    ReturnURL = "http://demo.smart2pay.com/redirect.php",
+                    Description = DescriptionText,
+                    StatementDescriptor = "bank statement message",
+                    Card = new CardDetailsRequest
                     {
-                        MerchantTransactionID = MerchantTransactionID,
-                        Amount = 10002,
-                        Currency = "EUR",
-                        ReturnURL = "http://demo.smart2pay.com/redirect.php",
-                        Description = DescriptionText,
-                        StatementDescriptor = "bank statement message",
-                        Card = new CardDetailsRequest
-                        {
-                            HolderName = "John Doe",
-                            Number = "4548812049400004",
-                            ExpirationMonth = "02",
-                            ExpirationYear = "2022",
-                            SecurityCode = "312"
-                        },
-                        Capture = true,
-                        Retry = true,
-                        GenerateCreditCardToken = false,
-                        PaymentTokenLifetime = 5,
-                        ThreeDSecureCheck = true
-                    }
-                };
+                        HolderName = "John Doe",
+                        Number = "4548812049400004",
+                        ExpirationMonth = "02",
+                        ExpirationYear = "2022",
+                        SecurityCode = "312"
+                    },
+                    Capture = true,
+                    Retry = true,
+                    GenerateCreditCardToken = false,
+                    PaymentTokenLifetime = 5,
+                    ThreeDSecureCheck = true
+                }.ToApiCardPaymentRequest();
             };
 
             private Because of = () => {

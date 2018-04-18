@@ -21,24 +21,21 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PreapprovalService = new Sdk.Services.PreapprovalService(HttpClient, BaseAddress);
-                PreapprovalRequest = new ApiPreapprovalRequest
+                PreapprovalRequest = new PreapprovalRequest()
                 {
-                    Preapproval = new PreapprovalRequest()
+                    MerchantPreapprovalID = Guid.NewGuid().ToString(),
+                    Description = DescriptionText,
+                    ReturnURL = "http://demo.smart2pay.com/redirect.php",
+                    MethodID = 46,
+                    Customer = new Customer
                     {
-                        MerchantPreapprovalID = Guid.NewGuid().ToString(),
-                        Description = DescriptionText,
-                        ReturnURL = "http://demo.smart2pay.com/redirect.php",
-                        MethodID = 46,
-                        Customer = new Customer
-                        {
-                            Email = $"test_user_29302802{Guid.NewGuid().ToString()}@testuser.com"
-                        },
-                        BillingAddress = new Address
-                        {
-                            Country = "BR"
-                        }
+                        Email = $"test_user_29302802{Guid.NewGuid().ToString()}@testuser.com"
+                    },
+                    BillingAddress = new Address
+                    {
+                        Country = "BR"
                     }
-                };
+                }.ToApiPreapprovalRequest();
             };
 
             private Because of = () => {

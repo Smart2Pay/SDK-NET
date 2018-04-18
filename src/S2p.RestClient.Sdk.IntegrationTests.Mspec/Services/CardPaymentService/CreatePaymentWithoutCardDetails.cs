@@ -22,22 +22,19 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 CardPaymentService = new Sdk.Services.CardPaymentService(HttpClient, BaseAddress);
-                CardPaymentRequest = new ApiCardPaymentRequest
+                CardPaymentRequest = new CardPaymentRequest
                 {
-                    Payment = new CardPaymentRequest
-                    {
-                        MerchantTransactionID = MerchantTransactionID,
-                        Amount = 9000,
-                        Currency = "EUR",
-                        ReturnURL = "http://demo.smart2pay.com/redirect.php",
-                        Description = DescriptionText,
-                        StatementDescriptor = "bank statement message",
-                        Capture = false,
-                        Retry = false,
-                        GenerateCreditCardToken = false,
-                        PaymentTokenLifetime = 5
-                    }
-                };
+                    MerchantTransactionID = MerchantTransactionID,
+                    Amount = 9000,
+                    Currency = "EUR",
+                    ReturnURL = "http://demo.smart2pay.com/redirect.php",
+                    Description = DescriptionText,
+                    StatementDescriptor = "bank statement message",
+                    Capture = false,
+                    Retry = false,
+                    GenerateCreditCardToken = false,
+                    PaymentTokenLifetime = 5
+                }.ToApiCardPaymentRequest();
             };
 
             private Because of = () => {

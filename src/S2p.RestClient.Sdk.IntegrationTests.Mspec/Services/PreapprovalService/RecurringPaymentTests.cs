@@ -25,28 +25,25 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services
                 HttpClient = HttpClientBuilder.Build();
                 PreapprovalService = new PreapprovalService(HttpClient, BaseAddress);
                 PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
-                PaymentRequest = new ApiPaymentRequest
+                PaymentRequest = new PaymentRequest
                 {
-                    Payment = new PaymentRequest
+                    PreapprovalID = 9311,
+                    MerchantTransactionID = Guid.NewGuid().ToString(),
+                    Amount = 100,
+                    Currency = "BRL",
+                    MethodID = 46,
+                    Description = "Recurring payment test SDK",
+                    ReturnURL = "http://demo.smart2pay.com/redirect.php",
+                    TokenLifetime = 10,
+                    Customer = new Customer
                     {
-                        PreapprovalID = 9311,
-                        MerchantTransactionID = Guid.NewGuid().ToString(),
-                        Amount = 100,
-                        Currency = "BRL",
-                        MethodID = 46,
-                        Description = "Recurring payment test SDK",
-                        ReturnURL = "http://demo.smart2pay.com/redirect.php",
-                        TokenLifetime = 10,
-                        Customer = new Customer
-                        {
-                            Email = "test_user_29302802@testuser.com"
-                        },
-                        BillingAddress = new Address
-                        {
-                            Country = "BR"
-                        }
+                        Email = "test_user_29302802@testuser.com"
+                    },
+                    BillingAddress = new Address
+                    {
+                        Country = "BR"
                     }
-                };
+                }.ToApiPaymentRequest();
             };
 
             private Because of = () => {

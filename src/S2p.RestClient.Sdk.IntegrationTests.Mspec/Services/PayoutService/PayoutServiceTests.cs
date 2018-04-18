@@ -33,34 +33,31 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
-                PayoutRequest = new ApiCardPayoutRequest
+                PayoutRequest = new CardPayoutRequest
                 {
-                    Payout = new CardPayoutRequest
+                    MerchantTransactionID = Guid.NewGuid().ToString(),
+                    Amount = 1000,
+                    Currency = "USD",
+                    Description = "Card SDK Test Payout",
+                    BillingAddress = new Address
                     {
-                        MerchantTransactionID = Guid.NewGuid().ToString(),
-                        Amount = 1000,
-                        Currency = "USD",
-                        Description = "Card SDK Test Payout",
-                        BillingAddress = new Address
-                        {
-                            City = "Iasi",
-                            ZipCode = "7000-49",
-                            State = "Iasi",
-                            Street = "Sf Lazar",
-                            StreetNumber = "37",
-                            HouseNumber = "5A",
-                            HouseExtension = "",
-                            Country = "RO"
-                        },
-                        Card = new CardDetailsRequest
-                        {
-                            HolderName = "John Doe",
-                            Number = "4111111111111111",
-                            ExpirationMonth = "02",
-                            ExpirationYear = "2020"
-                        }
+                        City = "Iasi",
+                        ZipCode = "7000-49",
+                        State = "Iasi",
+                        Street = "Sf Lazar",
+                        StreetNumber = "37",
+                        HouseNumber = "5A",
+                        HouseExtension = "",
+                        Country = "RO"
+                    },
+                    Card = new CardDetailsRequest
+                    {
+                        HolderName = "John Doe",
+                        Number = "4111111111111111",
+                        ExpirationMonth = "02",
+                        ExpirationYear = "2020"
                     }
-                };
+                }.ToApiCardPayoutRequest();
             };
 
             private Because of = () => {
@@ -113,23 +110,20 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
-                PayoutRequest = new ApiCardPayoutRequest
+                PayoutRequest = new CardPayoutRequest
                 {
-                    Payout = new CardPayoutRequest
+                    MerchantTransactionID = Guid.NewGuid().ToString(),
+                    Amount = 1000,
+                    Currency = "EUR",
+                    Description = "Card SDK Test Payout",
+                    Card = new CardDetailsRequest
                     {
-                        MerchantTransactionID = Guid.NewGuid().ToString(),
-                        Amount = 1000,
-                        Currency = "EUR",
-                        Description = "Card SDK Test Payout",
-                        Card = new CardDetailsRequest
-                        {
-                            HolderName = "John Doe",
-                            Number = "4548812049400004",
-                            ExpirationMonth = "02",
-                            ExpirationYear = "2020"
-                        }
+                        HolderName = "John Doe",
+                        Number = "4548812049400004",
+                        ExpirationMonth = "02",
+                        ExpirationYear = "2020"
                     }
-                };
+                }.ToApiCardPayoutRequest();
             };
 
             private Because of = () => {
@@ -264,23 +258,20 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
-                PayoutRequest = new ApiCardPayoutRequest
+                PayoutRequest = new CardPayoutRequest
                 {
-                    Payout = new CardPayoutRequest
+                    MerchantTransactionID = Guid.NewGuid().ToString(),
+                    Amount = 1000,
+                    Currency = "EUR",
+                    Description = "Card SDK Test Payout",
+                    Card = new CardDetailsRequest
                     {
-                        MerchantTransactionID = Guid.NewGuid().ToString(),
-                        Amount = 1000,
-                        Currency = "EUR",
-                        Description = "Card SDK Test Payout",
-                        Card = new CardDetailsRequest
-                        {
-                            HolderName = "John Doe",
-                            Number = "4111111111111111",
-                            ExpirationMonth = "02",
-                            ExpirationYear = "2020"
-                        }
+                        HolderName = "John Doe",
+                        Number = "4111111111111111",
+                        ExpirationMonth = "02",
+                        ExpirationYear = "2020"
                     }
-                };
+                }.ToApiCardPayoutRequest();
             };
 
             private Because of = () => { ApiResult = BecauseAsync().GetAwaiter().GetResult(); };
@@ -352,23 +343,20 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
-                PayoutRequest = new ApiCardPayoutRequest
+                PayoutRequest = new CardPayoutRequest
                 {
-                    Payout = new CardPayoutRequest
+                    MerchantTransactionID = Guid.NewGuid().ToString(),
+                    Amount = 1000,
+                    Currency = "EUR",
+                    Description = "Card SDK Failed Test Payout",
+                    Card = new CardDetailsRequest
                     {
-                        MerchantTransactionID = Guid.NewGuid().ToString(),
-                        Amount = 1000,
-                        Currency = "EUR",
-                        Description = "Card SDK Failed Test Payout",
-                        Card = new CardDetailsRequest
-                        {
-                            HolderName = "John Doe",
-                            Number = "4111111111111111",
-                            ExpirationMonth = "02",
-                            ExpirationYear = "2018"
-                        }
+                        HolderName = "John Doe",
+                        Number = "4111111111111111",
+                        ExpirationMonth = "02",
+                        ExpirationYear = "2018"
                     }
-                };
+                }.ToApiCardPayoutRequest();
             };
 
             private Because of = () => {

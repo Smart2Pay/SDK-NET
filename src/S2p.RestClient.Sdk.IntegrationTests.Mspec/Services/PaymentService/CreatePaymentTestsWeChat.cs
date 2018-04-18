@@ -34,26 +34,23 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
-                PaymentRequest = new ApiPaymentRequest
+                PaymentRequest = new PaymentRequest
                 {
-                    Payment = new PaymentRequest
+                    MerchantTransactionID = MerchantTransactionID,
+                    Amount = 11,
+                    Currency = "CNY",
+                    MethodID = 1066,
+                    ReturnURL = "http://demo.smart2pay.com/redirect.php",
+                    TokenLifetime = 10,
+                    Customer = new Customer
                     {
-                        MerchantTransactionID = MerchantTransactionID,
-                        Amount = 11,
-                        Currency = "CNY",
-                        MethodID = 1066,
-                        ReturnURL = "http://demo.smart2pay.com/redirect.php",
-                        TokenLifetime = 10,
-                        Customer = new Customer
-                        {
-                            Email = "john@doe.com"
-                        },
-                        BillingAddress = new Address
-                        {
-                            Country = "CN"
-                        }
+                        Email = "john@doe.com"
+                    },
+                    BillingAddress = new Address
+                    {
+                        Country = "CN"
                     }
-                };
+                }.ToApiPaymentRequest();
             };
 
             private Because of = () => {
