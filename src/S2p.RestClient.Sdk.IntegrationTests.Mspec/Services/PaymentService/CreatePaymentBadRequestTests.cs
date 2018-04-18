@@ -12,69 +12,66 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
         public class When_creating_a_payment_with_wrong_country
         {
             private Establish context = () => {
-                PaymentServiceTests.InitializeHttpBuilder();
-                PaymentServiceTests.HttpClient = PaymentServiceTests.HttpClientBuilder.Build();
-                PaymentServiceTests.PaymentService = new Sdk.Services.PaymentService(PaymentServiceTests.HttpClient, PaymentServiceTests.BaseAddress);
+                InitializeHttpBuilder();
+                HttpClient = HttpClientBuilder.Build();
+                PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
             };
 
             private Because of = () => {
-                PaymentServiceTests.PaymentRequest = new ApiPaymentRequest
+                PaymentRequest = new PaymentRequest
                 {
-                    Payment = new PaymentRequest
+                    MerchantTransactionID = MerchantTransactionID,
+                    Amount = 11,
+                    Currency = "CNY",
+                    MethodID = 1066,
+                    ReturnURL = "http://demo.smart2pay.com/redirect.php",
+                    TokenLifetime = 10,
+                    Customer = new Customer
                     {
-                        MerchantTransactionID = PaymentServiceTests.MerchantTransactionID,
-                        Amount = 11,
-                        Currency = "CNY",
-                        MethodID = 1066,
-                        ReturnURL = "http://demo.smart2pay.com/redirect.php",
-                        TokenLifetime = 10,
-                        Customer = new Customer
-                        {
-                            Email = "john@doe.com"
-                        },
-                        BillingAddress = new Address
-                        {
-                            Country = "CNN"
-                        }
+                        Email = "john@doe.com"
+                    },
+                    BillingAddress = new Address
+                    {
+                        Country = "CNN"
                     }
-                };
+                }.ToApiPaymentRequest();
 
-                PaymentServiceTests.ApiResult = PaymentServiceTests.PaymentService.CreatePaymentAsync(PaymentServiceTests.PaymentRequest).GetAwaiter().GetResult();
+                ApiResult = PaymentService.CreatePaymentAsync(PaymentRequest).GetAwaiter().GetResult();
             };
 
-            private Cleanup after = () => { PaymentServiceTests.HttpClient.Dispose(); };
+            private Cleanup after = () => { HttpClient.Dispose(); };
 
             private It should_have_created_status_code = () => {
-                PaymentServiceTests.ApiResult.HttpResponse.StatusCode.ShouldEqual(HttpStatusCode.BadRequest);
+                ApiResult.HttpResponse.StatusCode.ShouldEqual(HttpStatusCode.BadRequest);
             };
 
             private It should_have_the_same_merchant_transaction_id = () => {
-                PaymentServiceTests.ApiResult.Value.Payment.MerchantTransactionID.ShouldEqual(PaymentServiceTests.PaymentRequest.Payment.MerchantTransactionID);
+                ApiResult.Value.Payment.MerchantTransactionID.ShouldEqual(PaymentRequest.Payment.MerchantTransactionID);
             };
 
             private It should_have_the_correct_amount = () => {
-                PaymentServiceTests.ApiResult.Value.Payment.Amount.ShouldEqual(PaymentServiceTests.PaymentRequest.Payment.Amount);
+                ApiResult.Value.Payment.Amount.ShouldEqual(PaymentRequest.Payment.Amount);
             };
 
             private It should_have_the_same_currency = () => {
-                PaymentServiceTests.ApiResult.Value.Payment.Currency.ShouldEqual(PaymentServiceTests.PaymentRequest.Payment.Currency);
+                ApiResult.Value.Payment.Currency.ShouldEqual(PaymentRequest.Payment.Currency);
             };
 
             private It should_have_the_correct_status_id = () => {
-                ((int?)PaymentServiceTests.ApiResult.Value.Payment.Status.ID).ShouldEqual(4);
+                ((int?)ApiResult.Value.Payment.Status.ID).ShouldEqual(4);
             };
 
             private It should_have_the_correct_status_info = () => {
-                PaymentServiceTests.ApiResult.Value.Payment.Status.Info.ShouldEqual("Failed");
+                ApiResult.Value.Payment.Status.Info.ShouldEqual("Failed");
             };
 
             private It should_have_the_correct_status__reason_code = () => {
-                var reason = PaymentServiceTests.ApiResult.Value.Payment.Status.Reasons.First();
+                var reason = ApiResult.Value.Payment.Status.Reasons.First();
                 reason.Code.ShouldEqual("147");
             };
 
             private It should_have_the_correct_status__reason_info = () => {
-                var reason = PaymentServiceTests.ApiResult.Value.Payment.Status.Reasons.First();
+                var reason = ApiResult.Value.Payment.Status.Reasons.First();
                 reason.Info.Trim().ShouldEqual("Address details are invalid (BillingAddress)Country - RegEx: ^[a-zA-Z]{2}$;");
             };
         }

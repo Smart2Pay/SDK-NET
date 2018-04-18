@@ -21,33 +21,30 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
-                PaymentRequest = new ApiPaymentRequest
+                PaymentRequest = new PaymentRequest
                 {
-                    Payment = new PaymentRequest
+                    MerchantTransactionID = MerchantTransactionID,
+                    Amount = 200,
+                    Currency = "EUR",
+                    MethodID = 78,
+                    Description = DescriptionText,
+                    ReturnURL = "http://demo.smart2pay.com/redirect.php",
+                    TokenLifetime = 10,
+                    Customer = new Customer
                     {
-                        MerchantTransactionID = MerchantTransactionID,
-                        Amount = 200,
-                        Currency = "EUR",
-                        MethodID = 78,
-                        Description = DescriptionText,
-                        ReturnURL = "http://demo.smart2pay.com/redirect.php",
-                        TokenLifetime = 10,
-                        Customer = new Customer
-                        {
-                            Email = "skrill_user_test@smart2pay.com"
-                        },
-                        BillingAddress = new Address
-                        {
-                            Country = "DE"
-                        },
-                        PreapprovalDetails = new PreapprovalDetails{
+                        Email = "skrill_user_test@smart2pay.com"
+                    },
+                    BillingAddress = new Address
+                    {
+                        Country = "DE"
+                    },
+                    PreapprovalDetails = new PreapprovalDetails
+                    {
                         PreapprovedMaximumAmount = 500,
                         MerchantPreapprovalID = MerchantTransactionID,
                         PreapprovalDescription = "Skrill 1tap payment SDK"
                     }
-
-                }
-                };
+                }.ToApiPaymentRequest();
             };
 
             private Because of = () => {

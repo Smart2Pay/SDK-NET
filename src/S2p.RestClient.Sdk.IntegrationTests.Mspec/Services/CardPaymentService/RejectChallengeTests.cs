@@ -19,52 +19,49 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 CardPaymentService = new Sdk.Services.CardPaymentService(HttpClient, BaseAddress);
-                CardPaymentRequest = new ApiCardPaymentRequest
+                CardPaymentRequest = new CardPaymentRequest
                 {
-                    Payment = new CardPaymentRequest
+                    MerchantTransactionID = MerchantTransactionID,
+                    Amount = 100,
+                    Currency = "USD",
+                    ReturnURL = "http://demo.smart2pay.com/redirect.php",
+                    Description = DescriptionText,
+                    StatementDescriptor = "card payment",
+                    BillingAddress = new Address
                     {
-                        MerchantTransactionID = MerchantTransactionID,
-                        Amount = 100,
-                        Currency = "USD",
-                        ReturnURL = "http://demo.smart2pay.com/redirect.php",
-                        Description = DescriptionText,
-                        StatementDescriptor = "card payment",
-                        BillingAddress = new Address
-                        {
-                            City = "Iasi",
-                            ZipCode = "7000-49",
-                            State = "Iasi",
-                            Street = "Sf Lazar",
-                            StreetNumber = "37",
-                            HouseNumber = "5A",
-                            HouseExtension = "-",
-                            Country = "BR"
-                        },
-                        ShippingAddress = null,
-                        Customer = new Customer
-                        {
-                            FirstName = "John",
-                            LastName = "Doe",
-                            Email = "challenge@challenge.com",
-                            SocialSecurityNumber = "00003456789"
-                        },
-                        Card = new CardDetailsRequest
-                        {
-                            HolderName = "John Doe",
-                            Number = "4111111111111111",
-                            ExpirationMonth = "02",
-                            ExpirationYear = "2022",
-                            SecurityCode = "312"
-                        },
-                        Capture = false,
-                        Retry = false,
-                        GenerateCreditCardToken = false,
-                        PaymentTokenLifetime = 100,
-                        ThreeDSecureCheck = false,
-                        Language = "ro-RO",
-                        SkinID = 200
-                    }
-                };
+                        City = "Iasi",
+                        ZipCode = "7000-49",
+                        State = "Iasi",
+                        Street = "Sf Lazar",
+                        StreetNumber = "37",
+                        HouseNumber = "5A",
+                        HouseExtension = "-",
+                        Country = "BR"
+                    },
+                    ShippingAddress = null,
+                    Customer = new Customer
+                    {
+                        FirstName = "John",
+                        LastName = "Doe",
+                        Email = "challenge@challenge.com",
+                        SocialSecurityNumber = "00003456789"
+                    },
+                    Card = new CardDetailsRequest
+                    {
+                        HolderName = "John Doe",
+                        Number = "4111111111111111",
+                        ExpirationMonth = "02",
+                        ExpirationYear = "2022",
+                        SecurityCode = "312"
+                    },
+                    Capture = false,
+                    Retry = false,
+                    GenerateCreditCardToken = false,
+                    PaymentTokenLifetime = 100,
+                    ThreeDSecureCheck = false,
+                    Language = "ro-RO",
+                    SkinID = 200
+                }.ToApiCardPaymentRequest();
             };
 
             private Because of = () => {

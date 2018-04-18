@@ -24,38 +24,32 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
                 HttpClient = HttpClientBuilder.Build();
                 RefundService = new Sdk.Services.RefundService(HttpClient, BaseAddress);
                 CardPaymentService = new Sdk.Services.CardPaymentService(HttpClient, BaseAddress);
-                CardPaymentRequest = new ApiCardPaymentRequest
+                CardPaymentRequest = new CardPaymentRequest
                 {
-                    Payment = new CardPaymentRequest
+                    MerchantTransactionID = MerchantTransactionID,
+                    Amount = 9000,
+                    Currency = "EUR",
+                    ReturnURL = "http://demo.smart2pay.com/redirect.php",
+                    Description = DescriptionText,
+                    StatementDescriptor = "bank statement message",
+                    Card = new CardDetailsRequest
                     {
-                        MerchantTransactionID = MerchantTransactionID,
-                        Amount = 9000,
-                        Currency = "EUR",
-                        ReturnURL = "http://demo.smart2pay.com/redirect.php",
-                        Description = DescriptionText,
-                        StatementDescriptor = "bank statement message",
-                        Card = new CardDetailsRequest
-                        {
-                            HolderName = "John Doe",
-                            Number = "4548812049400004",
-                            ExpirationMonth = "02",
-                            ExpirationYear = "2022",
-                            SecurityCode = "312"
-                        },
-                        Capture = false,
-                        Retry = false,
-                        GenerateCreditCardToken = false,
-                        PaymentTokenLifetime = 5
-                    }
-                };
-                RefundRequest = new ApiRefundRequest
+                        HolderName = "John Doe",
+                        Number = "4548812049400004",
+                        ExpirationMonth = "02",
+                        ExpirationYear = "2022",
+                        SecurityCode = "312"
+                    },
+                    Capture = false,
+                    Retry = false,
+                    GenerateCreditCardToken = false,
+                    PaymentTokenLifetime = 5
+                }.ToApiCardPaymentRequest();
+                RefundRequest = new RefundRequest()
                 {
-                    Refund = new RefundRequest()
-                    {
-                        Amount = CapturedAmount,
-                        MerchantTransactionID = MerchantTransactionID
-                    }
-                };
+                    Amount = CapturedAmount,
+                    MerchantTransactionID = MerchantTransactionID
+                }.ToApiRefundRequest();
             };
 
             private Because of = () => {

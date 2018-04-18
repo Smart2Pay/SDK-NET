@@ -22,70 +22,64 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 CardPaymentService = new Sdk.Services.CardPaymentService(HttpClient, BaseAddress);
-                CardPaymentInitialRequest = new ApiCardPaymentRequest
+                CardPaymentInitialRequest = new CardPaymentRequest
                 {
-                    Payment = new CardPaymentRequest
+                    MerchantTransactionID = MerchantTransactionID,
+                    Amount = 9000,
+                    Currency = "USD",
+                    ReturnURL = "http://demo.smart2pay.com/redirect.php",
+                    Description = DescriptionText,
+                    StatementDescriptor = "bank statement message",
+                    Card = new CardDetailsRequest
                     {
-                        MerchantTransactionID = MerchantTransactionID,
-                        Amount = 9000,
-                        Currency = "USD",
-                        ReturnURL = "http://demo.smart2pay.com/redirect.php",
-                        Description = DescriptionText,
-                        StatementDescriptor = "bank statement message",
-                        Card = new CardDetailsRequest
-                        {
-                            HolderName = "John Doe",
-                            Number = "4111111111111111",
-                            ExpirationMonth = "02",
-                            ExpirationYear = "2022",
-                            RequireSecurityCode = false,
-                        },
-                        BillingAddress = new Address
-                        {
-                            City = "Iasi",
-                            ZipCode = "7000-49",
-                            State = "Iasi",
-                            Street = "Sf Lazar",
-                            StreetNumber = "37",
-                            HouseNumber = "5A",
-                            HouseExtension = "-",
-                            Country = "BR"
-                        },
-                        Capture = false,
-                        Retry = false,
-                        GenerateCreditCardToken = true,
-                        PaymentTokenLifetime = 5,
-                        
-                    }
-                };
+                        HolderName = "John Doe",
+                        Number = "4111111111111111",
+                        ExpirationMonth = "02",
+                        ExpirationYear = "2022",
+                        RequireSecurityCode = false,
+                    },
+                    BillingAddress = new Address
+                    {
+                        City = "Iasi",
+                        ZipCode = "7000-49",
+                        State = "Iasi",
+                        Street = "Sf Lazar",
+                        StreetNumber = "37",
+                        HouseNumber = "5A",
+                        HouseExtension = "-",
+                        Country = "BR"
+                    },
+                    Capture = false,
+                    Retry = false,
+                    GenerateCreditCardToken = true,
+                    PaymentTokenLifetime = 5,
 
-                CardPaymentRequest = new ApiCardPaymentRequest
+                }.ToApiCardPaymentRequest();
+
+                CardPaymentRequest = new CardPaymentRequest
                 {
-                    Payment = new CardPaymentRequest
+                    MerchantTransactionID = MerchantTransactionID,
+                    Amount = 9000,
+                    Currency = "USD",
+                    CreditCardToken = new CreditCardTokenDetailsRequest()
                     {
-                        MerchantTransactionID = MerchantTransactionID,
-                        Amount = 9000,
-                        Currency = "USD",
-                        CreditCardToken = new CreditCardTokenDetailsRequest()
-                        {
-                            RequireSecurityCode = false,
-                        },
-                        BillingAddress = new Address
-                        {
-                            City = "Iasi",
-                            ZipCode = "7000-49",
-                            State = "Iasi",
-                            Street = "Sf Lazar",
-                            StreetNumber = "37",
-                            HouseNumber = "5A",
-                            HouseExtension = "-",
-                            Country = "BR"
-                        },
-                        Capture = true,
-                        GenerateCreditCardToken = true,
+                        RequireSecurityCode = false,
+                    },
+                    BillingAddress = new Address
+                    {
+                        City = "Iasi",
+                        ZipCode = "7000-49",
+                        State = "Iasi",
+                        Street = "Sf Lazar",
+                        StreetNumber = "37",
+                        HouseNumber = "5A",
+                        HouseExtension = "-",
+                        Country = "BR"
+                    },
+                    Capture = true,
+                    GenerateCreditCardToken = true,
 
-                    }
-                };
+                }.ToApiCardPaymentRequest();
             };
 
             private Because of = () => {

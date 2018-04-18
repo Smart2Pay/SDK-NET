@@ -18,53 +18,54 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
-                PaymentRequest = new ApiPaymentRequest
+                PaymentRequest = new PaymentRequest
                 {
-                    Payment = new PaymentRequest
+                    Amount = 980,
+                    Currency = "DKK",
+                    Description = "test capture SDK",
+                    MethodID = 75,
+                    ReturnURL = "http://demo.smart2pay.com/redirect.php",
+                    MerchantTransactionID = MerchantTransactionID,
+                    Articles = new List<Article>
                     {
-                        Amount = 980,
-                        Currency = "DKK",
-                        Description = "test capture SDK",
-                        MethodID = 75,
-                        ReturnURL = "http://demo.smart2pay.com/redirect.php",
-                        MerchantTransactionID = MerchantTransactionID,
-                        Articles = new List<Article> { new Article{
-                        MerchantArticleID = "1231",
-                        Name = "TEST",
-                        Quantity = 1,
-                        Price = 1000,
-                        VAT = 1000,
-                        Discount = 200,
-                        Type = ArticleType.Product
-                        }},
-                        BillingAddress = new Address()
+                        new Article
                         {
-                            HouseNumber = "",
-                            Street = "Seffleberggate 56,1 mf",
-                            ZipCode = "6800",
-                            City = "Varde",
-                            Country = "DK"
-                        },
-                        ShippingAddress = new Address
-                        {
-                            HouseNumber = "",
-                            Street = "Seffleberggate 56,1 mf",
-                            ZipCode = "6800",
-                            City = "Varde",
-                            Country = "DK"
-                        },
-                        Customer = new Customer
-                        {
-                            FirstName = "Testperson-dk",
-                            LastName = "Approved",
-                            Gender = "1",
-                            Email = "youremail@email.com",
-                            Phone = "20123456",
-                            SocialSecurityNumber = "0801363945"
-                        },
-                        TokenLifetime = 10
-                    }
-                };
+                            MerchantArticleID = "1231",
+                            Name = "TEST",
+                            Quantity = 1,
+                            Price = 1000,
+                            VAT = 1000,
+                            Discount = 200,
+                            Type = ArticleType.Product
+                        }
+                    },
+                    BillingAddress = new Address()
+                    {
+                        HouseNumber = "",
+                        Street = "Seffleberggate 56,1 mf",
+                        ZipCode = "6800",
+                        City = "Varde",
+                        Country = "DK"
+                    },
+                    ShippingAddress = new Address
+                    {
+                        HouseNumber = "",
+                        Street = "Seffleberggate 56,1 mf",
+                        ZipCode = "6800",
+                        City = "Varde",
+                        Country = "DK"
+                    },
+                    Customer = new Customer
+                    {
+                        FirstName = "Testperson-dk",
+                        LastName = "Approved",
+                        Gender = "1",
+                        Email = "youremail@email.com",
+                        Phone = "20123456",
+                        SocialSecurityNumber = "0801363945"
+                    },
+                    TokenLifetime = 10
+                }.ToApiPaymentRequest();
             };
 
             private Because of = () => {

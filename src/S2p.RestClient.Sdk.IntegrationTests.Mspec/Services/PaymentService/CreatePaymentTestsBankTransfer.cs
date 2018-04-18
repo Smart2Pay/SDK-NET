@@ -19,32 +19,29 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
-                PaymentRequest = new ApiPaymentRequest
+                PaymentRequest = new PaymentRequest
                 {
-                    Payment = new PaymentRequest
+                    MerchantTransactionID = MerchantTransactionID,
+                    Amount = 200,
+                    Currency = "EUR",
+                    MethodID = 1,
+                    Description = DescriptionText,
+                    ReturnURL = "http://demo.smart2pay.com/redirect.php",
+                    TokenLifetime = 10,
+                    Customer = new Customer
                     {
-                        MerchantTransactionID = MerchantTransactionID,
-                        Amount = 200,
-                        Currency = "EUR",
-                        MethodID = 1,
-                        Description = DescriptionText,
-                        ReturnURL = "http://demo.smart2pay.com/redirect.php",
-                        TokenLifetime = 10,
-                        Customer = new Customer
-                        {
-                            FirstName = "SDK",
-                            LastName = "Test"
-                        },
-                        BillingAddress = new Address
-                        {
-                            Country = "AT"
-                        },
-                        Details = new PaymentCustomerDetails()
-                        {
-                            ReferenceNumber = MerchantTransactionID
-                        }
+                        FirstName = "SDK",
+                        LastName = "Test"
+                    },
+                    BillingAddress = new Address
+                    {
+                        Country = "AT"
+                    },
+                    Details = new PaymentCustomerDetails()
+                    {
+                        ReferenceNumber = MerchantTransactionID
                     }
-                };
+                }.ToApiPaymentRequest();
             };
 
             private Because of = () => {
