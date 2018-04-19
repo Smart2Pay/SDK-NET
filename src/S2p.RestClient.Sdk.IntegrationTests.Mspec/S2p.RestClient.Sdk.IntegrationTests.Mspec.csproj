@@ -113,6 +113,7 @@
     <Compile Include="Services\CardPaymentService\CreatePaymentWithTokenTests.cs" />
     <Compile Include="Services\CardPaymentService\RecurringCardPayments.cs" />
     <Compile Include="Services\CardPaymentService\RejectChallengeTests.cs" />
+    <Compile Include="Services\ExchangeRateService\ExchangeRateServiceTests.cs" />
     <Compile Include="Services\PaymentMethodService\PaymentMethodServiceTests.cs" />
     <Compile Include="Services\PaymentService\CancelPaymentTests.cs" />
     <Compile Include="Services\PaymentService\CapturePaymentTests.cs" />
