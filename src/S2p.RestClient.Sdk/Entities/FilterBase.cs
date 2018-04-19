@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using S2p.RestClient.Sdk.Infrastructure.Extensions;
 
@@ -9,32 +8,31 @@ namespace S2p.RestClient.Sdk.Entities
 {
     public abstract class FilterBase
     {
-        private const string DateTimeFormat = "yyyyMMddHHmmss";
-        private readonly IDictionary<string, object> PropertyDictionary = new ConcurrentDictionary<string, object>();
+        private readonly IDictionary<string, object> _propertyDictionary = new ConcurrentDictionary<string, object>();
 
         protected T GetOrAddDefault<T>(string key)
         {
             key.ThrowIfNullOrWhiteSpace(nameof(key));
-            if (!PropertyDictionary.ContainsKey(key))
+            if (!_propertyDictionary.ContainsKey(key))
             {
-                PropertyDictionary.Add(new KeyValuePair<string, object>(key, default(T)));
+                _propertyDictionary.Add(new KeyValuePair<string, object>(key, default(T)));
             }
 
-            return (T)PropertyDictionary[key];
+            return (T)_propertyDictionary[key];
         }
 
         protected void Set<T>(string key, T value)
         {
             key.ThrowIfNullOrWhiteSpace(nameof(key));
 
-            PropertyDictionary[key] = value;
+            _propertyDictionary[key] = value;
         }
 
         public Uri ToQueryStringUri(Uri uri)
         {
             uri.ThrowIfNull(nameof(uri));
 
-            var query = string.Join("&", PropertyDictionary
+            var query = string.Join("&", _propertyDictionary
                 .Where(item => !string.IsNullOrWhiteSpace(item.Key) &&
                                item.Value != null)
                 .Select(item => $"{item.Key.UrlEncoded()}={GetFilterString(item.Value).UrlEncoded()}"));
@@ -49,8 +47,8 @@ namespace S2p.RestClient.Sdk.Entities
             if (value == null) { return string.Empty; }
 
             var type = value.GetType();
-            if (type == typeof(DateTime)) { return ((DateTime)value).ToString(DateTimeFormat, CultureInfo.InvariantCulture); }
-            if (type == typeof(DateTime?)) { return ((DateTime?)value).Value.ToString(DateTimeFormat, CultureInfo.InvariantCulture); }
+            if (type == typeof(DateTime)) { return ((DateTime)value).ToGlobalPayFormattedString(); }
+            if (type == typeof(DateTime?)) { return ((DateTime?)value).Value.ToGlobalPayFormattedString(); }
 
             return value.ToString();
         }
