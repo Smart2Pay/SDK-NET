@@ -16,7 +16,7 @@ namespace S2p.RestClient.Sdk.Entities.Validators
                 .WithPredicate(x => !string.IsNullOrWhiteSpace(x.HolderName) && Regex.IsMatch(x.HolderName, ValidationRegexConstants.CardHolderName))
                 .WithErrorMessage(Operator.InvalidPropertyMessage<CardDetailsRequest>(x => x.HolderName, ValidationRegexConstants.CardHolderName));
             AddRuleFor(x => x.Number)
-                .WithPredicate(x => !string.IsNullOrWhiteSpace(x.HolderName) && Regex.IsMatch(x.Number, ValidationRegexConstants.CardNumber))
+                .WithPredicate(x => !string.IsNullOrWhiteSpace(x.Number) && Regex.IsMatch(x.Number, ValidationRegexConstants.CardNumber))
                 .WithErrorMessage(Operator.InvalidPropertyMessage<CardDetailsRequest>(x => x.Number, ValidationRegexConstants.CardNumber));
             AddRuleFor(x => x.ExpirationMonth)
                 .WithPredicate(x => !string.IsNullOrWhiteSpace(x.ExpirationMonth) && Regex.IsMatch(x.ExpirationMonth, ValidationRegexConstants.CardExpirationMonth))

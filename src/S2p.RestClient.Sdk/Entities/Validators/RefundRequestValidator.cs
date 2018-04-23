@@ -38,8 +38,8 @@ namespace S2p.RestClient.Sdk.Entities.Validators
 
             AddInnerValidatorFor(x => x.Articles, () => InnerValidator.Create(new EnumerableValidator<Article>(articleValidator), true));
 
-            AddRuleFor(x => x.TokenLifetime.HasValue)
-                .WithPredicate(x => x.TokenLifetime == null || x.TokenLifetime.Value < 0)
+            AddRuleFor(x => x.TokenLifetime)
+                .WithPredicate(x => x.TokenLifetime == null || x.TokenLifetime.Value >= 0)
                 .WithErrorMessage(Operator.InvalidPropertyMessage<RefundRequest>(x => x.TokenLifetime));
 
         }

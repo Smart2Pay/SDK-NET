@@ -1,15 +1,13 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
 using S2p.RestClient.Sdk.Infrastructure.Extensions;
+using S2p.RestClient.Sdk.Infrastructure.Helpers;
 using S2p.RestClient.Sdk.Validation;
 
 namespace S2p.RestClient.Sdk.Entities.Validators
 {
     public class AddressValidator : AbstractValidator<Address>
     {
-        internal static readonly string CityValidationText = Operator.InvalidPropertyMessage<Address>(x => x.City, ValidationRegexConstants.City);
-        internal static readonly string CountryValidationText = Operator.InvalidPropertyMessage<Address>(x => x.Country, ValidationRegexConstants.Country);
-
         public AddressValidator()
         {
             AddRuleFor(x => x.ID)
@@ -36,8 +34,8 @@ namespace S2p.RestClient.Sdk.Entities.Validators
                     string.IsNullOrWhiteSpace(x.HouseNumber) || Regex.IsMatch(x.HouseNumber, ValidationRegexConstants.HouseNumber))
                 .WithErrorMessage(Operator.InvalidPropertyMessage<Address>(x => x.HouseNumber, ValidationRegexConstants.HouseNumber));
             AddRuleFor(x => x.Country)
-                .WithPredicate(x => !string.IsNullOrWhiteSpace(x.Country) && Regex.IsMatch(x.Country, ValidationRegexConstants.Country))
-                .WithErrorMessage(Operator.InvalidPropertyMessage<Address>(x => x.Country, ValidationRegexConstants.Country));
+                .WithPredicate(x => !string.IsNullOrWhiteSpace(x.Country) && CountryValidationHelper.CountryExists(x.Country))
+                .WithErrorMessage(Operator.InvalidPropertyMessage<Address>(x => x.Country));
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using S2p.RestClient.Sdk.Infrastructure.Extensions;
+using S2p.RestClient.Sdk.Infrastructure.Helpers;
 using S2p.RestClient.Sdk.Validation;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using S2p.RestClient.Sdk.Entities.Validators;
 
 namespace S2p.RestClient.Sdk.Entities.Validators
 {
@@ -17,7 +17,7 @@ namespace S2p.RestClient.Sdk.Entities.Validators
             AddRuleFor(x => x.ID)
                 .WithPredicate(x => Regex.IsMatch(x.ID.ToString(CultureInfo.InvariantCulture), ValidationRegexConstants.ID))
                 .WithErrorMessage(Operator.InvalidPropertyMessage<PaymentRequest>(x => x.ID, ValidationRegexConstants.ID));
-            AddRuleFor(x => x.SkinID.HasValue)
+            AddRuleFor(x => x.SkinID)
                 .WithPredicate(x => x.SkinID == null || Regex.IsMatch(x.SkinID.Value.ToString(CultureInfo.InvariantCulture), ValidationRegexConstants.SkinID))
                 .WithErrorMessage(Operator.InvalidPropertyMessage<PaymentRequest>(x => x.SkinID, ValidationRegexConstants.SkinID));
             AddRuleFor(x => x.MerchantTransactionID)
@@ -30,7 +30,7 @@ namespace S2p.RestClient.Sdk.Entities.Validators
                 .WithPredicate(x => x.Amount > 0 && Regex.IsMatch(x.Amount.ToString(CultureInfo.InvariantCulture), ValidationRegexConstants.Amount))
                 .WithErrorMessage(Operator.InvalidPropertyMessage<PaymentRequest>(x => x.Amount));
             AddRuleFor(x => x.Currency)
-                .WithPredicate(x => !string.IsNullOrWhiteSpace(x.Currency) && Helper.CurrencyExists(x.Currency))
+                .WithPredicate(x => !string.IsNullOrWhiteSpace(x.Currency) && CurrencyValidationHelper.CurrencyExists(x.Currency))
                 .WithErrorMessage(Operator.InvalidPropertyMessage<PaymentRequest>(x => x.Currency));
             AddRuleFor(x => x.ReturnURL)
                 .WithPredicate(x => !string.IsNullOrWhiteSpace(x.ReturnURL) && Regex.IsMatch(x.ReturnURL, ValidationRegexConstants.ReturnURL))

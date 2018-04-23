@@ -1,8 +1,8 @@
-﻿using System.Globalization;
-using System.Text.RegularExpressions;
-using S2p.RestClient.Sdk.Entities.Validators;
-using S2p.RestClient.Sdk.Infrastructure.Extensions;
+﻿using S2p.RestClient.Sdk.Infrastructure.Extensions;
+using S2p.RestClient.Sdk.Infrastructure.Helpers;
 using S2p.RestClient.Sdk.Validation;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace S2p.RestClient.Sdk.Entities.Validators
 {
@@ -21,7 +21,7 @@ namespace S2p.RestClient.Sdk.Entities.Validators
                 .WithPredicate(x => x.Amount > 0 && Regex.IsMatch(x.Amount.ToString(CultureInfo.InvariantCulture), ValidationRegexConstants.Amount))
                 .WithErrorMessage(Operator.InvalidPropertyMessage<CardPayoutRequest>(x => x.Amount));
             AddRuleFor(x => x.Currency)
-                .WithPredicate(x => !string.IsNullOrWhiteSpace(x.Currency) && Helper.CurrencyExists(x.Currency))
+                .WithPredicate(x => !string.IsNullOrWhiteSpace(x.Currency) && CurrencyValidationHelper.CurrencyExists(x.Currency))
                 .WithErrorMessage(Operator.InvalidPropertyMessage<CardPayoutRequest>(x => x.Currency));
             AddRuleFor(x => x.Description)
                 .WithPredicate(x => string.IsNullOrWhiteSpace(x.Description) || Regex.IsMatch(x.Description, ValidationRegexConstants.Description))

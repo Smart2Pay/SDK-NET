@@ -99,7 +99,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
             };
 
             private It should_have_empty_error_message = () => {
-                validationResult.Message.ShouldEqual("Address-Country:Invalid Country, Regex: ^[a-zA-Z]{2}$;");
+                validationResult.Message.ShouldEqual("Address-Country:Invalid Country;");
             };
         }
     }

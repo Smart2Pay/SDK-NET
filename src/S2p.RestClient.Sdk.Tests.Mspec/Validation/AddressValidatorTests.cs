@@ -83,11 +83,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
             };
 
             private It should_have_the_correct_error_message = () => {
-                validationResult.Message.ShouldEqual(
-                    $"{typeof(Address).Name}{ValidationConstants.ObjectPropertySeparator}{nameof(address.City)}" +
-                    $"{ValidationConstants.PropertyMessageSeparator}{AddressValidator.CityValidationText}" +
-                    $"{ValidationConstants.ErrorMessageSeparator}"
-                    );
+                validationResult.Message.ShouldEqual("Address-City:Invalid City, Regex: ^.{1,40}$;");
             };
         }
 
@@ -113,13 +109,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
             };
 
             private It should_have_the_correct_error_message = () => {
-                validationResult.Message.ShouldEqual(
-                    $"{typeof(Address).Name}{ValidationConstants.ObjectPropertySeparator}{nameof(address.City)}" +
-                    $"{ValidationConstants.PropertyMessageSeparator}{AddressValidator.CityValidationText}" +
-                    $"{ValidationConstants.ErrorMessageSeparator}" +
-                    $"{nameof(address.Country)}{ValidationConstants.PropertyMessageSeparator}{AddressValidator.CountryValidationText}" +
-                    $"{ValidationConstants.ErrorMessageSeparator}"
-                );
+                validationResult.Message.ShouldEqual("Address-City:Invalid City, Regex: ^.{1,40}$;Country:Invalid Country;");
             };
 
         }
