@@ -20,7 +20,7 @@ namespace S2p.RestClient.Sdk.Entities
         public string ReturnURL { get; set; }
         public string Description { get; set; }
         public string StatementDescriptor { get; set; }
-        public int MethodID => 6; 
+        public int MethodID => CardConstants.MethodId; 
         public int? MethodOptionID { get; set; }
         public int? SiteID { get; set; }
         public string NotificationDateTime { get; set; }
