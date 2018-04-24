@@ -1,9 +1,10 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
 using S2p.RestClient.Sdk.Infrastructure.Extensions;
+using S2p.RestClient.Sdk.Infrastructure.Helpers;
 using S2p.RestClient.Sdk.Validation;
 
-namespace S2p.RestClient.Sdk.Entities
+namespace S2p.RestClient.Sdk.Entities.Validators
 {
     public class AddressValidator : AbstractValidator<Address>
     {
@@ -33,8 +34,8 @@ namespace S2p.RestClient.Sdk.Entities
                     string.IsNullOrWhiteSpace(x.HouseNumber) || Regex.IsMatch(x.HouseNumber, ValidationRegexConstants.HouseNumber))
                 .WithErrorMessage(Operator.InvalidPropertyMessage<Address>(x => x.HouseNumber, ValidationRegexConstants.HouseNumber));
             AddRuleFor(x => x.Country)
-                .WithPredicate(x => !string.IsNullOrWhiteSpace(x.Country) && Regex.IsMatch(x.Country, ValidationRegexConstants.Country))
-                .WithErrorMessage(Operator.InvalidPropertyMessage<Address>(x => x.Country, ValidationRegexConstants.Country));
+                .WithPredicate(x => !string.IsNullOrWhiteSpace(x.Country) && CountryValidationHelper.CountryExists(x.Country))
+                .WithErrorMessage(Operator.InvalidPropertyMessage<Address>(x => x.Country));
         }
     }
 }
