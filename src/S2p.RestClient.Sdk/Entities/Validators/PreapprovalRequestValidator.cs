@@ -2,7 +2,7 @@
 using S2p.RestClient.Sdk.Validation;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using S2p.RestClient.Sdk.Infrastructure.Helpers;
+using S2p.RestClient.Sdk.Infrastructure.Helper;
 
 namespace S2p.RestClient.Sdk.Entities.Validators
 {
@@ -29,7 +29,7 @@ namespace S2p.RestClient.Sdk.Entities.Validators
                 .WithPredicate(x => !x.PreapprovedMaximumAmount.HasValue || Regex.IsMatch(x.PreapprovedMaximumAmount.Value.ToString(CultureInfo.InvariantCulture), ValidationRegexConstants.Amount))
                 .WithErrorMessage(Operator.InvalidPropertyMessage<PreapprovalRequest>(x => x.PreapprovedMaximumAmount, ValidationRegexConstants.Amount));
             AddRuleFor(x => x.Currency)
-                .WithPredicate(x => string.IsNullOrWhiteSpace(x.Currency) || CurrencyValidationHelper.CurrencyExists(x.Currency))
+                .WithPredicate(x => string.IsNullOrWhiteSpace(x.Currency) || Currency.Exists(x.Currency))
                 .WithErrorMessage(Operator.InvalidPropertyMessage<PreapprovalRequest>(x => x.Currency));
             AddRuleFor(x => x.ReturnURL)
                 .WithPredicate(x => string.IsNullOrWhiteSpace(x.ReturnURL) || Regex.IsMatch(x.ReturnURL, ValidationRegexConstants.PreapprovalReturnURL))

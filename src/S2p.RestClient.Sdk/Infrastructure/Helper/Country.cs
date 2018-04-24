@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace S2p.RestClient.Sdk.Infrastructure.Helpers
+namespace S2p.RestClient.Sdk.Infrastructure.Helper
 {
-    public class CountryValidationHelper
+    public class Country
     {
         private static readonly Dictionary<string, string> Countries = new Dictionary<string, string>()
         {
@@ -261,7 +261,7 @@ namespace S2p.RestClient.Sdk.Infrastructure.Helpers
             return Countries;
         }
 
-        public static bool CountryExists(string countryCode)
+        public static bool Exists(string countryCode)
         {
             return Countries.ContainsKey(countryCode);
         }
