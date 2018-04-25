@@ -3,8 +3,11 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using S2p.RestClient.Sdk.Entities;
+using S2p.RestClient.Sdk.Entities.Validators;
 using S2p.RestClient.Sdk.Infrastructure;
 using S2p.RestClient.Sdk.Infrastructure.Extensions;
+using S2p.RestClient.Sdk.Infrastructure.Helper;
+using S2p.RestClient.Sdk.Validation;
 
 namespace S2p.RestClient.Sdk.Services
 {
@@ -12,6 +15,7 @@ namespace S2p.RestClient.Sdk.Services
     {
         private const string RefundUrlFormat  = "/v1/payments/{0}/refunds";
         private const string RefundTypesUrlFormat = "/v1/refunds/types/{0}/{1}/{2}";
+        private readonly IValidator<RefundRequest> _refundRequestValidator = new RefundRequestValidator();
         
         public RefundService(HttpClient httpClient, Uri baseAddress) : base(httpClient, baseAddress) { }
 
@@ -100,6 +104,13 @@ namespace S2p.RestClient.Sdk.Services
             paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
             refundRequest.ThrowIfNull(nameof(refundRequest));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
+            refundRequest.Refund.ThrowIfNull(nameof(refundRequest.Refund));
+
+            var validationResult = _refundRequestValidator.Validate(refundRequest.Refund);
+            if (!validationResult.IsValid)
+            {
+                return validationResult.ToValidationException().ToApiResult<ApiRefundResponse>().ToAwaitable();
+            }
 
             var uri = GetRefundsUri(paymentId);
             var request = refundRequest.ToHttpRequest(HttpMethod.Post, uri);
@@ -120,6 +131,13 @@ namespace S2p.RestClient.Sdk.Services
             refundRequest.ThrowIfNull(nameof(refundRequest));
             idempotencyToken.ThrowIfNullOrWhiteSpace(nameof(idempotencyToken));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
+            refundRequest.Refund.ThrowIfNull(nameof(refundRequest.Refund));
+
+            var validationResult = _refundRequestValidator.Validate(refundRequest.Refund);
+            if (!validationResult.IsValid)
+            {
+                return validationResult.ToValidationException().ToApiResult<ApiRefundResponse>().ToAwaitable();
+            }
 
             var uri = GetRefundsUri(paymentId);
             var request = refundRequest.ToHttpRequest(HttpMethod.Post, uri);
@@ -175,7 +193,9 @@ namespace S2p.RestClient.Sdk.Services
         {
             paymentMethodId.ThrowIfNotCondition(id => id > 0, nameof(paymentMethodId));
             countryCode.ThrowIfNullOrWhiteSpace(nameof(countryCode));
+            countryCode.ThrowIfNotCondition(Country.Exists, nameof(countryCode));
             currency.ThrowIfNullOrWhiteSpace(nameof(currency));
+            currency.ThrowIfNotCondition(Currency.Exists, nameof(currency));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
             var uri = GetRefundTypesUri(paymentMethodId, countryCode, currency);

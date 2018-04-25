@@ -22,8 +22,8 @@ namespace S2p.RestClient.Sdk.Entities.Validators
                 .WithPredicate(x => string.IsNullOrWhiteSpace(x.Email) || Regex.IsMatch(x.Email, ValidationRegexConstants.CustomerEmail))
                 .WithErrorMessage(Operator.InvalidPropertyMessage<Customer>(x => x.Email, ValidationRegexConstants.CustomerEmail));
             AddRuleFor(x => x.Phone)
-                .WithPredicate(x => string.IsNullOrWhiteSpace(x.Phone) || Regex.IsMatch(x.Email, ValidationRegexConstants.CustomerPhone))
-                .WithErrorMessage(Operator.InvalidPropertyMessage<Customer>(x => x.Email, ValidationRegexConstants.CustomerPhone));
+                .WithPredicate(x => string.IsNullOrWhiteSpace(x.Phone) || Regex.IsMatch(x.Phone, ValidationRegexConstants.CustomerPhone))
+                .WithErrorMessage(Operator.InvalidPropertyMessage<Customer>(x => x.Phone, ValidationRegexConstants.CustomerPhone));
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
 using S2p.RestClient.Sdk.Infrastructure.Extensions;
+using S2p.RestClient.Sdk.Infrastructure.Helper;
 
 namespace S2p.RestClient.Sdk.Services
 {
@@ -26,7 +27,9 @@ namespace S2p.RestClient.Sdk.Services
             CancellationToken cancellationToken)
         {
             fromCurrency.ThrowIfNullOrWhiteSpace(nameof(fromCurrency));
+            fromCurrency.ThrowIfNotCondition(Currency.Exists, nameof(fromCurrency));
             toCurrency.ThrowIfNullOrWhiteSpace(nameof(toCurrency));
+            toCurrency.ThrowIfNotCondition(Currency.Exists, nameof(toCurrency));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
             var uri = GetExcahngeRateUri(fromCurrency, toCurrency);

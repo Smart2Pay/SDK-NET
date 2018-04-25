@@ -115,5 +115,18 @@ namespace S2p.RestClient.Sdk.Infrastructure
                 Value = default(T)
             };
         }
+
+        public static ApiResult<T> Failure<T>(Exception exception)
+        {
+            exception.ThrowIfNull(nameof(exception));
+
+            return new ApiResult<T>
+            {
+                IsSuccess = false,
+                Exception = exception,
+                Content = string.Empty,
+                Value = default(T)
+            };
+        }
     }
 }

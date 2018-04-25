@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
-using S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService;
 
-namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services
+namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PreapprovallService
 {
     partial class PreapprovalServiceTests
     {

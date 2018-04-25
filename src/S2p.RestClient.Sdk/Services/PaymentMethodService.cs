@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
 using S2p.RestClient.Sdk.Infrastructure.Extensions;
+using S2p.RestClient.Sdk.Infrastructure.Helper;
 
 namespace S2p.RestClient.Sdk.Services
 {
@@ -72,6 +73,7 @@ namespace S2p.RestClient.Sdk.Services
             CancellationToken cancellationToken)
         {
             countryCode.ThrowIfNullOrWhiteSpace(nameof(countryCode));
+            countryCode.ThrowIfNotCondition(Country.Exists, nameof(countryCode));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
             var uri = GetPaymentMethodListUri(countryCode);
@@ -122,6 +124,7 @@ namespace S2p.RestClient.Sdk.Services
             CancellationToken cancellationToken)
         {
             countryCode.ThrowIfNullOrWhiteSpace(nameof(countryCode));
+            countryCode.ThrowIfNotCondition(Country.Exists, nameof(countryCode));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
 
             var uri = GetAssignedPaymentMethodListUri(countryCode);

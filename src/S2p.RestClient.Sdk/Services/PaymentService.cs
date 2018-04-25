@@ -3,14 +3,17 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using S2p.RestClient.Sdk.Entities;
+using S2p.RestClient.Sdk.Entities.Validators;
 using S2p.RestClient.Sdk.Infrastructure;
 using S2p.RestClient.Sdk.Infrastructure.Extensions;
+using S2p.RestClient.Sdk.Validation;
 
 namespace S2p.RestClient.Sdk.Services
 {
     public class PaymentService : ServiceBase, IPaymentService
     {
         private const string PaymentRelativeUrl = "v1/payments";
+        private readonly IValidator<PaymentRequest> _paymentRequestValidator = new PaymentRequestValidator();
 
         public PaymentService(HttpClient httpClient, Uri baseAddress) : base(httpClient, baseAddress) { }
 
@@ -83,7 +86,14 @@ namespace S2p.RestClient.Sdk.Services
             CancellationToken cancellationToken)
         {
             paymentRequest.ThrowIfNull(nameof(paymentRequest));
+            paymentRequest.Payment.ThrowIfNull(nameof(paymentRequest.Payment));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
+
+            var validationResult = _paymentRequestValidator.Validate(paymentRequest.Payment);
+            if (!validationResult.IsValid)
+            {
+                return validationResult.ToValidationException().ToApiResult<ApiPaymentResponse>().ToAwaitable();
+            }
 
             var uri = GetPaymentUri();
             var request = paymentRequest.ToHttpRequest(HttpMethod.Post, uri);
@@ -99,8 +109,15 @@ namespace S2p.RestClient.Sdk.Services
             string idempotencyToken, CancellationToken cancellationToken)
         {
             paymentRequest.ThrowIfNull(nameof(paymentRequest));
+            paymentRequest.Payment.ThrowIfNull(nameof(paymentRequest.Payment));
             idempotencyToken.ThrowIfNullOrWhiteSpace(nameof(idempotencyToken));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
+
+            var validationResult = _paymentRequestValidator.Validate(paymentRequest.Payment);
+            if (!validationResult.IsValid)
+            {
+                return validationResult.ToValidationException().ToApiResult<ApiPaymentResponse>().ToAwaitable();
+            }
 
             var uri = GetPaymentUri();
             var request = paymentRequest.ToHttpRequest(HttpMethod.Post, uri);
@@ -218,8 +235,15 @@ namespace S2p.RestClient.Sdk.Services
             CancellationToken cancellationToken)
         {
             paymentRequest.ThrowIfNull(nameof(paymentRequest));
+            paymentRequest.Payment.ThrowIfNull(nameof(paymentRequest.Payment));
             paymentRequest.Payment.PreapprovalID.ThrowIfNull(nameof(paymentRequest.Payment.PreapprovalID));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
+
+            var validationResult = _paymentRequestValidator.Validate(paymentRequest.Payment);
+            if (!validationResult.IsValid)
+            {
+                return validationResult.ToValidationException().ToApiResult<ApiPaymentResponse>().ToAwaitable();
+            }
 
             var uri = GetRecurrentPaymentUri();
             var request = paymentRequest.ToHttpRequest(HttpMethod.Post, uri);
@@ -235,9 +259,16 @@ namespace S2p.RestClient.Sdk.Services
             string idempotencyToken, CancellationToken cancellationToken)
         {
             paymentRequest.ThrowIfNull(nameof(paymentRequest));
+            paymentRequest.Payment.ThrowIfNull(nameof(paymentRequest.Payment));
             paymentRequest.Payment.PreapprovalID.ThrowIfNull(nameof(paymentRequest.Payment.PreapprovalID));
             idempotencyToken.ThrowIfNullOrWhiteSpace(nameof(idempotencyToken));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
+
+            var validationResult = _paymentRequestValidator.Validate(paymentRequest.Payment);
+            if (!validationResult.IsValid)
+            {
+                return validationResult.ToValidationException().ToApiResult<ApiPaymentResponse>().ToAwaitable();
+            }
 
             var uri = GetRecurrentPaymentUri();
             var request = paymentRequest.ToHttpRequest(HttpMethod.Post, uri);

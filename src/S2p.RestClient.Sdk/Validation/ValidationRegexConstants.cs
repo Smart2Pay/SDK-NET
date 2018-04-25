@@ -25,7 +25,7 @@
         public const string Language = @"^[a-zA-Z]{2,3}-[a-zA-Z]{2,4}(-[a-zA-Z]{2,4})*$";
         public const string Installment = @"^([1-9]|10|11|12)$";
         public const string InstallmentPagTotal = @"^([0-9]|10|11|12)$";
-        public const string CustomerPhone = @"^\+\d{1,15}$";
+        public const string CustomerPhone = @"^[\+]{0,1}\d{1,15}$";
         public const string ZipCode = @"^(\d{1,9})$";
         public const string City = @"^.{1,40}$";
         public const string AccountNumber = @"^[0-9]{4,10}$";

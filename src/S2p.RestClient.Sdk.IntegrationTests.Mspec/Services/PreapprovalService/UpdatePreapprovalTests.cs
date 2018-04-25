@@ -5,7 +5,7 @@ using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
 
-namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services
+namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PreapprovallService
 {
     partial class PreapprovalServiceTests
     {

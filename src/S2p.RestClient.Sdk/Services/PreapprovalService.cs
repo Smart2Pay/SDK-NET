@@ -3,14 +3,17 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using S2p.RestClient.Sdk.Entities;
+using S2p.RestClient.Sdk.Entities.Validators;
 using S2p.RestClient.Sdk.Infrastructure;
 using S2p.RestClient.Sdk.Infrastructure.Extensions;
+using S2p.RestClient.Sdk.Validation;
 
 namespace S2p.RestClient.Sdk.Services
 {
     public class PreapprovalService : ServiceBase, IPreapprovalService
     {
         public const string PreapprovalUrl = "/v1/preapprovals";
+        private readonly IValidator<PreapprovalRequest> _preapprovalRequestValidator = new PreapprovalRequestValidator();
 
         public PreapprovalService(HttpClient httpClient, Uri baseAddress) : base(httpClient, baseAddress) { }
 
@@ -90,6 +93,13 @@ namespace S2p.RestClient.Sdk.Services
         {
             preapprovalRequest.ThrowIfNull(nameof(preapprovalRequest));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
+            preapprovalRequest.Preapproval.ThrowIfNull(nameof(preapprovalRequest.Preapproval));
+
+            var validationResult = _preapprovalRequestValidator.Validate(preapprovalRequest.Preapproval);
+            if (!validationResult.IsValid)
+            {
+                return validationResult.ToValidationException().ToApiResult<ApiPreapprovalResponse>().ToAwaitable();
+            }
 
             var uri = new Uri(BaseAddress, PreapprovalUrl);
             var request = preapprovalRequest.ToHttpRequest(HttpMethod.Post, uri);
@@ -107,6 +117,13 @@ namespace S2p.RestClient.Sdk.Services
             preapprovalRequest.ThrowIfNull(nameof(preapprovalRequest));
             idempotencyToken.ThrowIfNullOrWhiteSpace(nameof(idempotencyToken));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
+            preapprovalRequest.Preapproval.ThrowIfNull(nameof(preapprovalRequest.Preapproval));
+
+            var validationResult = _preapprovalRequestValidator.Validate(preapprovalRequest.Preapproval);
+            if (!validationResult.IsValid)
+            {
+                return validationResult.ToValidationException().ToApiResult<ApiPreapprovalResponse>().ToAwaitable();
+            }
 
             var uri = new Uri(BaseAddress, PreapprovalUrl);
             var request = preapprovalRequest.ToHttpRequest(HttpMethod.Post, uri);
@@ -129,6 +146,13 @@ namespace S2p.RestClient.Sdk.Services
             preapprovalId.ThrowIfNotCondition(id => id > 0, nameof(preapprovalId));
             preapprovalRequest.ThrowIfNull(nameof(preapprovalRequest));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
+            preapprovalRequest.Preapproval.ThrowIfNull(nameof(preapprovalRequest.Preapproval));
+
+            var validationResult = _preapprovalRequestValidator.Validate(preapprovalRequest.Preapproval);
+            if (!validationResult.IsValid)
+            {
+                return validationResult.ToValidationException().ToApiResult<ApiPreapprovalResponse>().ToAwaitable();
+            }
 
             var uri = GetPreapprovalUri(preapprovalId);
             var request = preapprovalRequest.ToHttpRequest(Constants.HttpMethodPatch, uri);
@@ -149,6 +173,13 @@ namespace S2p.RestClient.Sdk.Services
             preapprovalRequest.ThrowIfNull(nameof(preapprovalRequest));
             idempotencyToken.ThrowIfNullOrWhiteSpace(nameof(idempotencyToken));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
+            preapprovalRequest.Preapproval.ThrowIfNull(nameof(preapprovalRequest.Preapproval));
+
+            var validationResult = _preapprovalRequestValidator.Validate(preapprovalRequest.Preapproval);
+            if (!validationResult.IsValid)
+            {
+                return validationResult.ToValidationException().ToApiResult<ApiPreapprovalResponse>().ToAwaitable();
+            }
 
             var uri = GetPreapprovalUri(preapprovalId);
             var request = preapprovalRequest.ToHttpRequest(Constants.HttpMethodPatch, uri);
