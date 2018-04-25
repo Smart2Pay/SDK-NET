@@ -3,14 +3,17 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using S2p.RestClient.Sdk.Entities;
+using S2p.RestClient.Sdk.Entities.Validators;
 using S2p.RestClient.Sdk.Infrastructure;
 using S2p.RestClient.Sdk.Infrastructure.Extensions;
+using S2p.RestClient.Sdk.Validation;
 
 namespace S2p.RestClient.Sdk.Services
 {
     public class CardPaymentService : ServiceBase, ICardPaymentService
     {
         private const string PaymentRelativeUrl = "v1/payments";
+        private readonly IValidator<CardPaymentRequest> _cardPaymentValidator = new CardPaymentRequestValidator();
 
         public CardPaymentService(HttpClient httpClient, Uri baseAddress) : base(httpClient, baseAddress) {  }
 
@@ -107,6 +110,13 @@ namespace S2p.RestClient.Sdk.Services
         {
             paymentRequest.ThrowIfNull(nameof(paymentRequest));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
+            paymentRequest.Payment.ThrowIfNull(nameof(paymentRequest.Payment));
+
+            var validationResult = _cardPaymentValidator.Validate(paymentRequest.Payment);
+            if (!validationResult.IsValid)
+            {
+                return validationResult.ToValidationException().ToApiResult<ApiCardPaymentResponse>().ToAwaitable();
+            }
 
             var uri = GetPaymentUri();
             var request = paymentRequest.ToHttpRequest(HttpMethod.Post, uri);
@@ -124,6 +134,13 @@ namespace S2p.RestClient.Sdk.Services
             paymentRequest.ThrowIfNull(nameof(paymentRequest));
             idempotencyToken.ThrowIfNull(nameof(idempotencyToken));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
+            paymentRequest.Payment.ThrowIfNull(nameof(paymentRequest.Payment));
+
+            var validationResult = _cardPaymentValidator.Validate(paymentRequest.Payment);
+            if (!validationResult.IsValid)
+            {
+                return validationResult.ToValidationException().ToApiResult<ApiCardPaymentResponse>().ToAwaitable();
+            }
 
             var uri = GetPaymentUri();
             var request = paymentRequest.ToHttpRequest(HttpMethod.Post, uri);

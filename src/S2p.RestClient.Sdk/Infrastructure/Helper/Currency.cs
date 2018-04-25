@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace S2p.RestClient.Sdk.Infrastructure.Helpers
+namespace S2p.RestClient.Sdk.Infrastructure.Helper
 {
-    public class CurrencyValidationHelper
+    public class Currency
     {
 
         private static readonly Dictionary<string, string> Currencies = new Dictionary<string, string>()
@@ -218,7 +218,7 @@ namespace S2p.RestClient.Sdk.Infrastructure.Helpers
             return Currencies;
         }
 
-        public static bool CurrencyExists(string currencyCode)
+        public static bool Exists(string currencyCode)
         {
             return Currencies.ContainsKey(currencyCode);
         }

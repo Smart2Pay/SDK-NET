@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.RegularExpressions;
 using S2p.RestClient.Sdk.Infrastructure.Extensions;
-using S2p.RestClient.Sdk.Infrastructure.Helpers;
+using S2p.RestClient.Sdk.Infrastructure.Helper;
 using S2p.RestClient.Sdk.Validation;
 
 namespace S2p.RestClient.Sdk.Entities.Validators
@@ -34,7 +34,7 @@ namespace S2p.RestClient.Sdk.Entities.Validators
                     string.IsNullOrWhiteSpace(x.HouseNumber) || Regex.IsMatch(x.HouseNumber, ValidationRegexConstants.HouseNumber))
                 .WithErrorMessage(Operator.InvalidPropertyMessage<Address>(x => x.HouseNumber, ValidationRegexConstants.HouseNumber));
             AddRuleFor(x => x.Country)
-                .WithPredicate(x => !string.IsNullOrWhiteSpace(x.Country) && CountryValidationHelper.CountryExists(x.Country))
+                .WithPredicate(x => !string.IsNullOrWhiteSpace(x.Country) && Country.Exists(x.Country))
                 .WithErrorMessage(Operator.InvalidPropertyMessage<Address>(x => x.Country));
         }
     }

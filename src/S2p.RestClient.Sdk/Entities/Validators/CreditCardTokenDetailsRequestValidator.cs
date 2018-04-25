@@ -9,8 +9,8 @@ namespace S2p.RestClient.Sdk.Entities.Validators
         public CreditCardTokenDetailsRequestValidator()
         {
             AddRuleFor(x => x.Value)
-                .WithPredicate(x => !string.IsNullOrWhiteSpace(x.Value) && Regex.IsMatch(x.Value, ValidationRegexConstants.CardHolderName))
-                .WithErrorMessage(Operator.InvalidPropertyMessage<CreditCardTokenDetailsRequest>(x => x.Value, ValidationRegexConstants.CardHolderName));
+                .WithPredicate(x => !string.IsNullOrWhiteSpace(x.Value))
+                .WithErrorMessage(Operator.InvalidPropertyMessage<CreditCardTokenDetailsRequest>(x => x.Value));
             AddRuleFor(x => x.SecurityCode)
                 .WithPredicate(x => string.IsNullOrWhiteSpace(x.SecurityCode) || Regex.IsMatch(x.SecurityCode, ValidationRegexConstants.CardSecurityCode))
                 .WithErrorMessage(Operator.InvalidPropertyMessage<CreditCardTokenDetailsRequest>(x => x.SecurityCode, ValidationRegexConstants.CardSecurityCode));

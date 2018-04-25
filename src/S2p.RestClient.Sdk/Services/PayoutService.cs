@@ -3,14 +3,17 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using S2p.RestClient.Sdk.Entities;
+using S2p.RestClient.Sdk.Entities.Validators;
 using S2p.RestClient.Sdk.Infrastructure;
 using S2p.RestClient.Sdk.Infrastructure.Extensions;
+using S2p.RestClient.Sdk.Validation;
 
 namespace S2p.RestClient.Sdk.Services
 {
     public class PayoutService : ServiceBase, IPayoutService
     {
         private const string PayoutPartialUrl = "/v1/payouts";
+        private readonly IValidator<CardPayoutRequest> _cardPayoutRequestValidator = new CardPayoutRequestValidator();
 
         public PayoutService(HttpClient httpClient, Uri baseAddress) : base(httpClient, baseAddress) { }
 
@@ -115,6 +118,13 @@ namespace S2p.RestClient.Sdk.Services
         {
             payoutRequest.ThrowIfNull(nameof(payoutRequest));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
+            payoutRequest.Payout.ThrowIfNull(nameof(payoutRequest.Payout));
+
+            var validationResult = _cardPayoutRequestValidator.Validate(payoutRequest.Payout);
+            if (!validationResult.IsValid)
+            {
+                return validationResult.ToValidationException().ToApiResult<ApiCardPayoutResponse>().ToAwaitable();
+            }
 
             var uri = GetPayoutUri();
             var request = payoutRequest.ToHttpRequest(HttpMethod.Post, uri);
@@ -132,6 +142,13 @@ namespace S2p.RestClient.Sdk.Services
             payoutRequest.ThrowIfNull(nameof(payoutRequest));
             idempotencyToken.ThrowIfNullOrWhiteSpace(nameof(idempotencyToken));
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
+            payoutRequest.Payout.ThrowIfNull(nameof(payoutRequest.Payout));
+
+            var validationResult = _cardPayoutRequestValidator.Validate(payoutRequest.Payout);
+            if (!validationResult.IsValid)
+            {
+                return validationResult.ToValidationException().ToApiResult<ApiCardPayoutResponse>().ToAwaitable();
+            }
 
             var uri = GetPayoutUri();
             var request = payoutRequest.ToHttpRequest(HttpMethod.Post, uri);
