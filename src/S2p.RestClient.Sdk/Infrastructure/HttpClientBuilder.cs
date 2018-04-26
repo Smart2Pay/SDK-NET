@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Security.Authentication;
 using Polly;
 using S2p.RestClient.Sdk.Infrastructure.Authentication;
 using S2p.RestClient.Sdk.Infrastructure.Extensions;
@@ -71,6 +72,12 @@ namespace S2p.RestClient.Sdk.Infrastructure
             return this;
         }
 
+        internal static HttpMessageHandler CreateTls12HttpClientHandler()
+        {
+            var winHttpHandler = new WinHttpHandler {SslProtocols = SslProtocols.Tls12};
+            return winHttpHandler;
+        }
+
         internal HttpClientBuilder WithPrimaryHandler(HttpMessageHandler primaryHandler)
         {
             _primaryHandler = primaryHandler;
@@ -79,7 +86,7 @@ namespace S2p.RestClient.Sdk.Infrastructure
 
         public HttpClient Build()
         {
-            var primaryHandler = _primaryHandler ?? new HttpClientHandler();
+            var primaryHandler = _primaryHandler ?? CreateTls12HttpClientHandler();
             var httpClient = primaryHandler
                 .DecorateIf(() => new ResilienceHandler()
                         .WithAsyncPolicyGenerator(_resilienceAsyncPolicyGenerator)

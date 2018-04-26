@@ -20,7 +20,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services
 
         public static void EnableTLS12()
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
     }
 }
