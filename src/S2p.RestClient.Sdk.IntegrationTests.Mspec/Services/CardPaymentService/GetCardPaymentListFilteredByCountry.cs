@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
-using S2p.RestClient.Sdk.Services;
 
 namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
 {
@@ -24,17 +19,20 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
             private static readonly string Country = "US";
 
 
-            private Establish context = () =>
-            {
-                ServiceTestsConstants.EnableTLS12();
+            private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 CardPaymentService = new Sdk.Services.CardPaymentService(HttpClient, BaseAddress);
-                PaymentsFilter = new CardPaymentsFilter { startDate = StartDate, endDate = EndDate, limit = 100, country = Country };
+                PaymentsFilter = new CardPaymentsFilter
+                {
+                    startDate = StartDate,
+                    endDate = EndDate,
+                    limit = 100,
+                    country = Country
+                };
             };
 
-            private Because of = () =>
-            {
+            private Because of = () => {
                 ApiListResult = CardPaymentService.GetPaymentListAsync(PaymentsFilter).GetAwaiter()
                     .GetResult();
                 Data = new CardPaymentFilteredBehaviourData

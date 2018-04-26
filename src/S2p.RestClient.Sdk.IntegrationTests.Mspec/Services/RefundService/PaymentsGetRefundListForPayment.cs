@@ -16,9 +16,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.RefundService
             public const int PaymentId = 3708827;
             public const int RefundCount= 1;
 
-
             private Establish context = () => {
-                ServiceTestsConstants.EnableTLS12();
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 RefundService = new Sdk.Services.RefundService(HttpClient, BaseAddress);

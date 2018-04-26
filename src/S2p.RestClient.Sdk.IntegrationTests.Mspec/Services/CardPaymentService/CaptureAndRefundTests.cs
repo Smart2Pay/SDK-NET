@@ -18,7 +18,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
             private static ApiRefundRequest RefundRequest;
 
             private Establish context = () => {
-                ServiceTestsConstants.EnableTLS12();
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 RefundService = new Sdk.Services.RefundService(HttpClient, BaseAddress);

@@ -29,7 +29,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private static ApiCardPayoutRequest PayoutRequest;
 
             private Establish context = () => {
-                ServiceTestsConstants.EnableTLS12();
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
@@ -106,7 +105,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private static ApiCardPayoutRequest PayoutRequest;
 
             private Establish context = () => {
-                ServiceTestsConstants.EnableTLS12();
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
@@ -172,7 +170,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private static long payoutId = 1252;
 
             private Establish context = () => {
-                ServiceTestsConstants.EnableTLS12();
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
@@ -213,7 +210,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private static long payoutId = 1267;
 
             private Establish context = () => {
-                ServiceTestsConstants.EnableTLS12();
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
@@ -254,7 +250,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private static ApiCardPayoutRequest PayoutRequest;
 
             private Establish context = () => {
-                ServiceTestsConstants.EnableTLS12();
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
@@ -339,7 +334,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private static ApiCardPayoutRequest PayoutRequest;
 
             private Establish context = () => {
-                ServiceTestsConstants.EnableTLS12();
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
@@ -404,7 +398,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private const string currency = "EUR";
 
             private Establish context = () => {
-                ServiceTestsConstants.EnableTLS12();
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
@@ -467,7 +460,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private const string currency = "EUR";
 
             private Establish context = () => {
-                ServiceTestsConstants.EnableTLS12();
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
@@ -578,7 +570,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             protected static PayoutFilteredBehaviourData Data;
 
             private Establish context = () => {
-                ServiceTestsConstants.EnableTLS12();
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
@@ -606,7 +597,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             protected static PayoutFilteredBehaviourData Data;
 
             private Establish context = () => {
-                ServiceTestsConstants.EnableTLS12();
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
@@ -635,7 +625,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             protected static PayoutFilteredBehaviourData Data;
 
             private Establish context = () => {
-                ServiceTestsConstants.EnableTLS12();
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
@@ -662,7 +651,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             protected static PayoutFilteredBehaviourData Data;
 
             private Establish context = () => {
-                ServiceTestsConstants.EnableTLS12();
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
@@ -691,7 +679,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             protected static PayoutFilteredBehaviourData Data;
 
             private Establish context = () => {
-                ServiceTestsConstants.EnableTLS12();
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
@@ -720,7 +707,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             protected static PayoutFilteredBehaviourData Data;
 
             private Establish context = () => {
-                ServiceTestsConstants.EnableTLS12();
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
@@ -749,7 +735,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             protected static PayoutFilteredBehaviourData Data;
 
             private Establish context = () => {
-                ServiceTestsConstants.EnableTLS12();
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
