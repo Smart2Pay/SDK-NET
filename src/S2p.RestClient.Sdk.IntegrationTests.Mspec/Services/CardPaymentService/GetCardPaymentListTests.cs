@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
-using S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService;
 
 namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
 {
@@ -21,7 +16,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
             protected static CardPaymentFilteredBehaviourData Data;
 
             private Establish context = () => {
-                ServiceTestsConstants.EnableTLS12();
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 CardPaymentService = new Sdk.Services.CardPaymentService(HttpClient, BaseAddress);

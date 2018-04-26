@@ -19,7 +19,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
             private static int CapturedAmount = 4500;
 
             private Establish context = () => {
-                ServiceTestsConstants.EnableTLS12();
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 RefundService = new Sdk.Services.RefundService(HttpClient, BaseAddress);

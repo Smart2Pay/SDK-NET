@@ -13,9 +13,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
         {
             private static ApiResult<ApiCardPaymentResponse> PaymentDetailsResult;
 
-            private Establish context = () =>
-            {
-                ServiceTestsConstants.EnableTLS12();
+            private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 CardPaymentService = new Sdk.Services.CardPaymentService(HttpClient, BaseAddress);

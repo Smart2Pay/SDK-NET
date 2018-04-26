@@ -35,7 +35,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
         public class When_creating_a_card_payment_with_card_details
         {
             private Establish context = () => {
-                ServiceTestsConstants.EnableTLS12();
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 CardPaymentService = new Sdk.Services.CardPaymentService(HttpClient, BaseAddress);

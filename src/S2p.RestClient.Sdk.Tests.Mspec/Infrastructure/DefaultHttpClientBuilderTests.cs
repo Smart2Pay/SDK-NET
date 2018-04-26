@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Security.Authentication;
 using System.Text;
 using System.Threading.Tasks;
 using Machine.Specifications;
@@ -120,6 +121,23 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Infrastructure
 
             private It should_have_zero_resilience_policies = () => {
                 DefaultPolicyProvider.PolicyCollection.Count.ShouldEqual(0);
+            };
+        }
+
+        [Subject(typeof(HttpClientBuilder))]
+        public class When_using_default_http_message_handler
+        {
+            private static WinHttpHandler HttpMessageHandler;
+
+            private Because of = () => {
+                HttpMessageHandler =
+                    Sdk.Infrastructure.HttpClientBuilder.CreateTls12HttpClientHandler() as WinHttpHandler;
+            };
+
+            private It should_have_valid_http_message_handler = () => { HttpMessageHandler.ShouldNotBeNull(); };
+
+            private It should_have_tls_12_security_enabled = () => {
+                HttpMessageHandler.SslProtocols.ShouldEqual(SslProtocols.Tls12);
             };
         }
     }
