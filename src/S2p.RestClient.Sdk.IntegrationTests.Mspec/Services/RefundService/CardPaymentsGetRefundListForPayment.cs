@@ -46,7 +46,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.RefundService
             private It should_have_correct_site_id = () => {
                 ApiListResult.Value.Refunds.Count(p => p.SiteID == null ||
                                                         p.SiteID.Value != ServiceTestsConstants
-                                                            .PayoutAuthenticationConfiguration.SiteId)
+                                                            .CardPaymentSystemAuthenticationConfiguration.SiteId)
                     .ShouldEqual(0);
             };
 

@@ -1,6 +1,4 @@
 ﻿using Machine.Specifications;
-using System.Linq;
-using System.Net;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
 using System;

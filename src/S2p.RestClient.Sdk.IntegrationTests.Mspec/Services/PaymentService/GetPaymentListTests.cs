@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
-using S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService;
 
 namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
 {
@@ -63,7 +58,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
             private It should_have_correct_site_id = () => {
                 Data.ApiListResult.Value.Payments.Count(p => p.SiteID == null ||
                                                         p.SiteID.Value != ServiceTestsConstants
-                                                            .PaymentAuthenticationConfiguration.SiteId)
+                                                            .PaymentSystemAuthenticationConfiguration.SiteId)
                     .ShouldEqual(0);
             };
 

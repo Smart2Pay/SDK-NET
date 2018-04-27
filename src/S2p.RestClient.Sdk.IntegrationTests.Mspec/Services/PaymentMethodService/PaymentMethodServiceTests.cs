@@ -14,12 +14,12 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentMethodServic
         private static IPaymentMethodService PaymentMethodService;
         private static IHttpClientBuilder HttpClientBuilder;
         private static HttpClient HttpClient;
-        private static Uri BaseAddress = new Uri(ServiceTestsConstants.PaymentBaseUrl);
+        private static Uri BaseAddress = new Uri(ServiceTestsConstants.PaymentSystemBaseUrl);
         private const string CountryCode = "DE";
 
         private static void InitializeClientBuilder()
         {
-            HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.PaymentAuthenticationConfiguration);
+            HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.PaymentSystemAuthenticationConfiguration);
         }
 
         [Subject(typeof(Sdk.Services.PaymentMethodService))]

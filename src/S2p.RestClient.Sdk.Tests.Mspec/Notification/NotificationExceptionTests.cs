@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading.Tasks;
 using Machine.Specifications;
 using Newtonsoft.Json;
 using S2p.RestClient.Sdk.Notifications;
@@ -16,11 +17,20 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Notification
             private Establish context = () => {
                 NotificationBody = "WrongFormat";
 
-                NotificationProcessor = new NotificationProcessor();
-                NotificationProcessor.InvalidFormatNotificationEvent += (sender, response) => { InvalidFormatNotification = response; };
+                NotificationCallback = new DelegateNotificationCallback
+                {
+                    InvalidFormatNotificationCallback = async response => {
+                        await Task.Delay(1);
+                        InvalidFormatNotification = response;
+                        return true;
+                    }
+                };
+                NotificationProcessor = new NotificationProcessor(NotificationCallback);
             };
 
-            private Because of = () => { Response = NotificationProcessor.ProcessNotificationBody(NotificationBody); };
+            private Because of = () => {
+                Response = NotificationProcessor.ProcessNotificationBodyAsync(NotificationBody).GetAwaiter().GetResult();
+            };
 
             private It should_have_bad_request_response = () => {
                 Response.ShouldEqual(HttpStatusCode.BadRequest);

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Net;
 using System.Net.Http;
 using Machine.Specifications;
@@ -18,12 +17,12 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
         private static ApiPaymentRequest PaymentRequest;
         private static IHttpClientBuilder HttpClientBuilder;
         private static HttpClient HttpClient;
-        private static Uri BaseAddress = new Uri(ServiceTestsConstants.PaymentBaseUrl);
+        private static Uri BaseAddress = new Uri(ServiceTestsConstants.PaymentSystemBaseUrl);
         private const string DescriptionText = "SDK Test Payment";
 
         private static void InitializeHttpBuilder()
         {
-            HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.PaymentAuthenticationConfiguration);
+            HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.PaymentSystemAuthenticationConfiguration);
         }
 
 

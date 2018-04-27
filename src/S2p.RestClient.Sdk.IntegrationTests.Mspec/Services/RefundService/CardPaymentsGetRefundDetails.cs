@@ -13,11 +13,11 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.RefundService
         private static IRefundService RefundService;
         private static IHttpClientBuilder HttpClientBuilder;
         private static HttpClient HttpClient;
-        private static Uri BaseAddress = new Uri(ServiceTestsConstants.PayoutBaseUrl);
+        private static Uri BaseAddress = new Uri(ServiceTestsConstants.CardPaymentSystemBaseUrl);
 
         private static void InitializeClientBuilder()
         {
-            HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.PayoutAuthenticationConfiguration);
+            HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.CardPaymentSystemAuthenticationConfiguration);
         }
         [Subject(typeof(Sdk.Services.RefundService))]
         public class When_requesting_refund_details_for_card_payments_api
@@ -80,7 +80,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.RefundService
             };
 
             private It should_have_correct_site_id = () => {
-                ApiResult.Value.Refund.SiteID.ShouldEqual(ServiceTestsConstants.PayoutAuthenticationConfiguration.SiteId);
+                ApiResult.Value.Refund.SiteID.ShouldEqual(ServiceTestsConstants.CardPaymentSystemAuthenticationConfiguration.SiteId);
             };
         }
 

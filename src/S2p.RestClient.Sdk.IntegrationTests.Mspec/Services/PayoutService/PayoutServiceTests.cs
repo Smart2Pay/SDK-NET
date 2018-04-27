@@ -15,11 +15,11 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
         private static IPayoutService PayoutService;
         private static IHttpClientBuilder HttpClientBuilder;
         private static HttpClient HttpClient;
-        private static readonly Uri BaseAddress = new Uri(ServiceTestsConstants.PayoutBaseUrl);
+        private static readonly Uri BaseAddress = new Uri(ServiceTestsConstants.CardPaymentSystemBaseUrl);
 
         private static void InitializeClientBuilder()
         {
-            HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.PayoutAuthenticationConfiguration);
+            HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.CardPaymentSystemAuthenticationConfiguration);
         }
 
         [Subject(typeof(Sdk.Services.PayoutService))]
@@ -417,7 +417,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
 
             private It should_have_correct_site_id = () => {
                 ApiResult.Value.Payout.SiteID.ShouldEqual(
-                    ServiceTestsConstants.PayoutAuthenticationConfiguration.SiteId);
+                    ServiceTestsConstants.CardPaymentSystemAuthenticationConfiguration.SiteId);
             };
 
             private It should_have_not_null_merchant_transactiono_id = () => {
@@ -543,7 +543,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private It should_have_correct_site_id = () => {
                 ApiResult.Value.Payouts.Count(p => p.SiteID == null ||
                                                    p.SiteID.Value != ServiceTestsConstants
-                                                       .PayoutAuthenticationConfiguration.SiteId)
+                                                       .CardPaymentSystemAuthenticationConfiguration.SiteId)
                     .ShouldEqual(0);
             };
 
@@ -774,7 +774,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private It should_have_correct_site_id = () => {
                 Data.ApiResult.Value.Payouts.Count(p => p.SiteID == null ||
                                                    p.SiteID.Value != ServiceTestsConstants
-                                                       .PayoutAuthenticationConfiguration.SiteId)
+                                                       .CardPaymentSystemAuthenticationConfiguration.SiteId)
                     .ShouldEqual(0);
             };
 

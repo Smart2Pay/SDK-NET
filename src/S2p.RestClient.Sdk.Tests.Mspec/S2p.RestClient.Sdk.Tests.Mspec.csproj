@@ -122,10 +122,10 @@
     <Compile Include="Infrastructure\RetryTests.cs" />
     <Compile Include="Infrastructure\ServiceTestsConstants.cs" />
     <Compile Include="Notification\CardPaymentNotificationTests.cs" />
+    <Compile Include="Notification\DelegateNotificationCallback.cs" />
     <Compile Include="Notification\DisputeNotificationTests.cs" />
-    <Compile Include="Notification\ErrorInEventHandlerTests.cs" />
+    <Compile Include="Notification\ErrorInNotificationCallbackTests.cs" />
     <Compile Include="Notification\InvalidNotificationTypeTests.cs" />
-    <Compile Include="Notification\NoEventHandlerRegisteredTests.cs" />
     <Compile Include="Notification\NotificationExceptionTests.cs" />
     <Compile Include="Notification\PaymentNotificationTests.cs" />
     <Compile Include="Notification\PayoutNotificationTests.cs" />

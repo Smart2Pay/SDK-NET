@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading.Tasks;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Notifications;
 
@@ -31,14 +32,19 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Notification
                                    "  }" +
                                    "}";
 
-                NotificationProcessor = new NotificationProcessor();
-                NotificationProcessor.UnknownTypeNotificationEvent += (sender, notification) => {
-                    Notification = notification;
+                NotificationCallback = new DelegateNotificationCallback
+                {
+                    UnknownTypeNotificationCallback = async response => {
+                        await Task.Delay(1);
+                        Notification = response;
+                        return true;
+                    }
                 };
+                NotificationProcessor = new NotificationProcessor(NotificationCallback);
             };
 
             private Because of = () => {
-                Response = NotificationProcessor.ProcessNotificationBody(NotificationBody);
+                Response = NotificationProcessor.ProcessNotificationBodyAsync(NotificationBody).GetAwaiter().GetResult();
             };
 
             private It should_have_bad_request_response = () => {
