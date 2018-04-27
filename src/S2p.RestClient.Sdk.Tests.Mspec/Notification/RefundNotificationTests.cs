@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading.Tasks;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Notifications;
@@ -9,6 +10,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Notification
     {
         public static INotificationProcessor NotificationProcessor;
         public static HttpStatusCode Response;
+        public static DelegateNotificationCallback NotificationCallback;
 
         [Subject(typeof(NotificationProcessor))]
         public class When_a_refund_notification_arrives
@@ -41,14 +43,19 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Notification
                                    "    }" +
                                    "  }" +
                                    "}";
-                NotificationProcessor = new NotificationProcessor();
-                NotificationProcessor.RefundNotificationEvent += (sender, response) => {
-                    Notification = response;
+                NotificationCallback = new DelegateNotificationCallback
+                {
+                    RefundNotificationCallback = async response => {
+                        await Task.Delay(1);
+                        Notification = response;
+                        return true;
+                    }
                 };
+                NotificationProcessor = new NotificationProcessor(NotificationCallback);
             };
 
             private Because of = () => {
-                Response = NotificationProcessor.ProcessNotificationBody(NotificationBody);
+                Response = NotificationProcessor.ProcessNotificationBodyAsync(NotificationBody).GetAwaiter().GetResult();
             };
 
             private It should_have_no_content_response = () => {

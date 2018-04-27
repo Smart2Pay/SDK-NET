@@ -1,20 +1,10 @@
-﻿using System;
-using System.Net;
-using S2p.RestClient.Sdk.Entities;
+﻿using System.Net;
+using System.Threading.Tasks;
 
 namespace S2p.RestClient.Sdk.Notifications
 {
     public interface INotificationProcessor
     {
-        HttpStatusCode ProcessNotificationBody(string notificationBody);
-
-        event EventHandler<ApiPaymentResponse> PaymentNotificationEvent;
-        event EventHandler<ApiCardPaymentResponse> CardPaymentNotificationEvent;
-        event EventHandler<ApiRefundResponse> RefundNotificationEvent;
-        event EventHandler<ApiPreapprovalResponse> PreapprovalNotificationEvent;
-        event EventHandler<ApiCardPayoutResponse> CardPayoutNotificationEvent;
-        event EventHandler<ApiDisputeResponse> DisputeNotificationEvent;
-        event EventHandler<InvalidFormatNotification> InvalidFormatNotificationEvent;
-        event EventHandler<UnknownTypeNotification> UnknownTypeNotificationEvent;
+        Task<HttpStatusCode> ProcessNotificationBodyAsync(string notificationBody);
     }
 }
