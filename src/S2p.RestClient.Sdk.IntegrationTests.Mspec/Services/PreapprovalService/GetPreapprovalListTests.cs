@@ -37,7 +37,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PreapprovallService
             private It should_have_correct_site_id = () => {
                 ApiListResult.Value.Preapprovals.Count(p => p.SiteID == null ||
                                                         p.SiteID.Value != ServiceTestsConstants
-                                                            .PaymentAuthenticationConfiguration.SiteId)
+                                                            .PaymentSystemAuthenticationConfiguration.SiteId)
                     .ShouldEqual(0);
             };
 

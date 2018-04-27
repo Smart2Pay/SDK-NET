@@ -76,7 +76,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PreapprovallService
             };
 
             private It should_have_correct_site_id = () => {
-                TestData.PaymentResponse.Value.Payment.SiteID.ShouldEqual(ServiceTestsConstants.PaymentAuthenticationConfiguration.SiteId);
+                TestData.PaymentResponse.Value.Payment.SiteID.ShouldEqual(ServiceTestsConstants.PaymentSystemAuthenticationConfiguration.SiteId);
             };
 
 

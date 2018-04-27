@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
@@ -21,13 +17,13 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
         private static ApiCardPaymentRequest CardPaymentRequest;
         private static IHttpClientBuilder HttpClientBuilder;
         private static HttpClient HttpClient;
-        private static Uri BaseAddress = new Uri(ServiceTestsConstants.PayoutBaseUrl);
+        private static Uri BaseAddress = new Uri(ServiceTestsConstants.CardPaymentSystemBaseUrl);
         private const string DescriptionText = "SDK Test Payment";
         private const int CreditCardMethodID = 6;
 
         private static void InitializeHttpBuilder()
         {
-            HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.PayoutAuthenticationConfiguration);
+            HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.CardPaymentSystemAuthenticationConfiguration);
         }
 
 

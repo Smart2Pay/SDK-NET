@@ -64,7 +64,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
             private It should_have_correct_site_id = () => {
                 Data.ApiListResult.Value.Payments.Count(p => p.SiteID == null ||
                                                         p.SiteID.Value != ServiceTestsConstants
-                                                            .PayoutAuthenticationConfiguration.SiteId)
+                                                            .CardPaymentSystemAuthenticationConfiguration.SiteId)
                     .ShouldEqual(0);
             };
 

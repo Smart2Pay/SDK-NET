@@ -63,7 +63,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PreapprovallService
             };
 
             private It should_have_correct_site_id = () => {
-                ApiResult.Value.Preapproval.SiteID.ShouldEqual(ServiceTestsConstants.PaymentAuthenticationConfiguration.SiteId);
+                ApiResult.Value.Preapproval.SiteID.ShouldEqual(ServiceTestsConstants.PaymentSystemAuthenticationConfiguration.SiteId);
             };
 
             private It should_have_correct_method_id = () => {

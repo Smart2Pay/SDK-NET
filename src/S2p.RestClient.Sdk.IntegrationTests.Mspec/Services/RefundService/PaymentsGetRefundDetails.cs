@@ -62,7 +62,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.RefundService
             };
 
             private It should_have_correct_site_id = () => {
-                ApiResult.Value.Refund.SiteID.ShouldEqual(ServiceTestsConstants.PaymentAuthenticationConfiguration.SiteId);
+                ApiResult.Value.Refund.SiteID.ShouldEqual(ServiceTestsConstants.PaymentSystemAuthenticationConfiguration.SiteId);
             };
         }
 

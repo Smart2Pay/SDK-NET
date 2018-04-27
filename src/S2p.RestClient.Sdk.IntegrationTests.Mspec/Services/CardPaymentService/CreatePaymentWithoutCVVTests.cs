@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
-using S2p.RestClient.Sdk.Infrastructure;
 
 namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
 {

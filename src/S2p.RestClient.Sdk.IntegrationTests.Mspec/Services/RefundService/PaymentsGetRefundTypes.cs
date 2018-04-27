@@ -15,12 +15,12 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.RefundService
         private static IRefundService RefundService;
         private static IHttpClientBuilder HttpClientBuilder;
         private static HttpClient HttpClient;
-        private static Uri BaseAddress = new Uri(ServiceTestsConstants.PaymentBaseUrl);
+        private static Uri BaseAddress = new Uri(ServiceTestsConstants.PaymentSystemBaseUrl);
         public const long PaymentId = 3708827;
 
         private static void InitializeClientBuilder()
         {
-            HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.PaymentAuthenticationConfiguration);
+            HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.PaymentSystemAuthenticationConfiguration);
         }
 
         [Subject(typeof(Sdk.Services.RefundService))]

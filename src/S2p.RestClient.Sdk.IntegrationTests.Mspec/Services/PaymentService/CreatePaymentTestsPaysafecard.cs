@@ -1,11 +1,5 @@
 ﻿using Machine.Specifications;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using S2p.RestClient.Sdk.Entities;
 
 namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService

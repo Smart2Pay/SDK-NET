@@ -13,13 +13,13 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PreapprovallService
         private static IPreapprovalService PreapprovalService;
         private static IHttpClientBuilder HttpClientBuilder;
         private static HttpClient HttpClient;
-        private static readonly Uri BaseAddress = new Uri(ServiceTestsConstants.PaymentBaseUrl);
+        private static readonly Uri BaseAddress = new Uri(ServiceTestsConstants.PaymentSystemBaseUrl);
         private const string DescriptionText = "SDK Test Preapproval";
         private static string MerchantTransactionId => Guid.NewGuid().ToString();
 
         private static void InitializeClientBuilder()
         {
-            HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.PaymentAuthenticationConfiguration);
+            HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.PaymentSystemAuthenticationConfiguration);
         }
 
         [Subject(typeof(Sdk.Services.PreapprovalService))]
@@ -68,7 +68,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PreapprovallService
             };
 
             private It should_have_correct_site_id = () => {
-                ApiResult.Value.Preapproval.SiteID.ShouldEqual(ServiceTestsConstants.PaymentAuthenticationConfiguration.SiteId);
+                ApiResult.Value.Preapproval.SiteID.ShouldEqual(ServiceTestsConstants.PaymentSystemAuthenticationConfiguration.SiteId);
             };
 
             private It should_have_correct_method_id = () => {

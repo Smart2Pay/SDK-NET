@@ -2,7 +2,6 @@
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Validation;
 using System;
-using System.Collections.Generic;
 using S2p.RestClient.Sdk.Entities.Validators;
 
 namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
