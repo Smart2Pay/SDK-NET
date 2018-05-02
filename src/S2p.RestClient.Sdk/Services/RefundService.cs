@@ -33,7 +33,7 @@ namespace S2p.RestClient.Sdk.Services
         {
             paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
             refundId.ThrowIfNotCondition(id => id > 0, nameof(refundId));
-            return new Uri(string.Concat(GetRefundsUri(paymentId), "/", refundId, "//status"));
+            return new Uri(string.Concat(GetRefundsUri(paymentId).AbsoluteUri, "/", refundId, "/", "status"));
         }
 
         private Uri GetRefundsUri(long paymentId, int refundId)
@@ -41,7 +41,7 @@ namespace S2p.RestClient.Sdk.Services
             paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
             refundId.ThrowIfNotCondition(id => id > 0, nameof(refundId));
 
-            return new Uri(string.Concat(GetRefundsUri(paymentId), "/", refundId));
+            return new Uri(string.Concat(GetRefundsUri(paymentId).AbsoluteUri, "/", refundId));
         }
 
         public Task<ApiResult<ApiRefundResponse>> GetRefundAsync(long paymentId, int refundId,
@@ -157,7 +157,7 @@ namespace S2p.RestClient.Sdk.Services
 
         private Uri GetRefundTypesUri(long paymentId)
         {
-            return new Uri(string.Concat(GetRefundsUri(paymentId),"/types"));
+            return new Uri(string.Concat(GetRefundsUri(paymentId).AbsoluteUri, "/", "types"));
         }
 
         private Uri GetRefundTypesUri(short paymentMethodId, string countryCode,
