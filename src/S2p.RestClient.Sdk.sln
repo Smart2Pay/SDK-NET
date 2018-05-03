@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S2p.RestClient.Sdk.Tests.Ms
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S2p.RestClient.Sdk.IntegrationTests.Mspec", "S2p.RestClient.Sdk.IntegrationTests.Mspec\S2p.RestClient.Sdk.IntegrationTests.Mspec.csproj", "{815B6166-0DB9-4B65-B8BB-434D45AED7E8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S2p.RestClient.Sdk.SampleNotification.WebApi", "S2p.RestClient.Sdk.SampleNotification.WebApi\S2p.RestClient.Sdk.SampleNotification.WebApi.csproj", "{2ADEF5DB-3DF6-4656-8C6A-0C720E2678BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{815B6166-0DB9-4B65-B8BB-434D45AED7E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{815B6166-0DB9-4B65-B8BB-434D45AED7E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{815B6166-0DB9-4B65-B8BB-434D45AED7E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2ADEF5DB-3DF6-4656-8C6A-0C720E2678BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2ADEF5DB-3DF6-4656-8C6A-0C720E2678BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2ADEF5DB-3DF6-4656-8C6A-0C720E2678BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2ADEF5DB-3DF6-4656-8C6A-0C720E2678BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
