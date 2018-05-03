@@ -11,7 +11,7 @@ namespace S2p.RestClient.Sdk.Infrastructure.Resilience
 {
     public class ResilienceHandler : DelegatingHandler
     {
-        private static ILoggerAdapter Logger => LoggingDefault.AdapterFactory.Get(typeof(ResilienceHandler).FullName);
+        private static ILogger Logger => LoggingDefault.Provider.GetLogger<ResilienceHandler>();
 
         private object _configuration = ResilienceDefault.Configuration;
         private Func<HttpRequestMessage, object, IAsyncPolicy<HttpResponseMessage>> _asyncPolicyGenerator = ResilienceDefault.PolicyProvider.GetAsyncPolicy;

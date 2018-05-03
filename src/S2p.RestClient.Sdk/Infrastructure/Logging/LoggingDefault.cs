@@ -2,6 +2,6 @@
 {
     public static class LoggingDefault
     {
-        public static readonly LoggerAdapterFactory AdapterFactory = new LoggerAdapterFactory();
+        public static readonly LoggerProvider Provider = new LoggerProvider();
     }
 }

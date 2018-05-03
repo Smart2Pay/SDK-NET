@@ -2,7 +2,7 @@
 
 namespace S2p.RestClient.Sdk.Infrastructure.Logging
 {
-    internal class NullLoggerAdapter : ILoggerAdapter
+    internal class NullLogger : ILogger
     {
         public void LogDebug(object message) { }
         public void LogDebug(object message, Exception exception) { }
