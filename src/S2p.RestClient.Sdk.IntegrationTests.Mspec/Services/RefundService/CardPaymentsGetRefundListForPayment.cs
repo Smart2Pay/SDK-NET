@@ -51,7 +51,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.RefundService
             };
 
             private It should_have_not_null_refund_ids = () => {
-                ApiListResult.Value.Refunds.Count(p => p.ID == null || p.ID <= 0).ShouldEqual(0);
+                ApiListResult.Value.Refunds.Count(p => p.ID <= 0).ShouldEqual(0);
             };
 
             private It should_have_not_null_merchant_transaction_ids = () => {
