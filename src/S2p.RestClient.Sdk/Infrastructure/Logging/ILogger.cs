@@ -2,7 +2,7 @@
 
 namespace S2p.RestClient.Sdk.Infrastructure.Logging
 {
-    public interface ILoggerAdapter
+    public interface ILogger
     {
         void LogInfo(object message);
         void LogInfo(object message, Exception exception);

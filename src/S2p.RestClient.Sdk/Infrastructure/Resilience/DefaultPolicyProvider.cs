@@ -15,7 +15,7 @@ namespace S2p.RestClient.Sdk.Infrastructure.Resilience
 {
     internal class DefaultPolicyProvider
     {
-        private static ILoggerAdapter Logger => LoggingDefault.AdapterFactory.Get(typeof(DefaultPolicyProvider).FullName);
+        private static ILogger Logger => LoggingDefault.Provider.GetLogger<DefaultPolicyProvider>();
 
         private static readonly HttpStatusCode[] HttpStatusCodesToRetry =
         {
