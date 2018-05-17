@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Authors>Smart2Pay</Authors>
+    <Company>Coop. Ver. Smart2Pay Technology &amp; Services U.A.</Company>
+    <Description>The official Smart2Pay library, supporting .NET Standard 1.3+, .NET Core 1.1+, and .NET Framework 4.6.1+</Description>
+    <Copyright>Copyright (c) 2018-present, Coop. Ver. Smart2Pay Technology &amp; Services U.A.. All rights reserved.</Copyright>
+    <PackageProjectUrl>https://docs.smart2pay.com/category/smart2pay-sdk-net/</PackageProjectUrl>
+    <PackageIconUrl>https://docs.smart2pay.com/wp-content/themes/s2p_documentation/img/smart2pay_400px_300dpi.png</PackageIconUrl>
+    <PackageTags>Smart2Pay, REST, API, REST API, Payments, Payments API</PackageTags>
+    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <PackageLicenseUrl>http://docs.smart2pay.com/wp-content/plugins/smart2pay-api/dotnet-sdk-license.txt</PackageLicenseUrl>
   </PropertyGroup>
 
   <ItemGroup>
