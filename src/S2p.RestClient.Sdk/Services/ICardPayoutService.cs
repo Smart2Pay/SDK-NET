@@ -5,7 +5,7 @@ using S2p.RestClient.Sdk.Infrastructure;
 
 namespace S2p.RestClient.Sdk.Services
 {
-    public interface IPayoutService
+    public interface ICardPayoutService
     {
         Task<ApiResult<ApiCardPayoutListResponse>> GetPayoutListAsync(CancellationToken cancellationToken);
         Task<ApiResult<ApiCardPayoutListResponse>> GetPayoutListAsync();
