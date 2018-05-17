@@ -5,7 +5,7 @@ namespace S2p.RestClient.Sdk.Notifications
 {
     public interface INotificationCallback
     {
-        Task<bool> PaymentNotificationCallbackAsync(ApiPaymentResponse paymentNotification);
+        Task<bool> AlternativePaymentNotificationCallbackAsync(ApiAlternativePaymentResponse alternativePaymentNotification);
         Task<bool> CardPaymentNotificationCallbackAsync(ApiCardPaymentResponse cardPaymentNotification);
         Task<bool> RefundNotificationCallbackAsync(ApiRefundResponse refundNotification);
         Task<bool> PreapprovalNotificationCallbackAsync(ApiPreapprovalResponse preapprovalNotification);

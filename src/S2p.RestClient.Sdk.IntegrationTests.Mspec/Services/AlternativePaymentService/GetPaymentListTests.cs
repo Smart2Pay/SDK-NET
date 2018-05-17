@@ -11,8 +11,8 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentS
         [Subject(typeof(Sdk.Services.AlternativePaymentService))]
         public class When_requesting_payment_list
         {
-            private static ApiResult<ApiPaymentListResponse> ApiListResult;
-            private static PaymentsFilter PaymentsFilter;
+            private static ApiResult<ApiAlternativePaymentListResponse> ApiListResult;
+            private static AlternativePaymentsFilter PaymentsFilter;
             protected static PaymentFilteredBehaviourData Data;
             private const int Limit = 10;
 
@@ -21,7 +21,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentS
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
-                PaymentsFilter = new PaymentsFilter { };
+                PaymentsFilter = new AlternativePaymentsFilter { };
             };
 
             private Because of = () => {
@@ -99,9 +99,9 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentS
 
         public class PaymentFilteredBehaviourData
         {
-            public ApiResult<ApiPaymentListResponse> ApiListResult { get; set; }
+            public ApiResult<ApiAlternativePaymentListResponse> ApiListResult { get; set; }
             public int Limit { get; set; }
-            public PaymentsFilter PaymentsFilter { get; set; }
+            public AlternativePaymentsFilter PaymentsFilter { get; set; }
 
         }
     }

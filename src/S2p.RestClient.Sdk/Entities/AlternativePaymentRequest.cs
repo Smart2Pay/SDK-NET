@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace S2p.RestClient.Sdk.Entities
 {
-    public class PaymentRequest
+    public class AlternativePaymentRequest
     {
         public int ID { get; set; }
         public int? SkinID { get; set; }

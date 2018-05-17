@@ -15,9 +15,9 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PreapprovallService
         public class When_creating_a_recurring_payment
         {
 
-            private static ApiResult<ApiPaymentResponse> CreatePaymentResponse;
+            private static ApiResult<ApiAlternativePaymentResponse> CreatePaymentResponse;
             private static Sdk.Services.AlternativePaymentService _alternativePaymentService;
-            private static ApiPaymentRequest PaymentRequest;
+            private static ApiAlternativePaymentRequest PaymentRequest;
             private static RecurringPaymentTestData TestData;
 
             private Establish context = () => {
@@ -25,7 +25,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PreapprovallService
                 HttpClient = HttpClientBuilder.Build();
                 PreapprovalService = new PreapprovalService(HttpClient, BaseAddress);
                 _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
-                PaymentRequest = new PaymentRequest
+                PaymentRequest = new AlternativePaymentRequest
                 {
                     PreapprovalID = 9311,
                     MerchantTransactionID = Guid.NewGuid().ToString(),
@@ -43,7 +43,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PreapprovallService
                     {
                         Country = "BR"
                     }
-                }.ToApiPaymentRequest();
+                }.ToApiAlternativePaymentRequest();
             };
 
             private Because of = () => {
@@ -99,9 +99,9 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PreapprovallService
 
             public class RecurringPaymentTestData
             {
-                public ApiResult<ApiPaymentListResponse> Before { get; set; }
-                public ApiResult<ApiPaymentListResponse> After { get; set; }
-                public ApiResult<ApiPaymentResponse> PaymentResponse { get; set; }
+                public ApiResult<ApiAlternativePaymentListResponse> Before { get; set; }
+                public ApiResult<ApiAlternativePaymentListResponse> After { get; set; }
+                public ApiResult<ApiAlternativePaymentResponse> PaymentResponse { get; set; }
             }
         }
     }

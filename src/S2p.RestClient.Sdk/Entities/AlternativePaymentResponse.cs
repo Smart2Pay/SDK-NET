@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace S2p.RestClient.Sdk.Entities
 {
-    public class PaymentResponse
+    public class AlternativePaymentResponse
     {
         public int? ID { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
@@ -29,7 +29,7 @@ namespace S2p.RestClient.Sdk.Entities
         public Address ShippingAddress { get; set; }
         public List<Article> Articles { get; set; }
         public PaymentCustomerDetails Details { get; set; }
-        public PaymentReferenceDetails ReferenceDetails { get; set; }
+        public AlternativePaymentReferenceDetails ReferenceDetails { get; set; }
         public Dictionary<string, string> CustomParameters { get; set; }
         public int? PreapprovalID { get; set; }
         public PaymentStateDetails Status { get; set; }

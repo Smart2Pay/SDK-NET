@@ -12,13 +12,13 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentS
         [Subject(typeof(Sdk.Services.AlternativePaymentService))]
         public class When_getting_details_for_a_specific_payment
         {
-            private static ApiResult<ApiPaymentResponse> CreatePaymentResult { get; set; }
+            private static ApiResult<ApiAlternativePaymentResponse> CreatePaymentResult { get; set; }
 
             private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
-                PaymentRequest = new PaymentRequest
+                PaymentRequest = new AlternativePaymentRequest
                 {
                     Amount = 980,
                     Currency = "DKK",
@@ -65,14 +65,14 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentS
                         SocialSecurityNumber = "0801363945"
                     },
                     TokenLifetime = 10
-                }.ToApiPaymentRequest();
+                }.ToApiAlternativePaymentRequest();
             };
 
             private Because of = () => {
                 ApiResult = BecauseAsync().GetAwaiter().GetResult();
             };
 
-            private static async Task<ApiResult<ApiPaymentResponse>> BecauseAsync()
+            private static async Task<ApiResult<ApiAlternativePaymentResponse>> BecauseAsync()
             {
                 CreatePaymentResult = await _alternativePaymentService.CreatePaymentAsync(PaymentRequest);
                 return await _alternativePaymentService.GetPaymentAsync(CreatePaymentResult.Value.Payment.ID.Value);

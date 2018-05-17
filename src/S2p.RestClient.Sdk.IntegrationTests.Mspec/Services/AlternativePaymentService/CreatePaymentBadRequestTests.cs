@@ -16,7 +16,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentS
             };
 
             private Because of = () => {
-                PaymentRequest = new PaymentRequest
+                PaymentRequest = new AlternativePaymentRequest
                 {
                     MerchantTransactionID = MerchantTransactionID,
                     Amount = 11,
@@ -32,7 +32,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentS
                     {
                         Country = "CNN"
                     }
-                }.ToApiPaymentRequest();
+                }.ToApiAlternativePaymentRequest();
 
                 ApiResult = _alternativePaymentService.CreatePaymentAsync(PaymentRequest).GetAwaiter().GetResult();
             };

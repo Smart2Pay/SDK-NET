@@ -95,7 +95,7 @@ namespace S2p.RestClient.Sdk.SampleNotification.NetCore.Models
             }
         }
 
-        public async Task<bool> PaymentNotificationCallbackAsync(ApiPaymentResponse paymentNotification)
+        public async Task<bool> AlternativePaymentNotificationCallbackAsync(ApiAlternativePaymentResponse alternativePaymentNotification)
         {
             try
             {

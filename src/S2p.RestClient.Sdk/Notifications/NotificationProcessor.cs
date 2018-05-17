@@ -19,8 +19,8 @@ namespace S2p.RestClient.Sdk.Notifications
 
             _callbackDictionary = new Dictionary<Type, object>
             {
-                {typeof(ApiPaymentResponse),
-                    new Func<ApiPaymentResponse, Task<bool>>(notificationCallback.PaymentNotificationCallbackAsync)},
+                {typeof(ApiAlternativePaymentResponse),
+                    new Func<ApiAlternativePaymentResponse, Task<bool>>(notificationCallback.AlternativePaymentNotificationCallbackAsync)},
                 {typeof(ApiCardPaymentResponse),
                     new Func<ApiCardPaymentResponse, Task<bool>>(notificationCallback.CardPaymentNotificationCallbackAsync)},
                 {typeof(ApiRefundResponse),
@@ -110,7 +110,7 @@ namespace S2p.RestClient.Sdk.Notifications
             var methodId = notification[NotificationType.Payment][methodIdText].Value<int>();
             return methodId == CardConstants.MethodId 
                 ? OnNotification<ApiCardPaymentResponse>(notificationBody) 
-                : OnNotification<ApiPaymentResponse>(notificationBody);
+                : OnNotification<ApiAlternativePaymentResponse>(notificationBody);
         }
     }
 }

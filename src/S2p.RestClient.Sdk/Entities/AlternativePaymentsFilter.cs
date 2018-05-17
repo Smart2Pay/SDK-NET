@@ -2,7 +2,7 @@
 
 namespace S2p.RestClient.Sdk.Entities
 {
-    public class PaymentsFilter : FilterBase
+    public class AlternativePaymentsFilter : FilterBase
     {
         public long? pageIndex
         {

@@ -10,8 +10,8 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentS
         [Subject(typeof(Sdk.Services.AlternativePaymentService))]
         public class When_requesting_payment_list_filtered_by_method_id
         {
-            private static ApiResult<ApiPaymentListResponse> ApiListResult;
-            private static PaymentsFilter PaymentsFilter;
+            private static ApiResult<ApiAlternativePaymentListResponse> ApiListResult;
+            private static AlternativePaymentsFilter PaymentsFilter;
             protected static PaymentFilteredBehaviourData Data;
             private const int Limit = 3;
             private static readonly DateTime StartDate = new DateTime(2018, 4, 3);
@@ -23,7 +23,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentS
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
-                PaymentsFilter = new PaymentsFilter { startDate = StartDate, endDate = EndDate, pageSize = 100, methodID = MethodId};
+                PaymentsFilter = new AlternativePaymentsFilter { startDate = StartDate, endDate = EndDate, pageSize = 100, methodID = MethodId};
             };
 
             private Because of = () => {

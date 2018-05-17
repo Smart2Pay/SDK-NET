@@ -12,9 +12,9 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentS
     {
         private static IAlternativePaymentService _alternativePaymentService;
 
-        private static ApiResult<ApiPaymentResponse> ApiResult;
+        private static ApiResult<ApiAlternativePaymentResponse> ApiResult;
         private static string MerchantTransactionID => Guid.NewGuid().ToString();
-        private static ApiPaymentRequest PaymentRequest;
+        private static ApiAlternativePaymentRequest PaymentRequest;
         private static IHttpClientBuilder HttpClientBuilder;
         private static HttpClient HttpClient;
         private static Uri BaseAddress = new Uri(ServiceTestsConstants.PaymentSystemBaseUrl);
@@ -33,7 +33,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentS
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
-                PaymentRequest = new PaymentRequest
+                PaymentRequest = new AlternativePaymentRequest
                 {
                     MerchantTransactionID = MerchantTransactionID,
                     Amount = 11,
@@ -49,7 +49,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentS
                     {
                         Country = "CN"
                     }
-                }.ToApiPaymentRequest();
+                }.ToApiAlternativePaymentRequest();
             };
 
             private Because of = () => {

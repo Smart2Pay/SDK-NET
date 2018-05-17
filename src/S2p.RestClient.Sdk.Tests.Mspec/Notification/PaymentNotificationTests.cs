@@ -12,7 +12,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Notification
         public class When_a_payment_notification_arrives
         {
             private static string NotificationBody;
-            private static ApiPaymentResponse Notification;
+            private static ApiAlternativePaymentResponse Notification;
 
             private Establish context = () => {
                 NotificationBody = "{" +

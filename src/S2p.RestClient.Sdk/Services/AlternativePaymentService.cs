@@ -13,7 +13,7 @@ namespace S2p.RestClient.Sdk.Services
     public class AlternativePaymentService : ServiceBase, IAlternativePaymentService
     {
         private const string PaymentRelativeUrl = "v1/payments";
-        private readonly IValidator<PaymentRequest> _paymentRequestValidator = new PaymentRequestValidator();
+        private readonly IValidator<AlternativePaymentRequest> _paymentRequestValidator = new AlternativePaymentRequestValidator();
 
         public AlternativePaymentService(HttpClient httpClient, Uri baseAddress) : base(httpClient, baseAddress) { }
 
@@ -32,7 +32,7 @@ namespace S2p.RestClient.Sdk.Services
             return uri;
         }
 
-        public Task<ApiResult<ApiPaymentResponse>> GetPaymentAsync(long paymentId,
+        public Task<ApiResult<ApiAlternativePaymentResponse>> GetPaymentAsync(long paymentId,
             CancellationToken cancellationToken)
         {
             paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
@@ -40,28 +40,28 @@ namespace S2p.RestClient.Sdk.Services
 
             var uri = GetPaymentUri(paymentId);
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
-            return HttpClient.InvokeAsync<ApiPaymentResponse>(request, cancellationToken);
+            return HttpClient.InvokeAsync<ApiAlternativePaymentResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiPaymentResponse>> GetPaymentAsync(long paymentId)
+        public Task<ApiResult<ApiAlternativePaymentResponse>> GetPaymentAsync(long paymentId)
         {
             return GetPaymentAsync(paymentId, CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiPaymentListResponse>> GetPaymentListAsync(CancellationToken cancellationToken)
+        public Task<ApiResult<ApiAlternativePaymentListResponse>> GetPaymentListAsync(CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfNull(nameof(cancellationToken));
             var uri = GetPaymentUri();
             var request = new HttpRequestMessage(HttpMethod.Get, uri);
-            return HttpClient.InvokeAsync<ApiPaymentListResponse>(request, cancellationToken);
+            return HttpClient.InvokeAsync<ApiAlternativePaymentListResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiPaymentListResponse>> GetPaymentListAsync()
+        public Task<ApiResult<ApiAlternativePaymentListResponse>> GetPaymentListAsync()
         {
             return GetPaymentListAsync(CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiPaymentListResponse>> GetPaymentListAsync(PaymentsFilter filter,
+        public Task<ApiResult<ApiAlternativePaymentListResponse>> GetPaymentListAsync(AlternativePaymentsFilter filter,
             CancellationToken cancellationToken)
         {
             filter.ThrowIfNull(nameof(filter));
@@ -70,10 +70,10 @@ namespace S2p.RestClient.Sdk.Services
             var uri = GetPaymentUri();
             var queryStringUri = filter.ToQueryStringUri(uri);
             var request = new HttpRequestMessage(HttpMethod.Get, queryStringUri);
-            return HttpClient.InvokeAsync<ApiPaymentListResponse>(request, cancellationToken);
+            return HttpClient.InvokeAsync<ApiAlternativePaymentListResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiPaymentListResponse>> GetPaymentListAsync(PaymentsFilter filter)
+        public Task<ApiResult<ApiAlternativePaymentListResponse>> GetPaymentListAsync(AlternativePaymentsFilter filter)
         {
             return GetPaymentListAsync(filter, CancellationToken.None);
         }
@@ -82,7 +82,7 @@ namespace S2p.RestClient.Sdk.Services
 
         #region CreatePayment
 
-        public Task<ApiResult<ApiPaymentResponse>> CreatePaymentAsync(ApiPaymentRequest paymentRequest,
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CreatePaymentAsync(ApiAlternativePaymentRequest paymentRequest,
             CancellationToken cancellationToken)
         {
             paymentRequest.ThrowIfNull(nameof(paymentRequest));
@@ -92,20 +92,20 @@ namespace S2p.RestClient.Sdk.Services
             var validationResult = _paymentRequestValidator.Validate(paymentRequest.Payment);
             if (!validationResult.IsValid)
             {
-                return validationResult.ToValidationException().ToApiResult<ApiPaymentResponse>().ToAwaitable();
+                return validationResult.ToValidationException().ToApiResult<ApiAlternativePaymentResponse>().ToAwaitable();
             }
 
             var uri = GetPaymentUri();
             var request = paymentRequest.ToHttpRequest(HttpMethod.Post, uri);
-            return HttpClient.InvokeAsync<ApiPaymentResponse>(request, cancellationToken);
+            return HttpClient.InvokeAsync<ApiAlternativePaymentResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiPaymentResponse>> CreatePaymentAsync(ApiPaymentRequest paymentRequest)
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CreatePaymentAsync(ApiAlternativePaymentRequest paymentRequest)
         {
             return CreatePaymentAsync(paymentRequest, CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiPaymentResponse>> CreatePaymentAsync(ApiPaymentRequest paymentRequest,
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CreatePaymentAsync(ApiAlternativePaymentRequest paymentRequest,
             string idempotencyToken, CancellationToken cancellationToken)
         {
             paymentRequest.ThrowIfNull(nameof(paymentRequest));
@@ -116,15 +116,15 @@ namespace S2p.RestClient.Sdk.Services
             var validationResult = _paymentRequestValidator.Validate(paymentRequest.Payment);
             if (!validationResult.IsValid)
             {
-                return validationResult.ToValidationException().ToApiResult<ApiPaymentResponse>().ToAwaitable();
+                return validationResult.ToValidationException().ToApiResult<ApiAlternativePaymentResponse>().ToAwaitable();
             }
 
             var uri = GetPaymentUri();
             var request = paymentRequest.ToHttpRequest(HttpMethod.Post, uri);
-            return HttpClient.InvokeAsync<ApiPaymentResponse>(idempotencyToken, request, cancellationToken);
+            return HttpClient.InvokeAsync<ApiAlternativePaymentResponse>(idempotencyToken, request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiPaymentResponse>> CreatePaymentAsync(ApiPaymentRequest paymentRequest,
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CreatePaymentAsync(ApiAlternativePaymentRequest paymentRequest,
             string idempotencyToken)
         {
             return CreatePaymentAsync(paymentRequest, idempotencyToken, CancellationToken.None);
@@ -142,7 +142,7 @@ namespace S2p.RestClient.Sdk.Services
             return uri;
         }
 
-        public Task<ApiResult<ApiPaymentResponse>> CapturePaymentAsync(long paymentId,
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId,
             CancellationToken cancellationToken)
         {
             paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
@@ -150,15 +150,15 @@ namespace S2p.RestClient.Sdk.Services
 
             var uri = GetCapturePaymentUri(paymentId);
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
-            return HttpClient.InvokeAsync<ApiPaymentResponse>(request, cancellationToken);
+            return HttpClient.InvokeAsync<ApiAlternativePaymentResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiPaymentResponse>> CapturePaymentAsync(long paymentId)
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId)
         {
             return CapturePaymentAsync(paymentId, CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiPaymentResponse>> CapturePaymentAsync(long paymentId,
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId,
             string idempotencyToken,
             CancellationToken cancellationToken)
         {
@@ -167,10 +167,10 @@ namespace S2p.RestClient.Sdk.Services
 
             var uri = GetCapturePaymentUri(paymentId);
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
-            return HttpClient.InvokeAsync<ApiPaymentResponse>(idempotencyToken, request, cancellationToken);
+            return HttpClient.InvokeAsync<ApiAlternativePaymentResponse>(idempotencyToken, request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiPaymentResponse>> CapturePaymentAsync(long paymentId,
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId,
             string idempotencyToken)
         {
             return CapturePaymentAsync(paymentId, idempotencyToken, CancellationToken.None);
@@ -188,7 +188,7 @@ namespace S2p.RestClient.Sdk.Services
             return uri;
         }
 
-        public Task<ApiResult<ApiPaymentResponse>> CancelPaymentAsync(long paymentId,
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CancelPaymentAsync(long paymentId,
             CancellationToken cancellationToken)
         {
             paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
@@ -196,15 +196,15 @@ namespace S2p.RestClient.Sdk.Services
 
             var uri = GetCancelPaymentUri(paymentId);
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
-            return HttpClient.InvokeAsync<ApiPaymentResponse>(request, cancellationToken);
+            return HttpClient.InvokeAsync<ApiAlternativePaymentResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiPaymentResponse>> CancelPaymentAsync(long paymentId)
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CancelPaymentAsync(long paymentId)
         {
             return CancelPaymentAsync(paymentId, CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiPaymentResponse>> CancelPaymentAsync(long paymentId,
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CancelPaymentAsync(long paymentId,
             string idempotencyToken,
             CancellationToken cancellationToken)
         {
@@ -213,10 +213,10 @@ namespace S2p.RestClient.Sdk.Services
 
             var uri = GetCancelPaymentUri(paymentId);
             var request = new HttpRequestMessage(HttpMethod.Post, uri);
-            return HttpClient.InvokeAsync<ApiPaymentResponse>(idempotencyToken, request, cancellationToken);
+            return HttpClient.InvokeAsync<ApiAlternativePaymentResponse>(idempotencyToken, request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiPaymentResponse>> CancelPaymentAsync(long paymentId,
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CancelPaymentAsync(long paymentId,
             string idempotencyToken)
         {
             return CancelPaymentAsync(paymentId, idempotencyToken, CancellationToken.None);
@@ -231,7 +231,7 @@ namespace S2p.RestClient.Sdk.Services
             return new Uri(BaseAddress, $"{PaymentRelativeUrl}/recurrent");
         }
 
-        public Task<ApiResult<ApiPaymentResponse>> CreateRecurrentPaymentAsync(ApiPaymentRequest paymentRequest,
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CreateRecurrentPaymentAsync(ApiAlternativePaymentRequest paymentRequest,
             CancellationToken cancellationToken)
         {
             paymentRequest.ThrowIfNull(nameof(paymentRequest));
@@ -242,20 +242,20 @@ namespace S2p.RestClient.Sdk.Services
             var validationResult = _paymentRequestValidator.Validate(paymentRequest.Payment);
             if (!validationResult.IsValid)
             {
-                return validationResult.ToValidationException().ToApiResult<ApiPaymentResponse>().ToAwaitable();
+                return validationResult.ToValidationException().ToApiResult<ApiAlternativePaymentResponse>().ToAwaitable();
             }
 
             var uri = GetRecurrentPaymentUri();
             var request = paymentRequest.ToHttpRequest(HttpMethod.Post, uri);
-            return HttpClient.InvokeAsync<ApiPaymentResponse>(request, cancellationToken);
+            return HttpClient.InvokeAsync<ApiAlternativePaymentResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiPaymentResponse>> CreateRecurrentPaymentAsync(ApiPaymentRequest paymentRequest)
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CreateRecurrentPaymentAsync(ApiAlternativePaymentRequest paymentRequest)
         {
             return CreateRecurrentPaymentAsync(paymentRequest, CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiPaymentResponse>> CreateRecurrentPaymentAsync(ApiPaymentRequest paymentRequest,
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CreateRecurrentPaymentAsync(ApiAlternativePaymentRequest paymentRequest,
             string idempotencyToken, CancellationToken cancellationToken)
         {
             paymentRequest.ThrowIfNull(nameof(paymentRequest));
@@ -267,15 +267,15 @@ namespace S2p.RestClient.Sdk.Services
             var validationResult = _paymentRequestValidator.Validate(paymentRequest.Payment);
             if (!validationResult.IsValid)
             {
-                return validationResult.ToValidationException().ToApiResult<ApiPaymentResponse>().ToAwaitable();
+                return validationResult.ToValidationException().ToApiResult<ApiAlternativePaymentResponse>().ToAwaitable();
             }
 
             var uri = GetRecurrentPaymentUri();
             var request = paymentRequest.ToHttpRequest(HttpMethod.Post, uri);
-            return HttpClient.InvokeAsync<ApiPaymentResponse>(idempotencyToken, request, cancellationToken);
+            return HttpClient.InvokeAsync<ApiAlternativePaymentResponse>(idempotencyToken, request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiPaymentResponse>> CreateRecurrentPaymentAsync(ApiPaymentRequest paymentRequest,
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CreateRecurrentPaymentAsync(ApiAlternativePaymentRequest paymentRequest,
             string idempotencyToken)
         {
             return CreateRecurrentPaymentAsync(paymentRequest, idempotencyToken, CancellationToken.None);

@@ -8,15 +8,15 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
 {
     public class PaymentRequestValidatorTests
     {
-        private static PaymentRequest paymentRequest { get; set; }
-        private static PaymentRequestValidator validator { get; set; }
+        private static AlternativePaymentRequest paymentRequest { get; set; }
+        private static AlternativePaymentRequestValidator validator { get; set; }
         private static ValidationResult validationResult { get; set; }
 
-        [Subject(typeof(PaymentRequestValidator))]
+        [Subject(typeof(AlternativePaymentRequestValidator))]
         public class When_payment_request_is_correct
         {
             private Establish context = () => {
-                paymentRequest = new PaymentRequest()
+                paymentRequest = new AlternativePaymentRequest()
                 {
                     MerchantTransactionID = "111111111",
                     Amount = 4,
@@ -24,7 +24,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
                     ReturnURL = "http://smart2pay.com/ReturnURL",
                     MethodID = 1
                 };
-                validator = new PaymentRequestValidator();
+                validator = new AlternativePaymentRequestValidator();
             };
 
             private Because of = () => {
@@ -44,18 +44,18 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
             };
         }
 
-        [Subject(typeof(PaymentRequestValidator))]
+        [Subject(typeof(AlternativePaymentRequestValidator))]
         public class When_currency_is_missing
         {
             private Establish context = () => {
-                paymentRequest = new PaymentRequest()
+                paymentRequest = new AlternativePaymentRequest()
                 {
                     MerchantTransactionID = "111111111",
                     Amount = 4,
                     ReturnURL = "http://smart2pay.com/ReturnURL",
                     MethodID = 1
                 };
-                validator = new PaymentRequestValidator();
+                validator = new AlternativePaymentRequestValidator();
             };
 
             private Because of = () => {
@@ -71,15 +71,15 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
             };
 
             private It should_have_empty_error_message = () => {
-                validationResult.Message.ShouldEqual("PaymentRequest-Currency:Invalid Currency;");
+                validationResult.Message.ShouldEqual("AlternativePaymentRequest-Currency:Invalid Currency;");
             };
         }
 
-        [Subject(typeof(PaymentRequestValidator))]
+        [Subject(typeof(AlternativePaymentRequestValidator))]
         public class When_MerchantTransactionID_is_empty
         {
             private Establish context = () => {
-                paymentRequest = new PaymentRequest()
+                paymentRequest = new AlternativePaymentRequest()
                 {
                     ID = 1,
                     MerchantTransactionID = "",
@@ -88,7 +88,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
                     ReturnURL = "http://smart2pay.com/ReturnURL",
                     MethodID = 1
                 };
-                validator = new PaymentRequestValidator();
+                validator = new AlternativePaymentRequestValidator();
             };
 
             private Because of = () => {
@@ -104,7 +104,7 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Validation
             };
 
             private It should_have_empty_error_message = () => {
-                validationResult.Message.ShouldEqual("PaymentRequest-MerchantTransactionID:Invalid MerchantTransactionID, Regex: ^[0-9a-zA-Z_-]{1,50}$;");
+                validationResult.Message.ShouldEqual("AlternativePaymentRequest-MerchantTransactionID:Invalid MerchantTransactionID, Regex: ^[0-9a-zA-Z_-]{1,50}$;");
             };
         }
         
