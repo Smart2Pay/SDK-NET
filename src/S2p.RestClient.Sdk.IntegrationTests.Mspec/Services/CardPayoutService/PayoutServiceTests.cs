@@ -8,11 +8,11 @@ using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
 using S2p.RestClient.Sdk.Services;
 
-namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
+namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPayoutService
 {
     public class PayoutServiceTests
     {
-        private static IPayoutService PayoutService;
+        private static ICardPayoutService PayoutService;
         private static IHttpClientBuilder HttpClientBuilder;
         private static HttpClient HttpClient;
         private static readonly Uri BaseAddress = new Uri(ServiceTestsConstants.CardPaymentSystemBaseUrl);
@@ -22,7 +22,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.CardPaymentSystemAuthenticationConfiguration);
         }
 
-        [Subject(typeof(Sdk.Services.PayoutService))]
+        [Subject(typeof(Sdk.Services.CardPayoutService))]
         public class When_initiating_payout_with_billing_address
         {
             protected static ApiResult<ApiCardPayoutResponse> ApiResult;
@@ -31,7 +31,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private Establish context = () => {
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
+                PayoutService = new Sdk.Services.CardPayoutService(HttpClient, BaseAddress);
                 PayoutRequest = new CardPayoutRequest
                 {
                     MerchantTransactionID = Guid.NewGuid().ToString(),
@@ -98,7 +98,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             };
         }
 
-        [Subject(typeof(Sdk.Services.PayoutService))]
+        [Subject(typeof(Sdk.Services.CardPayoutService))]
         public class When_initiating_payout_without_billing_address
         {
             protected static ApiResult<ApiCardPayoutResponse> ApiResult;
@@ -107,7 +107,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private Establish context = () => {
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
+                PayoutService = new Sdk.Services.CardPayoutService(HttpClient, BaseAddress);
                 PayoutRequest = new CardPayoutRequest
                 {
                     MerchantTransactionID = Guid.NewGuid().ToString(),
@@ -163,7 +163,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             };
         }
 
-        [Subject(typeof(Sdk.Services.PayoutService))]
+        [Subject(typeof(Sdk.Services.CardPayoutService))]
         public class When_quering_about_success_payout_status
         {
             protected static ApiResult<ApiCardPayoutStatusResponse> ApiResult;
@@ -172,7 +172,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private Establish context = () => {
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
+                PayoutService = new Sdk.Services.CardPayoutService(HttpClient, BaseAddress);
             };
 
             private Because of = () => {
@@ -203,7 +203,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
 
         }
 
-        [Subject(typeof(Sdk.Services.PayoutService))]
+        [Subject(typeof(Sdk.Services.CardPayoutService))]
         public class When_quering_about_failed_payout_status
         {
             protected static ApiResult<ApiCardPayoutStatusResponse> ApiResult;
@@ -212,7 +212,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private Establish context = () => {
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
+                PayoutService = new Sdk.Services.CardPayoutService(HttpClient, BaseAddress);
             };
 
             private Because of = () => {
@@ -252,7 +252,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private Establish context = () => {
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
+                PayoutService = new Sdk.Services.CardPayoutService(HttpClient, BaseAddress);
                 PayoutRequest = new CardPayoutRequest
                 {
                     MerchantTransactionID = Guid.NewGuid().ToString(),
@@ -336,7 +336,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private Establish context = () => {
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
+                PayoutService = new Sdk.Services.CardPayoutService(HttpClient, BaseAddress);
                 PayoutRequest = new CardPayoutRequest
                 {
                     MerchantTransactionID = Guid.NewGuid().ToString(),
@@ -388,7 +388,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             };
         }
 
-        [Subject(typeof(Sdk.Services.PayoutService))]
+        [Subject(typeof(Sdk.Services.CardPayoutService))]
         public class When_quering_about_success_payout_information
         {
             protected static ApiResult<ApiCardPayoutResponse> ApiResult;
@@ -400,7 +400,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private Establish context = () => {
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
+                PayoutService = new Sdk.Services.CardPayoutService(HttpClient, BaseAddress);
             };
 
             private Because of = () => { ApiResult = PayoutService.GetPayoutAsync(payoutId).GetAwaiter().GetResult(); };
@@ -462,7 +462,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private Establish context = () => {
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
+                PayoutService = new Sdk.Services.CardPayoutService(HttpClient, BaseAddress);
             };
 
             private Because of = () => { ApiResult = PayoutService.GetPayoutAsync(payoutId).GetAwaiter().GetResult(); };
@@ -513,7 +513,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             };
         }
 
-        [Subject(typeof(Sdk.Services.PayoutService))]
+        [Subject(typeof(Sdk.Services.CardPayoutService))]
         public class When_requesting_payout_list
         {
             private static ApiResult<ApiCardPayoutListResponse> ApiResult;
@@ -522,7 +522,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private Establish context = () => {
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
+                PayoutService = new Sdk.Services.CardPayoutService(HttpClient, BaseAddress);
             };
 
             private Because of = () => {
@@ -561,7 +561,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             };
         }
 
-        [Subject(typeof(Sdk.Services.PayoutService))]
+        [Subject(typeof(Sdk.Services.CardPayoutService))]
         public class When_requesting_payout_list_filtered_by_limit
         {
             private static ApiResult<ApiCardPayoutListResponse> ApiResult;
@@ -572,7 +572,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private Establish context = () => {
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
+                PayoutService = new Sdk.Services.CardPayoutService(HttpClient, BaseAddress);
                 CardFilter = new CardPayoutFilter {limit = Limit};
             };
 
@@ -586,7 +586,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             Behaves_like<PayoutFilteredBehavior> a_list_of_filtered_payouts_response;
         }
 
-        [Subject(typeof(Sdk.Services.PayoutService))]
+        [Subject(typeof(Sdk.Services.CardPayoutService))]
         public class When_requesting_payout_list_filtered_by_date
         {
             private static ApiResult<ApiCardPayoutListResponse> ApiResult;
@@ -599,7 +599,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private Establish context = () => {
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
+                PayoutService = new Sdk.Services.CardPayoutService(HttpClient, BaseAddress);
                 CardFilter = new CardPayoutFilter { startDate = StartDate, endDate = EndDate};
             };
 
@@ -613,7 +613,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             Behaves_like<PayoutFilteredBehavior> a_list_of_filtered_payouts_response;
         }
 
-        [Subject(typeof(Sdk.Services.PayoutService))]
+        [Subject(typeof(Sdk.Services.CardPayoutService))]
         public class When_requesting_payout_list_filtered_by_status_id
         {
             private static ApiResult<ApiCardPayoutListResponse> ApiResult;
@@ -627,7 +627,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private Establish context = () => {
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
+                PayoutService = new Sdk.Services.CardPayoutService(HttpClient, BaseAddress);
                 CardFilter = new CardPayoutFilter { startDate = StartDate, endDate = EndDate, statusID = StatusID};
             };
 
@@ -641,7 +641,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             Behaves_like<PayoutFilteredBehavior> a_list_of_filtered_payouts_response;
         }
 
-        [Subject(typeof(Sdk.Services.PayoutService))]
+        [Subject(typeof(Sdk.Services.CardPayoutService))]
         public class When_requesting_payout_list_filtered_by_merchant_transaction_id
         {
             private static ApiResult<ApiCardPayoutListResponse> ApiResult;
@@ -653,7 +653,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private Establish context = () => {
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
+                PayoutService = new Sdk.Services.CardPayoutService(HttpClient, BaseAddress);
                 CardFilter = new CardPayoutFilter { merchantTransactionID = MerchantTransactionId};
             };
 
@@ -667,7 +667,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             Behaves_like<PayoutFilteredBehavior> a_list_of_filtered_payouts_response;
         }
 
-        [Subject(typeof(Sdk.Services.PayoutService))]
+        [Subject(typeof(Sdk.Services.CardPayoutService))]
         public class When_requesting_payout_list_filtered_by_currency
         {
             private static ApiResult<ApiCardPayoutListResponse> ApiResult;
@@ -681,7 +681,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private Establish context = () => {
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
+                PayoutService = new Sdk.Services.CardPayoutService(HttpClient, BaseAddress);
                 CardFilter = new CardPayoutFilter { startDate = StartDate, endDate = EndDate, currency = Currency};
             };
 
@@ -695,7 +695,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             Behaves_like<PayoutFilteredBehavior> a_list_of_filtered_payouts_response;
         }
 
-        [Subject(typeof(Sdk.Services.PayoutService))]
+        [Subject(typeof(Sdk.Services.CardPayoutService))]
         public class When_requesting_payout_list_filtered_by_country
         {
             private static ApiResult<ApiCardPayoutListResponse> ApiResult;
@@ -709,7 +709,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private Establish context = () => {
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
+                PayoutService = new Sdk.Services.CardPayoutService(HttpClient, BaseAddress);
                 CardFilter = new CardPayoutFilter { country = Country, startDate = StartDate, endDate = EndDate};
             };
 
@@ -723,7 +723,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             Behaves_like<PayoutFilteredBehavior> a_list_of_filtered_payouts_response;
         }
 
-        [Subject(typeof(Sdk.Services.PayoutService))]
+        [Subject(typeof(Sdk.Services.CardPayoutService))]
         public class When_requesting_payout_list_filtered_by_country_with_zero_payouts
         {
             private static ApiResult<ApiCardPayoutListResponse> ApiResult;
@@ -737,7 +737,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PayoutService
             private Establish context = () => {
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PayoutService = new Sdk.Services.PayoutService(HttpClient, BaseAddress);
+                PayoutService = new Sdk.Services.CardPayoutService(HttpClient, BaseAddress);
                 CardFilter = new CardPayoutFilter { country = Country, startDate = StartDate, endDate = EndDate};
             };
 

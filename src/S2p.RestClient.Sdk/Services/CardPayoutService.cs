@@ -10,12 +10,12 @@ using S2p.RestClient.Sdk.Validation;
 
 namespace S2p.RestClient.Sdk.Services
 {
-    public class PayoutService : ServiceBase, IPayoutService
+    public class CardPayoutService : ServiceBase, ICardPayoutService
     {
         private const string PayoutPartialUrl = "/v1/payouts";
         private readonly IValidator<CardPayoutRequest> _cardPayoutRequestValidator = new CardPayoutRequestValidator();
 
-        public PayoutService(HttpClient httpClient, Uri baseAddress) : base(httpClient, baseAddress) { }
+        public CardPayoutService(HttpClient httpClient, Uri baseAddress) : base(httpClient, baseAddress) { }
 
         #region GetPayoutList
 

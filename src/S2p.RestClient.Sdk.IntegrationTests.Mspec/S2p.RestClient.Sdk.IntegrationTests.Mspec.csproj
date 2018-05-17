@@ -210,7 +210,7 @@
     <Compile Include="Services\AlternativePaymentService\InvalidRefundTests.cs" />
     <Compile Include="Services\AlternativePaymentService\PartialRefundPaymentTests.cs" />
     <Compile Include="Services\AlternativePaymentService\RefundPaymentTests.cs" />
-    <Compile Include="Services\PayoutService\PayoutServiceTests.cs" />
+    <Compile Include="Services\CardPayoutService\PayoutServiceTests.cs" />
     <Compile Include="Services\PreapprovalService\GetPreapprovalDetails.cs" />
     <Compile Include="Services\PreapprovalService\GetPreapprovalListTests.cs" />
     <Compile Include="Services\PreapprovalService\PreapprovalServiceTests.cs" />
