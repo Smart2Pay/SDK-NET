@@ -9,7 +9,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
 {
     partial class PaymentServiceTests
     {
-        [Subject(typeof(Sdk.Services.PaymentService))]
+        [Subject(typeof(Sdk.Services.AlternativePaymentService))]
         public class When_a_native_refund_is_performend_for_an_authorized_payment
         {
 
@@ -20,7 +20,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
             private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
+                _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
                 RefundService = new Sdk.Services.RefundService(HttpClient, BaseAddress);
                 PaymentRequest = new PaymentRequest
                 {
@@ -85,7 +85,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
 
             private static async Task<ApiResult<ApiRefundResponse>> BecauseAsync()
             {
-                var createPaymentResult = await PaymentService.CreatePaymentAsync(PaymentRequest);
+                var createPaymentResult = await _alternativePaymentService.CreatePaymentAsync(PaymentRequest);
                 await Task.Delay(2000);
                 return await RefundService.CreateRefundAsync(createPaymentResult.Value.Payment.ID.Value, RefundRequest);
             }

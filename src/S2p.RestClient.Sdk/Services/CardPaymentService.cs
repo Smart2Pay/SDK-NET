@@ -105,7 +105,7 @@ namespace S2p.RestClient.Sdk.Services
             return uri;
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> InitiatePaymentAsync(ApiCardPaymentRequest paymentRequest,
+        public Task<ApiResult<ApiCardPaymentResponse>> CreatePaymentAsync(ApiCardPaymentRequest paymentRequest,
             CancellationToken cancellationToken)
         {
             paymentRequest.ThrowIfNull(nameof(paymentRequest));
@@ -123,12 +123,12 @@ namespace S2p.RestClient.Sdk.Services
             return HttpClient.InvokeAsync<ApiCardPaymentResponse>(request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> InitiatePaymentAsync(ApiCardPaymentRequest paymentRequest)
+        public Task<ApiResult<ApiCardPaymentResponse>> CreatePaymentAsync(ApiCardPaymentRequest paymentRequest)
         {
-            return InitiatePaymentAsync(paymentRequest, CancellationToken.None);
+            return CreatePaymentAsync(paymentRequest, CancellationToken.None);
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> InitiatePaymentAsync(ApiCardPaymentRequest paymentRequest,
+        public Task<ApiResult<ApiCardPaymentResponse>> CreatePaymentAsync(ApiCardPaymentRequest paymentRequest,
             string idempotencyToken, CancellationToken cancellationToken)
         {
             paymentRequest.ThrowIfNull(nameof(paymentRequest));
@@ -147,10 +147,10 @@ namespace S2p.RestClient.Sdk.Services
             return HttpClient.InvokeAsync<ApiCardPaymentResponse>(idempotencyToken, request, cancellationToken);
         }
 
-        public Task<ApiResult<ApiCardPaymentResponse>> InitiatePaymentAsync(ApiCardPaymentRequest paymentRequest,
+        public Task<ApiResult<ApiCardPaymentResponse>> CreatePaymentAsync(ApiCardPaymentRequest paymentRequest,
             string idempotencyToken)
         {
-            return InitiatePaymentAsync(paymentRequest, idempotencyToken, CancellationToken.None);
+            return CreatePaymentAsync(paymentRequest, idempotencyToken, CancellationToken.None);
         }
 
         #endregion

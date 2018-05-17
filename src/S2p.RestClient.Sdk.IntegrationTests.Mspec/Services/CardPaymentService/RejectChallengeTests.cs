@@ -69,7 +69,7 @@
 
 //            private static async Task<ApiResult<ApiCardPaymentResponse>> BecauseAsync()
 //            {
-//                ApiResult = await CardPaymentService.InitiatePaymentAsync(CardPaymentRequest);
+//                ApiResult = await CardPaymentService.CreatePaymentAsync(CardPaymentRequest);
 //                await Task.Delay(2000);
 //                return await CardPaymentService.RejectChallengeAsync(ApiResult.Value.Payment.ID.Value);
 //            }

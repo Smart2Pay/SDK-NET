@@ -16,7 +16,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PreapprovallService
         {
 
             private static ApiResult<ApiPaymentResponse> CreatePaymentResponse;
-            private static Sdk.Services.PaymentService PaymentService;
+            private static Sdk.Services.AlternativePaymentService _alternativePaymentService;
             private static ApiPaymentRequest PaymentRequest;
             private static RecurringPaymentTestData TestData;
 
@@ -24,7 +24,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PreapprovallService
                 InitializeClientBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 PreapprovalService = new PreapprovalService(HttpClient, BaseAddress);
-                PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
+                _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
                 PaymentRequest = new PaymentRequest
                 {
                     PreapprovalID = 9311,
@@ -55,7 +55,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PreapprovallService
                 var recurringPaymentTestData = new RecurringPaymentTestData();
                 recurringPaymentTestData.Before = await PreapprovalService.GetPreapprovalPaymentsAsync(PaymentRequest.Payment.PreapprovalID.Value);
                 await Task.Delay(2000);
-                recurringPaymentTestData.PaymentResponse = await PaymentService.CreateRecurrentPaymentAsync(PaymentRequest);
+                recurringPaymentTestData.PaymentResponse = await _alternativePaymentService.CreateRecurrentPaymentAsync(PaymentRequest);
                 await Task.Delay(1000);
                 recurringPaymentTestData.After = await PreapprovalService.GetPreapprovalPaymentsAsync(PaymentRequest.Payment.PreapprovalID.Value);
                 return recurringPaymentTestData;

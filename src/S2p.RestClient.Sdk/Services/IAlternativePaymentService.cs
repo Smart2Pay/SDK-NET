@@ -5,7 +5,7 @@ using S2p.RestClient.Sdk.Infrastructure;
 
 namespace S2p.RestClient.Sdk.Services
 {
-    public interface IPaymentService
+    public interface IAlternativePaymentService
     {
         Task<ApiResult<ApiPaymentResponse>> GetPaymentAsync(long paymentId,
             CancellationToken cancellationToken);

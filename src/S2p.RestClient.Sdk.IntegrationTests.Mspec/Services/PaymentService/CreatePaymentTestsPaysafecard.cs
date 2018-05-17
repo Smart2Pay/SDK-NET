@@ -6,13 +6,13 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
 {
     partial class PaymentServiceTests
     {
-        [Subject(typeof(Sdk.Services.PaymentService))]
+        [Subject(typeof(Sdk.Services.AlternativePaymentService))]
         public class When_creating_a_payment_for_Paysafecard
         {
             private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
+                _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
                 PaymentRequest = new PaymentRequest
                 {
                     MerchantTransactionID = MerchantTransactionID,
@@ -33,7 +33,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
             };
 
             private Because of = () => {
-                ApiResult = PaymentService.CreatePaymentAsync(PaymentRequest).GetAwaiter().GetResult();
+                ApiResult = _alternativePaymentService.CreatePaymentAsync(PaymentRequest).GetAwaiter().GetResult();
             };
 
             private Cleanup after = () => { HttpClient.Dispose(); };

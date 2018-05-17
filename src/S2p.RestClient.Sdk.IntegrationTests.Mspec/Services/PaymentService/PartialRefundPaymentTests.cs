@@ -9,7 +9,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
 {
     partial class PaymentServiceTests
     {
-        [Subject(typeof(Sdk.Services.PaymentService))]
+        [Subject(typeof(Sdk.Services.AlternativePaymentService))]
         public class When_a_native__partial_refund_is_performend_for_a_payment
         {
 
@@ -20,7 +20,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
             private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
+                _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
                 RefundService = new Sdk.Services.RefundService(HttpClient, BaseAddress);
                 PaymentRequest = new PaymentRequest
                 {
@@ -93,9 +93,9 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
 
             private static async Task<ApiResult<ApiRefundResponse>> BecauseAsync()
             {
-                var createPaymentResult = await PaymentService.CreatePaymentAsync(PaymentRequest);
+                var createPaymentResult = await _alternativePaymentService.CreatePaymentAsync(PaymentRequest);
                 await Task.Delay(2000);
-                var capturedPaymentResult = await PaymentService.CapturePaymentAsync(createPaymentResult.Value.Payment.ID.Value);
+                var capturedPaymentResult = await _alternativePaymentService.CapturePaymentAsync(createPaymentResult.Value.Payment.ID.Value);
                 await Task.Delay(2000);
                 return await RefundService.CreateRefundAsync(capturedPaymentResult.Value.Payment.ID.Value, RefundRequest);
             }

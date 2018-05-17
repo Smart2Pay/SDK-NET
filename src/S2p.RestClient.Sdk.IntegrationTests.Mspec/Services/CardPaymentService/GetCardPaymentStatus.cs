@@ -57,7 +57,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
 
             private static async Task<ApiResult<ApiCardPaymentStatusResponse>> BecauseAsync()
             {
-                ApiResult = await CardPaymentService.InitiatePaymentAsync(CardPaymentRequest);
+                ApiResult = await CardPaymentService.CreatePaymentAsync(CardPaymentRequest);
                 return await CardPaymentService.GetPaymentStatusAsync(ApiResult.Value.Payment.ID.Value);
             }
 

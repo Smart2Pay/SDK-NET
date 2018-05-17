@@ -9,7 +9,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
 {
     partial class PaymentServiceTests
     {
-        [Subject(typeof(Sdk.Services.PaymentService))]
+        [Subject(typeof(Sdk.Services.AlternativePaymentService))]
         public class When_getting_details_for_a_specific_payment
         {
             private static ApiResult<ApiPaymentResponse> CreatePaymentResult { get; set; }
@@ -17,7 +17,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
             private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
+                _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
                 PaymentRequest = new PaymentRequest
                 {
                     Amount = 980,
@@ -74,8 +74,8 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
 
             private static async Task<ApiResult<ApiPaymentResponse>> BecauseAsync()
             {
-                CreatePaymentResult = await PaymentService.CreatePaymentAsync(PaymentRequest);
-                return await PaymentService.GetPaymentAsync(CreatePaymentResult.Value.Payment.ID.Value);
+                CreatePaymentResult = await _alternativePaymentService.CreatePaymentAsync(PaymentRequest);
+                return await _alternativePaymentService.GetPaymentAsync(CreatePaymentResult.Value.Payment.ID.Value);
             }
 
             private Cleanup after = () => { HttpClient.Dispose(); };

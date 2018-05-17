@@ -7,7 +7,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
 {
     public partial class PaymentServiceTests
     {
-        [Subject(typeof(Sdk.Services.PaymentService))]
+        [Subject(typeof(Sdk.Services.AlternativePaymentService))]
         public class When_requesting_payment_list_filtered_by_method_id
         {
             private static ApiResult<ApiPaymentListResponse> ApiListResult;
@@ -22,12 +22,12 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
             private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
+                _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
                 PaymentsFilter = new PaymentsFilter { startDate = StartDate, endDate = EndDate, pageSize = 100, methodID = MethodId};
             };
 
             private Because of = () => {
-                ApiListResult = PaymentServiceTests.PaymentService.GetPaymentListAsync(PaymentsFilter).GetAwaiter()
+                ApiListResult = PaymentServiceTests._alternativePaymentService.GetPaymentListAsync(PaymentsFilter).GetAwaiter()
                     .GetResult();
                 Data = new PaymentFilteredBehaviourData
                 {

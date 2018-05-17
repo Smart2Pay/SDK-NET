@@ -9,13 +9,13 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
 {
     partial class PaymentServiceTests
     {
-        [Subject(typeof(Sdk.Services.PaymentService))]
+        [Subject(typeof(Sdk.Services.AlternativePaymentService))]
         public class When_capturing_a_payment
         {
             private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
+                _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
                 PaymentRequest = new PaymentRequest
                 {
                     Amount = 980,
@@ -72,8 +72,8 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
 
             private static async Task<ApiResult<ApiPaymentResponse>> BecauseAsync()
             {
-                var createPaymentResult = await PaymentService.CreatePaymentAsync(PaymentRequest);
-                return await PaymentService.CapturePaymentAsync(createPaymentResult.Value.Payment.ID.Value);
+                var createPaymentResult = await _alternativePaymentService.CreatePaymentAsync(PaymentRequest);
+                return await _alternativePaymentService.CapturePaymentAsync(createPaymentResult.Value.Payment.ID.Value);
             }
 
             private Cleanup after = () => { HttpClient.Dispose(); };

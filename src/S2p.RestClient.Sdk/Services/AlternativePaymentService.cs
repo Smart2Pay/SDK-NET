@@ -10,12 +10,12 @@ using S2p.RestClient.Sdk.Validation;
 
 namespace S2p.RestClient.Sdk.Services
 {
-    public class PaymentService : ServiceBase, IPaymentService
+    public class AlternativePaymentService : ServiceBase, IAlternativePaymentService
     {
         private const string PaymentRelativeUrl = "v1/payments";
         private readonly IValidator<PaymentRequest> _paymentRequestValidator = new PaymentRequestValidator();
 
-        public PaymentService(HttpClient httpClient, Uri baseAddress) : base(httpClient, baseAddress) { }
+        public AlternativePaymentService(HttpClient httpClient, Uri baseAddress) : base(httpClient, baseAddress) { }
 
         #region GetPayment(s)
 

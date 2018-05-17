@@ -87,10 +87,10 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
 
             private static async Task<ApiResult<ApiCardPaymentResponse>> BecauseAsync()
             {
-                var initialPaymentResponse = await CardPaymentService.InitiatePaymentAsync(CardPaymentInitialRequest);
+                var initialPaymentResponse = await CardPaymentService.CreatePaymentAsync(CardPaymentInitialRequest);
                 CardPaymentRequest.Payment.CreditCardToken.Value =
                     initialPaymentResponse.Value.Payment.CreditCardToken.Value;
-                return await CardPaymentService.InitiatePaymentAsync(CardPaymentRequest);
+                return await CardPaymentService.CreatePaymentAsync(CardPaymentRequest);
             }
 
             private Cleanup after = () => { HttpClient.Dispose(); };
