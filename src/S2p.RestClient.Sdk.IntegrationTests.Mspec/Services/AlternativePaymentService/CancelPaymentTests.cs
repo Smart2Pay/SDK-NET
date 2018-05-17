@@ -5,7 +5,7 @@ using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
 
-namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
+namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentService
 {
     partial class PaymentServiceTests
     {
@@ -71,6 +71,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
             private static async Task<ApiResult<ApiPaymentResponse>> BecauseAsync()
             {
                 var createPaymentResult = await _alternativePaymentService.CreatePaymentAsync(PaymentRequest);
+                await Task.Delay(2000);
                 return await _alternativePaymentService.CancelPaymentAsync(createPaymentResult.Value.Payment.ID.Value);
             }
 

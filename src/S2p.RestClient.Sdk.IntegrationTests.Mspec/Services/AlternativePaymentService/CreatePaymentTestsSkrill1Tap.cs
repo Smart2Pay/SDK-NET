@@ -2,7 +2,7 @@
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 
-namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
+namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentService
 {
     public partial class PaymentServiceTests
     {

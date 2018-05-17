@@ -5,26 +5,20 @@ using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
 
-namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
+namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentService
 {
     partial class PaymentServiceTests
     {
         [Subject(typeof(Sdk.Services.AlternativePaymentService))]
-        public class When_a_native__partial_refund_is_performend_for_a_payment
+        public class When_capturing_a_payment
         {
-
-            private static Sdk.Services.RefundService RefundService { get; set; }
-            private static ApiRefundRequest RefundRequest { get; set; }
-            private static ApiResult<ApiRefundResponse> RefundApiResult { get; set; }
-
             private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
-                RefundService = new Sdk.Services.RefundService(HttpClient, BaseAddress);
                 PaymentRequest = new PaymentRequest
                 {
-                    Amount = 1960,
+                    Amount = 980,
                     Currency = "DKK",
                     Description = "test capture SDK",
                     MethodID = 75,
@@ -36,7 +30,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
                         {
                             MerchantArticleID = "1231",
                             Name = "TEST",
-                            Quantity = 2,
+                            Quantity = 1,
                             Price = 1000,
                             VAT = 1000,
                             Discount = 200,
@@ -70,72 +64,60 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
                     },
                     TokenLifetime = 10
                 }.ToApiPaymentRequest();
-
-                RefundRequest = new RefundRequest()
-                {
-                    Amount = 980,
-                    MerchantTransactionID = MerchantTransactionID,
-                    Articles = new List<Article>
-                    {
-                        new Article()
-                        {
-                            MerchantArticleID = PaymentRequest.Payment.Articles[0].MerchantArticleID,
-                            Quantity = 1
-                        }
-                    }
-                }.ToApiRefundRequest();
-
             };
 
             private Because of = () => {
-                RefundApiResult = BecauseAsync().GetAwaiter().GetResult();
+                ApiResult = BecauseAsync().GetAwaiter().GetResult();    
             };
 
-            private static async Task<ApiResult<ApiRefundResponse>> BecauseAsync()
+            private static async Task<ApiResult<ApiPaymentResponse>> BecauseAsync()
             {
                 var createPaymentResult = await _alternativePaymentService.CreatePaymentAsync(PaymentRequest);
                 await Task.Delay(2000);
-                var capturedPaymentResult = await _alternativePaymentService.CapturePaymentAsync(createPaymentResult.Value.Payment.ID.Value);
-                await Task.Delay(2000);
-                return await RefundService.CreateRefundAsync(capturedPaymentResult.Value.Payment.ID.Value, RefundRequest);
+                return await _alternativePaymentService.CapturePaymentAsync(createPaymentResult.Value.Payment.ID.Value);
             }
 
             private Cleanup after = () => { HttpClient.Dispose(); };
 
-            private It should_have_created_status_code = () => {
-                RefundApiResult.HttpResponse.StatusCode.ShouldEqual(HttpStatusCode.Created);
+            private It should_have_ok_status_code = () => {
+                ApiResult.HttpResponse.StatusCode.ShouldEqual(HttpStatusCode.OK);
             };
 
             private It should_have_the_same_merchant_transaction_id = () =>
             {
-                RefundApiResult.Value.Refund.MerchantTransactionID.ShouldEqual(RefundRequest.Refund.MerchantTransactionID);
+                ApiResult.Value.Payment.MerchantTransactionID.ShouldEqual(PaymentRequest.Payment.MerchantTransactionID);
             };
 
             private It should_have_the_correct_amount = () =>
             {
-                RefundApiResult.Value.Refund.Amount.ShouldEqual(RefundRequest.Refund.Amount);
+                ApiResult.Value.Payment.Amount.ShouldEqual(PaymentRequest.Payment.Amount);
             };
 
             private It should_have_the_same_currency = () =>
             {
-                RefundApiResult.Value.Refund.Currency.ShouldEqual(PaymentRequest.Payment.Currency);
+                ApiResult.Value.Payment.Currency.ShouldEqual(PaymentRequest.Payment.Currency);
+            };
+
+            private It should_have_the_correct_method_id = () =>
+            {
+                ApiResult.Value.Payment.MethodID.ShouldEqual(PaymentRequest.Payment.MethodID);
+            };
+
+            private It should_have_the_correct_country = () =>
+            {
+                ApiResult.Value.Payment.BillingAddress.Country.ShouldEqual(
+                    PaymentRequest.Payment.BillingAddress.Country);
             };
 
             private It should_have_the_correct_status_id = () =>
             {
-                RefundApiResult.Value.Refund.Status.ID.ShouldEqual(PaymentStatusDefinition.Open);
+                ApiResult.Value.Payment.Status.ID.ShouldEqual(PaymentStatusDefinition.Success);
             };
 
             private It should_have_the_correct_status_info = () =>
             {
-                RefundApiResult.Value.Refund.Status.Info.ShouldEqual(nameof(PaymentStatusDefinition.Open));
-            };
-
-            private It should_have_correct_merchant_article_id = () => {
-                RefundApiResult.Value.Refund.Articles[0].MerchantArticleID
-                    .ShouldEqual(PaymentRequest.Payment.Articles[0].MerchantArticleID);
+                ApiResult.Value.Payment.Status.Info.ShouldEqual(nameof(PaymentStatusDefinition.Success));
             };
         }
     }
 }
-

@@ -5,17 +5,23 @@ using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
 
-namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
+namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentService
 {
     partial class PaymentServiceTests
     {
         [Subject(typeof(Sdk.Services.AlternativePaymentService))]
-        public class When_capturing_a_payment
+        public class When_a_native_refund_is_performend_for_an_authorized_payment
         {
+
+            private static Sdk.Services.RefundService RefundService { get; set; }
+            private static ApiRefundRequest RefundRequest { get; set; }
+            private static ApiResult<ApiRefundResponse> RefundApiResult { get; set; }
+
             private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
                 _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
+                RefundService = new Sdk.Services.RefundService(HttpClient, BaseAddress);
                 PaymentRequest = new PaymentRequest
                 {
                     Amount = 980,
@@ -64,58 +70,55 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
                     },
                     TokenLifetime = 10
                 }.ToApiPaymentRequest();
+
+                RefundRequest = new RefundRequest()
+                {
+                    Amount = PaymentRequest.Payment.Amount,
+                    MerchantTransactionID = MerchantTransactionID
+                }.ToApiRefundRequest();
+
             };
 
             private Because of = () => {
-                ApiResult = BecauseAsync().GetAwaiter().GetResult();    
+                RefundApiResult = BecauseAsync().GetAwaiter().GetResult();
             };
 
-            private static async Task<ApiResult<ApiPaymentResponse>> BecauseAsync()
+            private static async Task<ApiResult<ApiRefundResponse>> BecauseAsync()
             {
                 var createPaymentResult = await _alternativePaymentService.CreatePaymentAsync(PaymentRequest);
-                return await _alternativePaymentService.CapturePaymentAsync(createPaymentResult.Value.Payment.ID.Value);
+                await Task.Delay(2000);
+                return await RefundService.CreateRefundAsync(createPaymentResult.Value.Payment.ID.Value, RefundRequest);
             }
 
             private Cleanup after = () => { HttpClient.Dispose(); };
 
-            private It should_have_ok_status_code = () => {
-                ApiResult.HttpResponse.StatusCode.ShouldEqual(HttpStatusCode.OK);
+            private It should_have_bad_request_status_code = () => {
+                RefundApiResult.HttpResponse.StatusCode.ShouldEqual(HttpStatusCode.BadRequest);
             };
 
             private It should_have_the_same_merchant_transaction_id = () =>
             {
-                ApiResult.Value.Payment.MerchantTransactionID.ShouldEqual(PaymentRequest.Payment.MerchantTransactionID);
+                RefundApiResult.Value.Refund.MerchantTransactionID.ShouldEqual(RefundRequest.Refund.MerchantTransactionID);
             };
 
             private It should_have_the_correct_amount = () =>
             {
-                ApiResult.Value.Payment.Amount.ShouldEqual(PaymentRequest.Payment.Amount);
+                RefundApiResult.Value.Refund.Amount.ShouldEqual(RefundRequest.Refund.Amount);
             };
 
-            private It should_have_the_same_currency = () =>
+            private It should_have_null_status_id = () =>
             {
-                ApiResult.Value.Payment.Currency.ShouldEqual(PaymentRequest.Payment.Currency);
+                RefundApiResult.Value.Refund.Status.ID.ShouldBeNull();
             };
 
-            private It should_have_the_correct_method_id = () =>
+            private It should_have_null_status_info = () =>
             {
-                ApiResult.Value.Payment.MethodID.ShouldEqual(PaymentRequest.Payment.MethodID);
+                RefundApiResult.Value.Refund.Status.Info.ShouldBeNull();
             };
 
-            private It should_have_the_correct_country = () =>
+            private It should_have_reasons_not_null = () =>
             {
-                ApiResult.Value.Payment.BillingAddress.Country.ShouldEqual(
-                    PaymentRequest.Payment.BillingAddress.Country);
-            };
-
-            private It should_have_the_correct_status_id = () =>
-            {
-                ApiResult.Value.Payment.Status.ID.ShouldEqual(PaymentStatusDefinition.Success);
-            };
-
-            private It should_have_the_correct_status_info = () =>
-            {
-                ApiResult.Value.Payment.Status.Info.ShouldEqual(nameof(PaymentStatusDefinition.Success));
+                RefundApiResult.Value.Refund.Status.Reasons.Count.ShouldBeGreaterThan(0);
             };
         }
     }

@@ -5,12 +5,12 @@ using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
 
-namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
+namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentService
 {
     partial class PaymentServiceTests
     {
         [Subject(typeof(Sdk.Services.AlternativePaymentService))]
-        public class When_a_native_refund_is_performend_for_an_authorized_payment
+        public class When_a_native__partial_refund_is_performend_for_a_payment
         {
 
             private static Sdk.Services.RefundService RefundService { get; set; }
@@ -24,7 +24,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
                 RefundService = new Sdk.Services.RefundService(HttpClient, BaseAddress);
                 PaymentRequest = new PaymentRequest
                 {
-                    Amount = 980,
+                    Amount = 1960,
                     Currency = "DKK",
                     Description = "test capture SDK",
                     MethodID = 75,
@@ -36,7 +36,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
                         {
                             MerchantArticleID = "1231",
                             Name = "TEST",
-                            Quantity = 1,
+                            Quantity = 2,
                             Price = 1000,
                             VAT = 1000,
                             Discount = 200,
@@ -73,8 +73,16 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
 
                 RefundRequest = new RefundRequest()
                 {
-                    Amount = PaymentRequest.Payment.Amount,
-                    MerchantTransactionID = MerchantTransactionID
+                    Amount = 980,
+                    MerchantTransactionID = MerchantTransactionID,
+                    Articles = new List<Article>
+                    {
+                        new Article()
+                        {
+                            MerchantArticleID = PaymentRequest.Payment.Articles[0].MerchantArticleID,
+                            Quantity = 1
+                        }
+                    }
                 }.ToApiRefundRequest();
 
             };
@@ -87,13 +95,15 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
             {
                 var createPaymentResult = await _alternativePaymentService.CreatePaymentAsync(PaymentRequest);
                 await Task.Delay(2000);
-                return await RefundService.CreateRefundAsync(createPaymentResult.Value.Payment.ID.Value, RefundRequest);
+                var capturedPaymentResult = await _alternativePaymentService.CapturePaymentAsync(createPaymentResult.Value.Payment.ID.Value);
+                await Task.Delay(2000);
+                return await RefundService.CreateRefundAsync(capturedPaymentResult.Value.Payment.ID.Value, RefundRequest);
             }
 
             private Cleanup after = () => { HttpClient.Dispose(); };
 
-            private It should_have_bad_request_status_code = () => {
-                RefundApiResult.HttpResponse.StatusCode.ShouldEqual(HttpStatusCode.BadRequest);
+            private It should_have_created_status_code = () => {
+                RefundApiResult.HttpResponse.StatusCode.ShouldEqual(HttpStatusCode.Created);
             };
 
             private It should_have_the_same_merchant_transaction_id = () =>
@@ -106,20 +116,26 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
                 RefundApiResult.Value.Refund.Amount.ShouldEqual(RefundRequest.Refund.Amount);
             };
 
-            private It should_have_null_status_id = () =>
+            private It should_have_the_same_currency = () =>
             {
-                RefundApiResult.Value.Refund.Status.ID.ShouldBeNull();
+                RefundApiResult.Value.Refund.Currency.ShouldEqual(PaymentRequest.Payment.Currency);
             };
 
-            private It should_have_null_status_info = () =>
+            private It should_have_the_correct_status_id = () =>
             {
-                RefundApiResult.Value.Refund.Status.Info.ShouldBeNull();
+                RefundApiResult.Value.Refund.Status.ID.ShouldEqual(PaymentStatusDefinition.Open);
             };
 
-            private It should_have_reasons_not_null = () =>
+            private It should_have_the_correct_status_info = () =>
             {
-                RefundApiResult.Value.Refund.Status.Reasons.Count.ShouldBeGreaterThan(0);
+                RefundApiResult.Value.Refund.Status.Info.ShouldEqual(nameof(PaymentStatusDefinition.Open));
+            };
+
+            private It should_have_correct_merchant_article_id = () => {
+                RefundApiResult.Value.Refund.Articles[0].MerchantArticleID
+                    .ShouldEqual(PaymentRequest.Payment.Articles[0].MerchantArticleID);
             };
         }
     }
 }
+

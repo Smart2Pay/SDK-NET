@@ -1,14 +1,15 @@
-﻿using Machine.Specifications;
-using System.Net;
+﻿using System.Net;
+using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 
-namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
+namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentService
 {
-    partial class PaymentServiceTests
+    public partial class PaymentServiceTests
     {
         [Subject(typeof(Sdk.Services.AlternativePaymentService))]
-        public class When_creating_a_payment_for_Paysafecard
+        public class When_creating_a_payment_for_bank_tranfer
         {
+            
             private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
@@ -16,18 +17,24 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
                 PaymentRequest = new PaymentRequest
                 {
                     MerchantTransactionID = MerchantTransactionID,
-                    Amount = 400,
+                    Amount = 200,
                     Currency = "EUR",
-                    MethodID = 40,
+                    MethodID = 1,
                     Description = DescriptionText,
                     ReturnURL = "http://demo.smart2pay.com/redirect.php",
+                    TokenLifetime = 10,
                     Customer = new Customer
                     {
-                        Email = "john@doe.com"
+                        FirstName = "SDK",
+                        LastName = "Test"
                     },
                     BillingAddress = new Address
                     {
                         Country = "AT"
+                    },
+                    Details = new PaymentCustomerDetails()
+                    {
+                        ReferenceNumber = MerchantTransactionID
                     }
                 }.ToApiPaymentRequest();
             };
@@ -58,8 +65,12 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
                 ApiResult.Value.Payment.MethodID.ShouldEqual(PaymentRequest.Payment.MethodID);
             };
 
-            private It should_have_the_correct_email = () => {
-                ApiResult.Value.Payment.Customer.Email.ShouldEqual(PaymentRequest.Payment.Customer.Email);
+            private It should_have_the_correct_first_name = () => {
+                ApiResult.Value.Payment.Customer.FirstName.ShouldEqual(PaymentRequest.Payment.Customer.FirstName);
+            };
+
+            private It should_have_the_correct_last_name = () => {
+                ApiResult.Value.Payment.Customer.LastName.ShouldEqual(PaymentRequest.Payment.Customer.LastName);
             };
 
             private It should_have_the_correct_country = () => {
@@ -83,6 +94,11 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
             private It should_have_the_correct_status_info = () => {
                 ApiResult.Value.Payment.Status.Info.ShouldEqual(nameof(PaymentStatusDefinition.Open));
             };
+
+            private It should_have_the_correct_reference_number = () => {
+                ApiResult.Value.Payment.ReferenceDetails.ReferenceNumber.ShouldEqual(PaymentRequest.Payment.Details.ReferenceNumber);
+            };
+
         }
     }
 }
