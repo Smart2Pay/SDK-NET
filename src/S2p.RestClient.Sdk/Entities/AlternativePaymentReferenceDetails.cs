@@ -1,6 +1,6 @@
 ﻿namespace S2p.RestClient.Sdk.Entities
 {
-    public class PaymentReferenceDetails
+    public class AlternativePaymentReferenceDetails
     {
         public string BankCode { get; set; }
         public string BankName { get; set; }

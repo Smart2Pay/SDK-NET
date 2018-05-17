@@ -1,46 +1,39 @@
-﻿using System.Net;
-using Machine.Specifications;
+﻿using Machine.Specifications;
+using System.Net;
 using S2p.RestClient.Sdk.Entities;
 
-namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
+namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentService
 {
-    public partial class PaymentServiceTests
+    partial class PaymentServiceTests
     {
-        [Subject(typeof(Sdk.Services.PaymentService))]
-        public class When_creating_a_payment_for_skrill_1tap
+        [Subject(typeof(Sdk.Services.AlternativePaymentService))]
+        public class When_creating_a_payment_for_Paysafecard
         {
             private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
-                PaymentRequest = new PaymentRequest
+                _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
+                PaymentRequest = new AlternativePaymentRequest
                 {
                     MerchantTransactionID = MerchantTransactionID,
-                    Amount = 200,
+                    Amount = 400,
                     Currency = "EUR",
-                    MethodID = 78,
+                    MethodID = 40,
                     Description = DescriptionText,
                     ReturnURL = "http://demo.smart2pay.com/redirect.php",
-                    TokenLifetime = 10,
                     Customer = new Customer
                     {
-                        Email = "skrill_user_test@smart2pay.com"
+                        Email = "john@doe.com"
                     },
                     BillingAddress = new Address
                     {
-                        Country = "DE"
-                    },
-                    PreapprovalDetails = new PreapprovalDetails
-                    {
-                        PreapprovedMaximumAmount = 500,
-                        MerchantPreapprovalID = MerchantTransactionID,
-                        PreapprovalDescription = "Skrill 1tap payment SDK"
+                        Country = "AT"
                     }
-                }.ToApiPaymentRequest();
+                }.ToApiAlternativePaymentRequest();
             };
 
             private Because of = () => {
-                ApiResult = PaymentService.CreatePaymentAsync(PaymentRequest).GetAwaiter().GetResult();
+                ApiResult = _alternativePaymentService.CreatePaymentAsync(PaymentRequest).GetAwaiter().GetResult();
             };
 
             private Cleanup after = () => { HttpClient.Dispose(); };
@@ -90,15 +83,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
             private It should_have_the_correct_status_info = () => {
                 ApiResult.Value.Payment.Status.Info.ShouldEqual(nameof(PaymentStatusDefinition.Open));
             };
-
-            private It should_have_the_correct_preapproved_maximum_amount = () => {
-                ApiResult.Value.Payment.PreapprovalDetails.PreapprovedMaximumAmount.ShouldEqual(PaymentRequest.Payment.PreapprovalDetails.PreapprovedMaximumAmount);
-            };
-
-            private It should_have_the_correct_merchant_preapproval_id = () => {
-                ApiResult.Value.Payment.PreapprovalDetails.MerchantPreapprovalID.ShouldEqual(PaymentRequest.Payment.PreapprovalDetails.MerchantPreapprovalID);
-            };
-
         }
     }
 }

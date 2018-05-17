@@ -2,19 +2,19 @@
 using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 
-namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
+namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentService
 {
     public partial class PaymentServiceTests
     {
-        [Subject(typeof(Sdk.Services.PaymentService))]
+        [Subject(typeof(Sdk.Services.AlternativePaymentService))]
         public class When_creating_a_payment_for_bank_tranfer
         {
             
             private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
-                PaymentRequest = new PaymentRequest
+                _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
+                PaymentRequest = new AlternativePaymentRequest
                 {
                     MerchantTransactionID = MerchantTransactionID,
                     Amount = 200,
@@ -36,11 +36,11 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
                     {
                         ReferenceNumber = MerchantTransactionID
                     }
-                }.ToApiPaymentRequest();
+                }.ToApiAlternativePaymentRequest();
             };
 
             private Because of = () => {
-                ApiResult = PaymentService.CreatePaymentAsync(PaymentRequest).GetAwaiter().GetResult();
+                ApiResult = _alternativePaymentService.CreatePaymentAsync(PaymentRequest).GetAwaiter().GetResult();
             };
 
             private Cleanup after = () => { HttpClient.Dispose(); };

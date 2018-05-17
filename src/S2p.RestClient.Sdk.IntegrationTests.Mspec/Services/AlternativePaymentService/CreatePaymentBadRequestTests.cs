@@ -2,21 +2,21 @@
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Validation;
 
-namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
+namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentService
 {
     partial class PaymentServiceTests
     {
-        [Subject(typeof(Sdk.Services.PaymentService))]
+        [Subject(typeof(Sdk.Services.AlternativePaymentService))]
         public class When_creating_a_payment_with_wrong_country
         {
             private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
+                _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
             };
 
             private Because of = () => {
-                PaymentRequest = new PaymentRequest
+                PaymentRequest = new AlternativePaymentRequest
                 {
                     MerchantTransactionID = MerchantTransactionID,
                     Amount = 11,
@@ -32,9 +32,9 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
                     {
                         Country = "CNN"
                     }
-                }.ToApiPaymentRequest();
+                }.ToApiAlternativePaymentRequest();
 
-                ApiResult = PaymentService.CreatePaymentAsync(PaymentRequest).GetAwaiter().GetResult();
+                ApiResult = _alternativePaymentService.CreatePaymentAsync(PaymentRequest).GetAwaiter().GetResult();
             };
 
             private Cleanup after = () => { HttpClient.Dispose(); };

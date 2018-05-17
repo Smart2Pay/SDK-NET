@@ -4,15 +4,15 @@ using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
 
-namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
+namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentService
 {
     partial class PaymentServiceTests
     {
-        [Subject(typeof(Sdk.Services.PaymentService))]
+        [Subject(typeof(Sdk.Services.AlternativePaymentService))]
         public class When_requesting_payment_list
         {
-            private static ApiResult<ApiPaymentListResponse> ApiListResult;
-            private static PaymentsFilter PaymentsFilter;
+            private static ApiResult<ApiAlternativePaymentListResponse> ApiListResult;
+            private static AlternativePaymentsFilter PaymentsFilter;
             protected static PaymentFilteredBehaviourData Data;
             private const int Limit = 10;
 
@@ -20,12 +20,12 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
             private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
-                PaymentsFilter = new PaymentsFilter { };
+                _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
+                PaymentsFilter = new AlternativePaymentsFilter { };
             };
 
             private Because of = () => {
-                ApiListResult = PaymentServiceTests.PaymentService.GetPaymentListAsync().GetAwaiter().GetResult();
+                ApiListResult = PaymentServiceTests._alternativePaymentService.GetPaymentListAsync().GetAwaiter().GetResult();
                 Data = new PaymentFilteredBehaviourData
                 {
                     ApiListResult = ApiListResult,
@@ -99,9 +99,9 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
 
         public class PaymentFilteredBehaviourData
         {
-            public ApiResult<ApiPaymentListResponse> ApiListResult { get; set; }
+            public ApiResult<ApiAlternativePaymentListResponse> ApiListResult { get; set; }
             public int Limit { get; set; }
-            public PaymentsFilter PaymentsFilter { get; set; }
+            public AlternativePaymentsFilter PaymentsFilter { get; set; }
 
         }
     }

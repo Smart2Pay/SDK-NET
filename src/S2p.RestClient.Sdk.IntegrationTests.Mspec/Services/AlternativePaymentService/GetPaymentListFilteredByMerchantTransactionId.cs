@@ -3,15 +3,15 @@ using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
 
-namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
+namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentService
 {
     public partial class PaymentServiceTests
     {
-        [Subject(typeof(Sdk.Services.PaymentService))]
+        [Subject(typeof(Sdk.Services.AlternativePaymentService))]
         public class When_requesting_payment_list_filtered_by_merchant_transaction_id
         {
-            private static ApiResult<ApiPaymentListResponse> ApiListResult;
-            private static PaymentsFilter PaymentsFilter;
+            private static ApiResult<ApiAlternativePaymentListResponse> ApiListResult;
+            private static AlternativePaymentsFilter PaymentsFilter;
             protected static PaymentFilteredBehaviourData Data;
             private const int Limit = 1;
             private static readonly DateTime StartDate = new DateTime(2018, 4, 3);
@@ -22,12 +22,12 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
             private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
-                PaymentsFilter = new PaymentsFilter { startDate = StartDate, endDate = EndDate, pageSize = 100, merchantTransactionID = MerchantTransactionId };
+                _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
+                PaymentsFilter = new AlternativePaymentsFilter { startDate = StartDate, endDate = EndDate, pageSize = 100, merchantTransactionID = MerchantTransactionId };
             };
 
             private Because of = () => {
-                ApiListResult = PaymentServiceTests.PaymentService.GetPaymentListAsync(PaymentsFilter).GetAwaiter()
+                ApiListResult = PaymentServiceTests._alternativePaymentService.GetPaymentListAsync(PaymentsFilter).GetAwaiter()
                     .GetResult();
                 Data = new PaymentFilteredBehaviourData
                 {

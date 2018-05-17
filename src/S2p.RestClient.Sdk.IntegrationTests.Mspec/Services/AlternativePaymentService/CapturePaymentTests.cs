@@ -5,20 +5,18 @@ using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
 
-namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
+namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentService
 {
     partial class PaymentServiceTests
     {
-        [Subject(typeof(Sdk.Services.PaymentService))]
-        public class When_getting_details_for_a_specific_payment
+        [Subject(typeof(Sdk.Services.AlternativePaymentService))]
+        public class When_capturing_a_payment
         {
-            private static ApiResult<ApiPaymentResponse> CreatePaymentResult { get; set; }
-
             private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
-                PaymentRequest = new PaymentRequest
+                _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
+                PaymentRequest = new AlternativePaymentRequest
                 {
                     Amount = 980,
                     Currency = "DKK",
@@ -65,17 +63,18 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
                         SocialSecurityNumber = "0801363945"
                     },
                     TokenLifetime = 10
-                }.ToApiPaymentRequest();
+                }.ToApiAlternativePaymentRequest();
             };
 
             private Because of = () => {
-                ApiResult = BecauseAsync().GetAwaiter().GetResult();
+                ApiResult = BecauseAsync().GetAwaiter().GetResult();    
             };
 
-            private static async Task<ApiResult<ApiPaymentResponse>> BecauseAsync()
+            private static async Task<ApiResult<ApiAlternativePaymentResponse>> BecauseAsync()
             {
-                CreatePaymentResult = await PaymentService.CreatePaymentAsync(PaymentRequest);
-                return await PaymentService.GetPaymentAsync(CreatePaymentResult.Value.Payment.ID.Value);
+                var createPaymentResult = await _alternativePaymentService.CreatePaymentAsync(PaymentRequest);
+                await Task.Delay(2000);
+                return await _alternativePaymentService.CapturePaymentAsync(createPaymentResult.Value.Payment.ID.Value);
             }
 
             private Cleanup after = () => { HttpClient.Dispose(); };
@@ -84,62 +83,40 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
                 ApiResult.HttpResponse.StatusCode.ShouldEqual(HttpStatusCode.OK);
             };
 
-            private It should_have_the_same_merchant_transaction_id = () => {
+            private It should_have_the_same_merchant_transaction_id = () =>
+            {
                 ApiResult.Value.Payment.MerchantTransactionID.ShouldEqual(PaymentRequest.Payment.MerchantTransactionID);
             };
 
-            private It should_have_the_correct_amount = () => {
+            private It should_have_the_correct_amount = () =>
+            {
                 ApiResult.Value.Payment.Amount.ShouldEqual(PaymentRequest.Payment.Amount);
             };
 
-            private It should_have_the_same_currency = () => {
+            private It should_have_the_same_currency = () =>
+            {
                 ApiResult.Value.Payment.Currency.ShouldEqual(PaymentRequest.Payment.Currency);
             };
 
-            private It should_have_the_correct_method_id = () => {
+            private It should_have_the_correct_method_id = () =>
+            {
                 ApiResult.Value.Payment.MethodID.ShouldEqual(PaymentRequest.Payment.MethodID);
             };
 
-            private It should_have_the_correct_email = () => {
-                ApiResult.Value.Payment.Customer.Email.ShouldEqual(PaymentRequest.Payment.Customer.Email);
-            };
-
-            private It should_have_the_correct_country = () => {
+            private It should_have_the_correct_country = () =>
+            {
                 ApiResult.Value.Payment.BillingAddress.Country.ShouldEqual(
                     PaymentRequest.Payment.BillingAddress.Country);
             };
 
-            private It should_have_the_correct_return_url = () => {
-                ApiResult.Value.Payment.ReturnURL.ShouldEqual(PaymentRequest.Payment.ReturnURL);
+            private It should_have_the_correct_status_id = () =>
+            {
+                ApiResult.Value.Payment.Status.ID.ShouldEqual(PaymentStatusDefinition.Success);
             };
 
-            private It should_have_the_correct_redirect_url = () => {
-                var url = ApiResult.Value.Payment.RedirectURL;
-                url.Substring(0, url.IndexOf('=')).ShouldEqual("https://apitest.smart2pay.com/Home?PaymentToken");
-            };
-
-            private It should_have_the_correct_status_id = () => {
-                ApiResult.Value.Payment.Status.ID.ShouldEqual(PaymentStatusDefinition.Authorized);
-            };
-
-            private It should_have_the_correct_status_info = () => {
-                ApiResult.Value.Payment.Status.Info.ShouldEqual(nameof(PaymentStatusDefinition.Authorized));
-            };
-
-            private It should_have_correct_billing_address_id = () => {
-                ApiResult.Value.Payment.BillingAddress.ID.ShouldEqual(CreatePaymentResult.Value.Payment.BillingAddress.ID);
-            };
-
-            private It should_have_correct_shipping_address_id = () => {
-                ApiResult.Value.Payment.BillingAddress.ID.ShouldEqual(CreatePaymentResult.Value.Payment.BillingAddress.ID);
-            };
-
-            private It should_have_correct_customer_id = () => {
-                ApiResult.Value.Payment.Customer.ID.ShouldEqual(CreatePaymentResult.Value.Payment.Customer.ID);
-            };
-
-            private It should_have_correct_article_id = () => {
-                ApiResult.Value.Payment.Articles[0].MerchantArticleID.ShouldEqual(CreatePaymentResult.Value.Payment.Articles[0].MerchantArticleID);
+            private It should_have_the_correct_status_info = () =>
+            {
+                ApiResult.Value.Payment.Status.Info.ShouldEqual(nameof(PaymentStatusDefinition.Success));
             };
         }
     }

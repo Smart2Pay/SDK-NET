@@ -24,15 +24,15 @@ namespace S2p.RestClient.Sdk.Services
 
         Task<ApiResult<ApiCardPaymentListResponse>> GetPaymentListAsync(CardPaymentsFilter filter);
 
-        Task<ApiResult<ApiCardPaymentResponse>> InitiatePaymentAsync(ApiCardPaymentRequest paymentRequest,
+        Task<ApiResult<ApiCardPaymentResponse>> CreatePaymentAsync(ApiCardPaymentRequest paymentRequest,
             CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiCardPaymentResponse>> InitiatePaymentAsync(ApiCardPaymentRequest paymentRequest);
+        Task<ApiResult<ApiCardPaymentResponse>> CreatePaymentAsync(ApiCardPaymentRequest paymentRequest);
 
-        Task<ApiResult<ApiCardPaymentResponse>> InitiatePaymentAsync(ApiCardPaymentRequest paymentRequest,
+        Task<ApiResult<ApiCardPaymentResponse>> CreatePaymentAsync(ApiCardPaymentRequest paymentRequest,
             string idempotencyToken, CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiCardPaymentResponse>> InitiatePaymentAsync(ApiCardPaymentRequest paymentRequest,
+        Task<ApiResult<ApiCardPaymentResponse>> CreatePaymentAsync(ApiCardPaymentRequest paymentRequest,
             string idempotencyToken);
 
         Task<ApiResult<ApiCardPaymentResponse>> CapturePaymentAsync(long paymentId,

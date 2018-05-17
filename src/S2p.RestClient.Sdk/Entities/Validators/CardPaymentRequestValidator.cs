@@ -17,10 +17,10 @@ namespace S2p.RestClient.Sdk.Entities.Validators
 
             AddRuleFor(x => x.MerchantTransactionID)
                 .WithPredicate(x => !string.IsNullOrWhiteSpace(x.MerchantTransactionID) && Regex.IsMatch(x.MerchantTransactionID, ValidationRegexConstants.MerchantTransactionID))
-                .WithErrorMessage(Operator.InvalidPropertyMessage<PaymentRequest>(x => x.MerchantTransactionID, ValidationRegexConstants.MerchantTransactionID));
+                .WithErrorMessage(Operator.InvalidPropertyMessage<CardPaymentRequest>(x => x.MerchantTransactionID, ValidationRegexConstants.MerchantTransactionID));
             AddRuleFor(x => x.OriginatorTransactionID)
                 .WithPredicate(x => string.IsNullOrWhiteSpace(x.OriginatorTransactionID) || Regex.IsMatch(x.OriginatorTransactionID, ValidationRegexConstants.OriginatorTransactionID))
-                .WithErrorMessage(Operator.InvalidPropertyMessage<PaymentRequest>(x => x.OriginatorTransactionID, ValidationRegexConstants.OriginatorTransactionID));
+                .WithErrorMessage(Operator.InvalidPropertyMessage<CardPaymentRequest>(x => x.OriginatorTransactionID, ValidationRegexConstants.OriginatorTransactionID));
             AddRuleFor(x => x.Amount)
                 .WithPredicate(x => x.Amount > 0 && Regex.IsMatch(x.Amount.ToString(CultureInfo.InvariantCulture), ValidationRegexConstants.Amount))
                 .WithErrorMessage(Operator.InvalidPropertyMessage<CardPaymentRequest>(x => x.Amount));

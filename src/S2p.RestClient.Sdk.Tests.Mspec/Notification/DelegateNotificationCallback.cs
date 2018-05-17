@@ -31,8 +31,8 @@ namespace S2p.RestClient.Sdk.Tests.Mspec.Notification
             return InvalidFormatNotificationCallback(invalidFormatNotification);
         }
 
-        public Func<ApiPaymentResponse, Task<bool>> PaymentNotificationCallback { get; set; }
-        public Task<bool> PaymentNotificationCallbackAsync(ApiPaymentResponse paymentNotification)
+        public Func<ApiAlternativePaymentResponse, Task<bool>> PaymentNotificationCallback { get; set; }
+        public Task<bool> AlternativePaymentNotificationCallbackAsync(ApiAlternativePaymentResponse paymentNotification)
         {
             return PaymentNotificationCallback(paymentNotification);
         }

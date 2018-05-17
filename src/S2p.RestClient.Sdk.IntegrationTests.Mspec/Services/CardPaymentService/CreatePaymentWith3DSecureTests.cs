@@ -40,7 +40,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPaymentService
             };
 
             private Because of = () => {
-                ApiResult = CardPaymentService.InitiatePaymentAsync(CardPaymentRequest).GetAwaiter().GetResult();
+                ApiResult = CardPaymentService.CreatePaymentAsync(CardPaymentRequest).GetAwaiter().GetResult();
             };
 
             private Cleanup after = () => { HttpClient.Dispose(); };

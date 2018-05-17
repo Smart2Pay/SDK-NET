@@ -5,22 +5,22 @@ using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
 using S2p.RestClient.Sdk.Infrastructure;
 
-namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
+namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentService
 {
     partial class PaymentServiceTests
     {
-        [Subject(typeof(Sdk.Services.PaymentService))]
-        public class When_capturing_a_payment
+        [Subject(typeof(Sdk.Services.AlternativePaymentService))]
+        public class When_cancel_a_payment
         {
             private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
-                PaymentRequest = new PaymentRequest
+                _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
+                PaymentRequest = new AlternativePaymentRequest
                 {
                     Amount = 980,
                     Currency = "DKK",
-                    Description = "test capture SDK",
+                    Description = "test cancel SDK",
                     MethodID = 75,
                     ReturnURL = "http://demo.smart2pay.com/redirect.php",
                     MerchantTransactionID = MerchantTransactionID,
@@ -63,17 +63,16 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
                         SocialSecurityNumber = "0801363945"
                     },
                     TokenLifetime = 10
-                }.ToApiPaymentRequest();
+                }.ToApiAlternativePaymentRequest();
             };
 
-            private Because of = () => {
-                ApiResult = BecauseAsync().GetAwaiter().GetResult();    
-            };
+            private Because of = () => { ApiResult = BecauseAsync().GetAwaiter().GetResult(); };
 
-            private static async Task<ApiResult<ApiPaymentResponse>> BecauseAsync()
+            private static async Task<ApiResult<ApiAlternativePaymentResponse>> BecauseAsync()
             {
-                var createPaymentResult = await PaymentService.CreatePaymentAsync(PaymentRequest);
-                return await PaymentService.CapturePaymentAsync(createPaymentResult.Value.Payment.ID.Value);
+                var createPaymentResult = await _alternativePaymentService.CreatePaymentAsync(PaymentRequest);
+                await Task.Delay(2000);
+                return await _alternativePaymentService.CancelPaymentAsync(createPaymentResult.Value.Payment.ID.Value);
             }
 
             private Cleanup after = () => { HttpClient.Dispose(); };
@@ -82,40 +81,33 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
                 ApiResult.HttpResponse.StatusCode.ShouldEqual(HttpStatusCode.OK);
             };
 
-            private It should_have_the_same_merchant_transaction_id = () =>
-            {
+            private It should_have_the_same_merchant_transaction_id = () => {
                 ApiResult.Value.Payment.MerchantTransactionID.ShouldEqual(PaymentRequest.Payment.MerchantTransactionID);
             };
 
-            private It should_have_the_correct_amount = () =>
-            {
+            private It should_have_the_correct_amount = () => {
                 ApiResult.Value.Payment.Amount.ShouldEqual(PaymentRequest.Payment.Amount);
             };
 
-            private It should_have_the_same_currency = () =>
-            {
+            private It should_have_the_same_currency = () => {
                 ApiResult.Value.Payment.Currency.ShouldEqual(PaymentRequest.Payment.Currency);
             };
 
-            private It should_have_the_correct_method_id = () =>
-            {
+            private It should_have_the_correct_method_id = () => {
                 ApiResult.Value.Payment.MethodID.ShouldEqual(PaymentRequest.Payment.MethodID);
             };
 
-            private It should_have_the_correct_country = () =>
-            {
+            private It should_have_the_correct_country = () => {
                 ApiResult.Value.Payment.BillingAddress.Country.ShouldEqual(
                     PaymentRequest.Payment.BillingAddress.Country);
             };
 
-            private It should_have_the_correct_status_id = () =>
-            {
-                ApiResult.Value.Payment.Status.ID.ShouldEqual(PaymentStatusDefinition.Success);
+            private It should_have_the_correct_status_id = () => {
+                ApiResult.Value.Payment.Status.ID.ShouldEqual(PaymentStatusDefinition.Cancelled);
             };
 
-            private It should_have_the_correct_status_info = () =>
-            {
-                ApiResult.Value.Payment.Status.Info.ShouldEqual(nameof(PaymentStatusDefinition.Success));
+            private It should_have_the_correct_status_info = () => {
+                ApiResult.Value.Payment.Status.Info.ShouldEqual(nameof(PaymentStatusDefinition.Cancelled));
             };
         }
     }

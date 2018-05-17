@@ -14,10 +14,10 @@ namespace S2p.RestClient.Sdk.Services
         Task<ApiResult<ApiPreapprovalListResponse>> GetPreapprovalListAsync(CancellationToken cancellationToken);
         Task<ApiResult<ApiPreapprovalListResponse>> GetPreapprovalListAsync();
 
-        Task<ApiResult<ApiPaymentListResponse>> GetPreapprovalPaymentsAsync(int preapprovalId,
+        Task<ApiResult<ApiAlternativePaymentListResponse>> GetPreapprovalPaymentsAsync(int preapprovalId,
             CancellationToken cancellationToken);
 
-        Task<ApiResult<ApiPaymentListResponse>> GetPreapprovalPaymentsAsync(int preapprovalId);
+        Task<ApiResult<ApiAlternativePaymentListResponse>> GetPreapprovalPaymentsAsync(int preapprovalId);
 
         Task<ApiResult<ApiPreapprovalResponse>> CreatePreapprovalAsync(ApiPreapprovalRequest preapprovalRequest,
             CancellationToken cancellationToken);

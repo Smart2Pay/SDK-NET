@@ -1,39 +1,59 @@
-﻿using Machine.Specifications;
+﻿using System;
 using System.Net;
+using System.Net.Http;
+using Machine.Specifications;
 using S2p.RestClient.Sdk.Entities;
+using S2p.RestClient.Sdk.Infrastructure;
+using S2p.RestClient.Sdk.Services;
 
-namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
+namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentService
 {
-    partial class PaymentServiceTests
+    public partial class PaymentServiceTests
     {
-        [Subject(typeof(Sdk.Services.PaymentService))]
-        public class When_creating_a_payment_for_Paysafecard
+        private static IAlternativePaymentService _alternativePaymentService;
+
+        private static ApiResult<ApiAlternativePaymentResponse> ApiResult;
+        private static string MerchantTransactionID => Guid.NewGuid().ToString();
+        private static ApiAlternativePaymentRequest PaymentRequest;
+        private static IHttpClientBuilder HttpClientBuilder;
+        private static HttpClient HttpClient;
+        private static Uri BaseAddress = new Uri(ServiceTestsConstants.PaymentSystemBaseUrl);
+        private const string DescriptionText = "SDK Test Payment";
+
+        private static void InitializeHttpBuilder()
+        {
+            HttpClientBuilder = new HttpClientBuilder(() => ServiceTestsConstants.PaymentSystemAuthenticationConfiguration);
+        }
+
+
+        [Subject(typeof(Sdk.Services.AlternativePaymentService))]
+        public class When_creating_a_payment_for_WeChat
         {
             private Establish context = () => {
                 InitializeHttpBuilder();
                 HttpClient = HttpClientBuilder.Build();
-                PaymentService = new Sdk.Services.PaymentService(HttpClient, BaseAddress);
-                PaymentRequest = new PaymentRequest
+                _alternativePaymentService = new Sdk.Services.AlternativePaymentService(HttpClient, BaseAddress);
+                PaymentRequest = new AlternativePaymentRequest
                 {
                     MerchantTransactionID = MerchantTransactionID,
-                    Amount = 400,
-                    Currency = "EUR",
-                    MethodID = 40,
-                    Description = DescriptionText,
+                    Amount = 11,
+                    Currency = "CNY",
+                    MethodID = 1066,
                     ReturnURL = "http://demo.smart2pay.com/redirect.php",
+                    TokenLifetime = 10,
                     Customer = new Customer
                     {
                         Email = "john@doe.com"
                     },
                     BillingAddress = new Address
                     {
-                        Country = "AT"
+                        Country = "CN"
                     }
-                }.ToApiPaymentRequest();
+                }.ToApiAlternativePaymentRequest();
             };
 
             private Because of = () => {
-                ApiResult = PaymentService.CreatePaymentAsync(PaymentRequest).GetAwaiter().GetResult();
+                ApiResult = _alternativePaymentService.CreatePaymentAsync(PaymentRequest).GetAwaiter().GetResult();
             };
 
             private Cleanup after = () => { HttpClient.Dispose(); };
@@ -74,6 +94,11 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.PaymentService
             private It should_have_the_correct_redirect_url = () => {
                 var url = ApiResult.Value.Payment.RedirectURL;
                 url.Substring(0, url.IndexOf('=')).ShouldEqual("https://apitest.smart2pay.com/Home?PaymentToken");
+            };
+
+            private It should_have_the_correct_qr_code_url = () => {
+                var url = ApiResult.Value.Payment.ReferenceDetails.QRCodeURL;
+                url.Substring(0, url.IndexOf('=')).ShouldEqual("weixin://wxpay/bizpayurl?pr");
             };
 
             private It should_have_the_correct_status_id = () => {
