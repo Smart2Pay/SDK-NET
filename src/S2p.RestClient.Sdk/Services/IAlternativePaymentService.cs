@@ -42,6 +42,29 @@ namespace S2p.RestClient.Sdk.Services
         Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId,
             string idempotencyToken);
 
+        Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId, long amount,
+            ApiAlternativePaymentRequest paymentRequest, CancellationToken cancellationToken);
+
+        Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId, long amount, ApiAlternativePaymentRequest paymentRequest);
+
+        Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId, long amount, 
+            CancellationToken cancellationToken);
+
+        Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId, long amount);
+
+        Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId,
+            long amount, ApiAlternativePaymentRequest paymentRequest,
+            string idempotencyToken, CancellationToken cancellationToken);
+
+        Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId,
+            long amount, ApiAlternativePaymentRequest paymentRequest, string idempotencyToken);
+
+        Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId,
+            long amount, string idempotencyToken, CancellationToken cancellationToken);
+
+        Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId,
+            long amount, string idempotencyToken);
+
         Task<ApiResult<ApiAlternativePaymentResponse>> CancelPaymentAsync(long paymentId,
             CancellationToken cancellationToken);
 

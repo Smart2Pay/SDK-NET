@@ -73,7 +73,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.AlternativePaymentS
 
                 RefundRequest = new RefundRequest()
                 {
-                    Amount = PaymentRequest.Payment.Amount,
+                    Amount = PaymentRequest.Payment.Amount.Value,
                     MerchantTransactionID = MerchantTransactionID
                 }.ToApiRefundRequest();
 

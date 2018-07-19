@@ -15,6 +15,7 @@ namespace S2p.RestClient.Sdk.Entities
         public string OriginatorTransactionID { get; set; }
         public long? Amount { get; set; }
         public string Currency { get; set; }
+        public long? CapturedAmount { get; set; }
         public string ReturnURL { get; set; }
         public string Description { get; set; }
         public short? MethodID { get; set; }

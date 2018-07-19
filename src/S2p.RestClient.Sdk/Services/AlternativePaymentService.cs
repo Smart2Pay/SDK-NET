@@ -178,6 +178,91 @@ namespace S2p.RestClient.Sdk.Services
 
         #endregion
 
+        #region CapturePaymentPartial
+
+        private Uri GetCapturePaymentPartialUri(long paymentId, long amount)
+        {
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
+            amount.ThrowIfNotCondition(a => a > 0, nameof(amount));
+
+            return new Uri(BaseAddress, $"{PaymentRelativeUrl}/{paymentId}/capture?amount={amount}");
+        }
+
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId, long amount,
+            ApiAlternativePaymentRequest paymentRequest, CancellationToken cancellationToken)
+        {
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
+            amount.ThrowIfNotCondition(a => a > 0, nameof(amount));
+            paymentRequest.ThrowIfNull(nameof(paymentRequest));
+            cancellationToken.ThrowIfNull(nameof(cancellationToken));
+
+            var uri = GetCapturePaymentPartialUri(paymentId, amount);
+            var request = paymentRequest.ToHttpRequest(HttpMethod.Post, uri);
+            return HttpClient.InvokeAsync<ApiAlternativePaymentResponse>(request, cancellationToken);
+        }
+
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId, long amount, ApiAlternativePaymentRequest paymentRequest)
+        {
+            return CapturePaymentAsync(paymentId, amount, paymentRequest, CancellationToken.None);
+        }
+
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId, long amount, 
+            CancellationToken cancellationToken)
+        {
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
+            amount.ThrowIfNotCondition(a => a > 0, nameof(amount));
+            cancellationToken.ThrowIfNull(nameof(cancellationToken));
+
+            var uri = GetCapturePaymentPartialUri(paymentId, amount);
+            var request = new HttpRequestMessage(HttpMethod.Post, uri);
+            return HttpClient.InvokeAsync<ApiAlternativePaymentResponse>(request, cancellationToken);
+        }
+
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId, long amount)
+        {
+            return CapturePaymentAsync(paymentId, amount, CancellationToken.None);
+        }
+
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId,
+            long amount, ApiAlternativePaymentRequest paymentRequest,
+            string idempotencyToken, CancellationToken cancellationToken)
+        {
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
+            amount.ThrowIfNotCondition(a => a > 0, nameof(amount));
+            paymentRequest.ThrowIfNull(nameof(paymentRequest));
+            cancellationToken.ThrowIfNull(nameof(cancellationToken));
+
+            var uri = GetCapturePaymentPartialUri(paymentId, amount);
+            var request = paymentRequest.ToHttpRequest(HttpMethod.Post, uri);
+            return HttpClient.InvokeAsync<ApiAlternativePaymentResponse>(idempotencyToken, request, cancellationToken);
+        }
+
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId,
+            long amount, ApiAlternativePaymentRequest paymentRequest, string idempotencyToken)
+        {
+            return CapturePaymentAsync(paymentId, amount, paymentRequest, idempotencyToken, CancellationToken.None);
+        }
+
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId,
+            long amount, string idempotencyToken, CancellationToken cancellationToken)
+        {
+            paymentId.ThrowIfNotCondition(id => id > 0, nameof(paymentId));
+            amount.ThrowIfNotCondition(a => a > 0, nameof(amount));
+            cancellationToken.ThrowIfNull(nameof(cancellationToken));
+
+            var uri = GetCapturePaymentPartialUri(paymentId, amount);
+            var request = new HttpRequestMessage(HttpMethod.Post, uri);
+            return HttpClient.InvokeAsync<ApiAlternativePaymentResponse>(idempotencyToken, request, cancellationToken);
+        }
+
+        public Task<ApiResult<ApiAlternativePaymentResponse>> CapturePaymentAsync(long paymentId,
+            long amount, string idempotencyToken)
+        {
+            return CapturePaymentAsync(paymentId, amount, idempotencyToken, CancellationToken.None);
+        }
+
+        #endregion
+
         #region CancelPayment
 
         private Uri GetCancelPaymentUri(long paymentId)

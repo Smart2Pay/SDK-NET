@@ -15,19 +15,31 @@ namespace S2p.RestClient.Sdk.Entities.Validators
             var articleValidator = new ArticleValidator();
 
             AddRuleFor(x => x.ID)
-                .WithPredicate(x => Regex.IsMatch(x.ID.ToString(CultureInfo.InvariantCulture), ValidationRegexConstants.ID))
-                .WithErrorMessage(Operator.InvalidPropertyMessage<AlternativePaymentRequest>(x => x.ID, ValidationRegexConstants.ID));
+                .WithPredicate(x =>
+                    Regex.IsMatch(x.ID.ToString(CultureInfo.InvariantCulture), ValidationRegexConstants.ID))
+                .WithErrorMessage(
+                    Operator.InvalidPropertyMessage<AlternativePaymentRequest>(x => x.ID, ValidationRegexConstants.ID));
             AddRuleFor(x => x.SkinID)
-                .WithPredicate(x => x.SkinID == null || Regex.IsMatch(x.SkinID.Value.ToString(CultureInfo.InvariantCulture), ValidationRegexConstants.SkinID))
-                .WithErrorMessage(Operator.InvalidPropertyMessage<AlternativePaymentRequest>(x => x.SkinID, ValidationRegexConstants.SkinID));
+                .WithPredicate(x =>
+                    x.SkinID == null || Regex.IsMatch(x.SkinID.Value.ToString(CultureInfo.InvariantCulture),
+                        ValidationRegexConstants.SkinID))
+                .WithErrorMessage(
+                    Operator.InvalidPropertyMessage<AlternativePaymentRequest>(x => x.SkinID,
+                        ValidationRegexConstants.SkinID));
             AddRuleFor(x => x.MerchantTransactionID)
-                .WithPredicate(x => !string.IsNullOrWhiteSpace(x.MerchantTransactionID) && Regex.IsMatch(x.MerchantTransactionID, ValidationRegexConstants.MerchantTransactionID))
-                .WithErrorMessage(Operator.InvalidPropertyMessage<AlternativePaymentRequest>(x => x.MerchantTransactionID, ValidationRegexConstants.MerchantTransactionID));
+                .WithPredicate(x =>
+                    !string.IsNullOrWhiteSpace(x.MerchantTransactionID) && Regex.IsMatch(x.MerchantTransactionID,
+                        ValidationRegexConstants.MerchantTransactionID))
+                .WithErrorMessage(Operator.InvalidPropertyMessage<AlternativePaymentRequest>(
+                    x => x.MerchantTransactionID, ValidationRegexConstants.MerchantTransactionID));
             AddRuleFor(x => x.OriginatorTransactionID)
-                .WithPredicate(x => string.IsNullOrWhiteSpace(x.OriginatorTransactionID) || Regex.IsMatch(x.OriginatorTransactionID, ValidationRegexConstants.OriginatorTransactionID))
-                .WithErrorMessage(Operator.InvalidPropertyMessage<AlternativePaymentRequest>(x => x.OriginatorTransactionID, ValidationRegexConstants.OriginatorTransactionID));
+                .WithPredicate(x =>
+                    string.IsNullOrWhiteSpace(x.OriginatorTransactionID) || Regex.IsMatch(x.OriginatorTransactionID,
+                        ValidationRegexConstants.OriginatorTransactionID))
+                .WithErrorMessage(Operator.InvalidPropertyMessage<AlternativePaymentRequest>(
+                    x => x.OriginatorTransactionID, ValidationRegexConstants.OriginatorTransactionID));
             AddRuleFor(x => x.Amount)
-                .WithPredicate(x => x.Amount > 0 && Regex.IsMatch(x.Amount.ToString(CultureInfo.InvariantCulture), ValidationRegexConstants.Amount))
+                .WithPredicate(x => x == null || x.Amount.Value > 0 && Regex.IsMatch(x.Amount.Value.ToString(CultureInfo.InvariantCulture), ValidationRegexConstants.Amount))
                 .WithErrorMessage(Operator.InvalidPropertyMessage<AlternativePaymentRequest>(x => x.Amount));
             AddRuleFor(x => x.Currency)
                 .WithPredicate(x => !string.IsNullOrWhiteSpace(x.Currency) && Currency.Exists(x.Currency))
