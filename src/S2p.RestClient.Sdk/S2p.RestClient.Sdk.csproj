@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://docs.smart2pay.com/category/smart2pay-sdk-net/</PackageProjectUrl>
     <PackageIconUrl>https://docs.smart2pay.com/wp-content/themes/s2p_documentation/img/smart2pay_400px_300dpi.png</PackageIconUrl>
     <PackageTags>Smart2Pay REST API Payments</PackageTags>
-    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <PackageReleaseNotes>Added Klarna method partial capture; Added website management service</PackageReleaseNotes>
     <PackageLicenseUrl>http://docs.smart2pay.com/wp-content/plugins/smart2pay-api/dotnet-sdk-license.txt</PackageLicenseUrl>
     <Version>1.1.0</Version>
   </PropertyGroup>
