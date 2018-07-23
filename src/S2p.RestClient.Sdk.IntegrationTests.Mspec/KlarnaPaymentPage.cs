@@ -2,6 +2,7 @@
 using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using S2p.RestClient.Sdk.Infrastructure.Extensions;
 using SeleniumExtras.WaitHelpers;
@@ -12,7 +13,7 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec
     {
         public string LandingUrl { get; }
         private IWebDriver WebDriver { get; set; }
-        private EdgeDriverService DriverService { get; set; }
+        private FirefoxDriverService DriverService { get; set; }
         private WebDriverWait Wait { get; set; }
 
         public KlarnaPaymentPage(string landingUrl)
@@ -24,9 +25,9 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec
 
         public void Load()
         {
-            DriverService = EdgeDriverService.CreateDefaultService();
+            DriverService = FirefoxDriverService.CreateDefaultService();
             DriverService.HideCommandPromptWindow = true;
-            WebDriver = new EdgeDriver(DriverService);
+            WebDriver = new FirefoxDriver(DriverService);
 
             WebDriver.Navigate().GoToUrl(LandingUrl);
             Wait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(10));
