@@ -237,10 +237,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPayoutService
                 ApiResult.Value.PayoutStatus.Status.Info.ShouldEqual(nameof(CardPaymentStatusDefinition.Failed));
             };
 
-            private It should_have_at_least_reasons = () => {
-                ApiResult.Value.PayoutStatus.Status.Reasons.Count.ShouldBeGreaterThanOrEqualTo(1);
-            };
-
         }
 
 
@@ -498,18 +494,6 @@ namespace S2p.RestClient.Sdk.IntegrationTests.Mspec.Services.CardPayoutService
 
             private It should_have_correct_status_info = () => {
                 ApiResult.Value.Payout.Status.Info.ShouldEqual(nameof(CardPaymentStatusDefinition.Failed));
-            };
-
-            private It should_have_at_least_ones_reasons = () => {
-                ApiResult.Value.Payout.Status.Reasons.Count.ShouldBeGreaterThanOrEqualTo(1);
-            };
-
-            private It should_have_correct_reason_info = () => {
-                const string expectedInfo = "-";
-                ApiResult.Value.Payout.Status.Reasons
-                    .First(r => r.Code == CardReturnCodeId.InvalidCardDetailsCardExpired).Info
-                    .ShouldEqual(expectedInfo);
-
             };
         }
 
