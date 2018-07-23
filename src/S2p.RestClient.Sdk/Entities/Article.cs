@@ -16,5 +16,6 @@ namespace S2p.RestClient.Sdk.Entities
         public int Type { get; set; }
         [JsonConverter(typeof(DecimalFormatConverter))]
         public decimal DiscountValue { get; set; }
+        public int TaxType { get; set; }
     }
 }

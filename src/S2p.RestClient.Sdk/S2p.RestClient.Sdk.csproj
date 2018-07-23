@@ -12,6 +12,7 @@
     <PackageTags>Smart2Pay REST API Payments</PackageTags>
     <PackageReleaseNotes>Initial release</PackageReleaseNotes>
     <PackageLicenseUrl>http://docs.smart2pay.com/wp-content/plugins/smart2pay-api/dotnet-sdk-license.txt</PackageLicenseUrl>
+    <Version>1.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
