@@ -234,7 +234,11 @@
     <Compile Include="Services\RefundService\PaymentsGetRefundTypes.cs" />
     <Compile Include="Services\ServiceTestsConstants.cs" />
     <Compile Include="Services\WebsiteManagementService\CreateWebiteTests.cs" />
+    <Compile Include="Services\WebsiteManagementService\DeleteWebsiteTests.cs" />
+    <Compile Include="Services\WebsiteManagementService\GetWebsiteInformationTests.cs" />
+    <Compile Include="Services\WebsiteManagementService\RegenerateApiKeyTests.cs" />
     <Compile Include="Services\WebsiteManagementService\UpdateWebsiteTests.cs" />
+    <Compile Include="Services\WebsiteManagementService\WebsiteManagementTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
